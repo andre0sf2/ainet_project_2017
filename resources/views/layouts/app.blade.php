@@ -48,6 +48,9 @@
                             <a href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span> Home</a>
                         </li>
                         <li>
+                            <a href="{{route('users.list')}}"><span class="glyphicon glyphicon-th-list"></span> Users</a>
+                        </li>
+                        <li>
                             <a href="{{route('about')}}"><span class="glyphicon glyphicon-book"></span> About</a>
                         </li>
                     </ul>

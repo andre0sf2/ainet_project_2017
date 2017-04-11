@@ -5,12 +5,14 @@
         <div class="row">
             <img src="/uploads/avatars/{{$user->profile_photo}}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
             <h2><strong>{{$user->name}}'s Profile</strong></h2>
-            <form method="post" role="form" enctype="multipart/form-data" action="/user/{id}">
-                <label>Update Imagem de Perfil</label>
-                <input type="file" name="avatar">
-                <input type="hidden" name="_token" value="{{csrf_token()}}">
-                <input type="submit" class="pull-right btn btn-primary">
-            </form>
+            @if(Auth::user() && ($user->id == Auth::user()->id || Auth::user()->isAdmin()))
+                <form method="post" role="form" enctype="multipart/form-data" action="{{route('user.update', $user->id)}}">
+                    <label>Update Imagem de Perfil</label>
+                    <input type="file" name="avatar">
+                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                    <input type="submit" class="pull-right btn btn-primary">
+                </form>
+            @endif
         </div>
         <br>
         <div class="caption-full">
@@ -22,7 +24,11 @@
             @if(!is_null($user->department_id))
                 <p><strong>Department:</strong> {{ $department->name }}</p>
             @endif
-
+            @if($user->admin)
+                <p><strong>Type:</strong> Administrator</p>
+            @else
+                <p><strong>Type:</strong> Employee</p>
+            @endif
         </div>
     </div>
 @endsection
