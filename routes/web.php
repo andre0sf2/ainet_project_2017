@@ -19,3 +19,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index');
 
+//UTILIZADOR
+Route::get('/user/{id}', [
+    'as' => 'user.show',
+    'uses' => 'UserController@showUser'
+]);
+
+Route::post('/user/{id}', 'UserController@updateAvatar');

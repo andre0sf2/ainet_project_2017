@@ -12,7 +12,28 @@ class InitialMigration extends Migration
      */
     public function up()
     {
-
+        Schema::create('users', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->rememberToken();
+            $table->boolean('admin')->default(false);
+            $table->boolean('blocked')->default(false);
+            $table->string('phone')->nullable();
+            $table->string('profile_photo')->default('default.png');
+            $table->string('profile_url')->nullable();
+            $table->string('presentation')->nullable();
+            $table->integer('print_evals')->default(0);
+            $table->integer('print_counts')->default(0);
+            $table->integer('department_id')->unsigned()->nullable();
+            $table->timestamps();
+        });
+        Schema::create('password_resets', function (Blueprint $table) {
+            $table->string('email')->index();
+            $table->string('token');
+            $table->timestamp('created_at')->nullable();
+        });        
         Schema::create('printers', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
@@ -65,5 +86,7 @@ class InitialMigration extends Migration
         Schema::dropIfExists('comments');
         Schema::dropIfExists('departaments');
         Schema::dropIfExists('printers');
+        Schema::dropIfExists('password_resets');
+        Schema::dropIfExists('users');
     }
 }
