@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
@@ -9,9 +11,12 @@ use Intervention\Image\Facades\Image;
 class UserController extends Controller
 {
     //
-    public function showUser()
+    public function showUser($id)
     {
-        return view('profile', array('user'=>Auth::user()));
+        $user = User::where('id', $id)->first();
+        $department = Department::where('id', $user->department_id)->first();
+
+        return view('users.profile', array('user'=>$user, 'department'=> $department));
     }
 
     public function updateAvatar(Request $request)
@@ -27,6 +32,6 @@ class UserController extends Controller
             $user->save();
         }
 
-        return view('profile', array('user'=>Auth::user()));
+        return view('users.profile', array('user'=>Auth::user()));
     }
 }

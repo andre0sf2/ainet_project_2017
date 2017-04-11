@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/about', 'HomeController@getAbout')->name('about');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
@@ -26,3 +28,8 @@ Route::get('/user/{id}', [
 ]);
 
 Route::post('/user/{id}', 'UserController@updateAvatar');
+
+//ADMIN
+Route::group(['middleware' => 'admin'], function () {
+    Route::get('/dashboard', 'AdminController@showDashboard')->name('admin.dashboard');
+});

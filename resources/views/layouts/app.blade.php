@@ -45,7 +45,10 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;<li>
-                            <a href="{{ url('/') }}">Home</a>
+                            <a href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span> Home</a>
+                        </li>
+                        <li>
+                            <a href="{{route('about')}}"><span class="glyphicon glyphicon-book"></span> About</a>
                         </li>
                     </ul>
 
@@ -66,6 +69,10 @@
                                     <li>
                                         <a href="{{route('user.show', Auth::user()->id)}}"><span class="glyphicon glyphicon-user"></span> Profile</a>
                                     </li>
+                                    @if(Auth::user()->isAdmin())
+                                        <li><a href="#" class=""><span
+                                                        class="glyphicon glyphicon-cog"></span> Admin Dashboard</a></li>
+                                    @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
@@ -91,4 +98,11 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
+
+<footer class="footer navbar-fixed-bottom">
+    <div class="container">
+        <span class="text-muted">PrintIT! © 2017</span>
+        <a href="{{route('about')}}"> About</a>
+    </div>
+</footer>
 </html>
