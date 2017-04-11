@@ -75,7 +75,7 @@
                                         <a href="{{route('user.show', Auth::user()->id)}}"><span class="glyphicon glyphicon-user"></span> Profile</a>
                                     </li>
                                     @if(Auth::user()->isAdmin())
-                                        <li><a href="#" class=""><span
+                                        <li><a href="{{route('admin.dashboard')}}" class=""><span
                                                         class="glyphicon glyphicon-cog"></span> Admin Dashboard</a></li>
                                     @endif
                                     <li>
