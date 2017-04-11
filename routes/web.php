@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// INDEX
+Route::get('/', 'HomeController@index')->name('index');
 
 Route::get('/about', 'HomeController@getAbout')->name('about');
 
@@ -28,10 +27,17 @@ Route::get('/user/{id}', [
 ]);
 Route::get('/users', 'UserController@listUsers')->name('users.list');
 
-Route::post('/user/{id}', [
-    'as' => 'user.update',
-    'uses' => 'UserController@updateAvatar'
-]);
+Route::group(['middleware' => 'auth'], function () {
+
+    Route::get('/user/edit/{id}', [
+        'as' => 'user.edit',
+        'uses' => 'UserController@editUser'
+    ]);
+    Route::post('/user/{id}', [
+        'as' => 'user.update',
+        'uses' => 'UserController@updateUser'
+    ]);
+});
 
 //ADMIN
 Route::group(['middleware' => 'admin'], function () {
