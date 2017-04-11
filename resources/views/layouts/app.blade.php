@@ -38,7 +38,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ route('index') }}">
                         <strong>PrintIT!</strong>
                     </a>
                 </div>
@@ -47,13 +47,13 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
                         &nbsp;<li>
-                            <a href="{{ url('/') }}"><span class="glyphicon glyphicon-home"></span> Home</a>
+                            <a href="{{ route('index') }}"><span class="glyphicon glyphicon-home"></span> Home</a>
                         </li>
                         <li>
                             <a href="{{route('users.list')}}"><span class="glyphicon glyphicon-th-list"></span> Users</a>
                         </li>
                         <li>
-                            <a href="{{route('about')}}"><span class="glyphicon glyphicon-book"></span> About</a>
+                            <a href="{{ route('about') }}"><span class="glyphicon glyphicon-book"></span> About</a>
                         </li>
                     </ul>
 
@@ -75,15 +75,12 @@
                                         <a href="{{route('user.show', Auth::user()->id)}}"><span class="glyphicon glyphicon-user"></span> Profile</a>
                                     </li>
                                     @if(Auth::user()->isAdmin())
-                                        <li><a href="{{route('admin.dashboard')}}" class=""><span
-                                                        class="glyphicon glyphicon-cog"></span> Admin Dashboard</a></li>
+                                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> Admin Dashboard</a></li>
                                     @endif
                                     <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();"><span class="glyphicon glyphicon-log-out"></span>
-                                            Logout
-                                        </a>
+                                                     document.getElementById('logout-form').submit();"><span class="glyphicon glyphicon-log-out"></span> Logout</a>
 
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}

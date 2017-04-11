@@ -18,7 +18,7 @@ Route::get('/about', 'HomeController@getAbout')->name('about');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index')->name('home');
 
 //UTILIZADOR
 Route::get('/user/{id}', [
