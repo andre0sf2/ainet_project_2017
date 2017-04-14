@@ -33,7 +33,7 @@
                     @if (Auth::user() && Auth::user()->isAdmin())
                         <div class="col-md-2">
 
-                            <form action="{{route('user.block')}}" method="post">
+                            <form action="{{ route('user.block') }}" method="post">
                                 <input type="hidden" name="user_id" value="{{$user->id}}">
                                 <button type="submit" class="btn btn-xs btn-danger">Block</button>
                                 {{csrf_field()}}
@@ -42,13 +42,13 @@
                         <div class="col-md-3">
 
                             @if($user->admin != 1)
-                                <form action="#" method="post">
+                                <form action="{{ route('admin.grant') }}" method="post">
                                     <input type="hidden" name="user_id" value="{{$user->id}}">
                                     <button type="submit" class="btn btn-xs btn-alert">Grant Admin</button>
                                     {{csrf_field()}}
                                 </form>
                             @else
-                                <form action="#" method="post">
+                                <form action="{{ route('admin.revoke') }}" method="post">
                                     <input type="hidden" name="user_id" value="{{$user->id}}">
                                     <button type="submit" class="btn btn-xs btn-danger">Revoke Admin</button>
                                     {{csrf_field()}}

@@ -28,11 +28,14 @@ class UserController extends Controller
         $user->email = $request->input('email');
 
         if($request->hasFile('avatar')){
+            if($user->profile_photo != 'default.png'){
+                unlink('uploads/avatars/' . $user->profile_photo);
+            }
+
             $avatar = $request->file('avatar');
-            $filename = time().'.'.$avatar->getClientOriginalExtension();
+            $filename = str_replace(' ', '', $user->name).time().'.'.$avatar->getClientOriginalExtension();
             Image::make($avatar)->resize(300,300)->save(public_path('uploads/avatars/'.$filename));
 
-            $user = Auth::user();
             $user->profile_photo = $filename;
         }
 
@@ -52,7 +55,7 @@ class UserController extends Controller
     public function blockUser(Request $request)
     {
         $user = User::where('id', $request->input('user_id'))->first();
-        if ($user->isAdmin()) {
+        if (!$user->isAdmin()) {
             User::where('id', $request->input('user_id'))->update(['blocked' => 1]);
         }
 
@@ -64,7 +67,7 @@ class UserController extends Controller
     public function unblockUser(Request $request)
     {
         $user = User::where('id', $request->input('user_id'))->first();
-        if ($user->isAdmin()) {
+        if (!$user->isAdmin()) {
             User::where('id', $request->input('user_id'))->update(['blocked' => 0]);
         }
 

@@ -20,6 +20,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
 //UTILIZADOR
 Route::get('/user/{id}', [
     'as' => 'user.show',
@@ -27,6 +28,8 @@ Route::get('/user/{id}', [
 ]);
 Route::get('/users', 'UserController@listUsers')->name('users.list');
 
+
+//AUTH
 Route::get('/login', 'HomeController@login')->name('auth.login');
 Route::get('/register', 'HomeController@register')->name('auth.register');
 
@@ -42,9 +45,17 @@ Route::group(['middleware' => 'auth'], function () {
     ]);
 });
 
+
 //ADMIN
 Route::group(['middleware' => 'admin'], function () {
     Route::get('/dashboard', 'AdminController@showDashboard')->name('admin.dashboard');
+
     Route::post('/users/block', 'UserController@blockUser')->name('user.block');
-    Route::post('/users/revoke', 'AdminController@revokeAdminFromUser')->name('admin.revoke');
+    Route::post('/users/unblock', 'UserController@unblockUser')->name('user.unblock');
+
+    Route::post('/users/grant', 'AdminController@grantAdmin')->name('admin.grant');
+    Route::post('/users/revoke', 'AdminController@revokeAdmin')->name('admin.revoke');
 });
+
+//IMPRESSAO
+

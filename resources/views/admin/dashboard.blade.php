@@ -22,5 +22,6 @@
                 <div class="tab-pane" id="Comments">@include('admin.partials.comments')</div>
             </div>
         </div>
-
+    </div>
+</div>
 @endsection

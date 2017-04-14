@@ -31,3 +31,7 @@ $factory->define(App\Department::class, function (Faker\Generator $faker) {
 });
 
 
+
+$factory->define(App\Request::class, function (Faker\Generator $faker) {
+    
+});
