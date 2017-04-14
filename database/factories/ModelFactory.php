@@ -37,5 +37,5 @@ $factory->define(App\Request::class, function (Faker\Generator $faker) {
     $departments = \App\Department::all();
     $users = \App\User::all();
 
-    
+
 });
