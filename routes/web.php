@@ -14,7 +14,7 @@
 // INDEX
 Route::get('/', 'HomeController@index')->name('index');
 
-Route::get('/about', 'HomeController@getAbout')->name('about');
+Route::get('/about', 'HomeController@about')->name('about');
 
 Auth::routes();
 
@@ -26,6 +26,9 @@ Route::get('/user/{id}', [
     'uses' => 'UserController@showUser'
 ]);
 Route::get('/users', 'UserController@listUsers')->name('users.list');
+
+Route::get('/login', 'HomeController@login')->name('auth.login');
+Route::get('/register', 'HomeController@register')->name('auth.register');
 
 Route::group(['middleware' => 'auth'], function () {
 

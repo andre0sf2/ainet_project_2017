@@ -52,6 +52,20 @@
                         <li>
                             <a href="{{route('users.list')}}"><span class="glyphicon glyphicon-th-list"></span> Users</a>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                               aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Departments <span
+                                        class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach($departments as $department)
+                                    <li>
+                                        <a href="#">{{ $department->name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+
+                        <li>
                         <li>
                             <a href="{{ route('about') }}"><span class="glyphicon glyphicon-book"></span> About</a>
                         </li>
@@ -61,8 +75,8 @@
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
                         @if (Auth::guest())
-                            <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                            <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-new-window"></span> Register</a></li>
+                            <li><a href="{{ route('auth.login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                            <li><a href="{{ route('auth.register') }}"><span class="glyphicon glyphicon-new-window"></span> Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position: relative; padding-left: 50px;">

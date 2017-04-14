@@ -27,11 +27,6 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
-    public function comments()
-    {
-        return $this->hasMany(Comment::class, 'user_id');
-    }
-
     public function isAdmin()
     {
         return $this->admin == 1 ? true : false;
@@ -42,8 +37,18 @@ class User extends Authenticatable
         return $this->blocked == 1 ? true : false;
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'user_id');
+    }
+
     public function department()
     {
         return $this->belongsTo(Department::class, 'department_id');
+    }
+
+    public function requests()
+    {
+        return $this->hasMany(Request::class, 'owner_id');
     }
 }

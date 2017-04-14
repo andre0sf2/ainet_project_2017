@@ -12,4 +12,9 @@ class Comment extends Model
     {
         $this->belongsTo(User::class, 'user_id');
     }
+
+    public function requests()
+    {
+        $this->belongsTo(Request::class, 'request_id');
+    }
 }

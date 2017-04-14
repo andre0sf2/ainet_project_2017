@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Department;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -23,11 +24,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('welcome');
+        $departments = Department::all();
+
+        return view('welcome', compact('departments'));
     }
 
-    public function getAbout()
+    public function login()
     {
-        return view('about');
+        $departments = Department::all();
+
+        return view('auth.login', compact('departments'));
+    }
+
+    public function register()
+    {
+        $departments = Department::all();
+
+        return view('auth.register', compact('departments'));
+    }
+
+    public function about()
+    {
+        $departments = Department::all();
+
+        return view('about', compact('departments'));
     }
 }
