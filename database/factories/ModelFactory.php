@@ -20,6 +20,7 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'department_id' => \App\Department::all()->random()->id,
     ];
 });
 
@@ -33,5 +34,8 @@ $factory->define(App\Department::class, function (Faker\Generator $faker) {
 
 
 $factory->define(App\Request::class, function (Faker\Generator $faker) {
+    $departments = \App\Department::all();
+    $users = \App\User::all();
+
     
 });

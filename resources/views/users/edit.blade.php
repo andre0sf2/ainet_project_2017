@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PrintIT!')
+@section('title', 'Edit User')
 
 @section('content')
 
@@ -12,14 +12,22 @@
                 <div class="col-md-6">
                     <label for="sel1">Name:</label><br>
                     <input name="name" type="text" class="form-control file" placeholder="User Name"
-                           value="{{$user->name}}"><br>
+                           value="{{$user->name}}" required><br>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="sel1">Email:</label><br>
                     <input name="email" type="email" class="form-control file" placeholder="User Email"
-                           value="{{$user->email}}"><br>
+                           value="{{$user->email}}" required><br>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="sel1">Phone Number:</label><br>
+                    <input name="phone" type="number" class="form-control file" placeholder="Phone Number"
+                           value="{{$user->phone}}"><br>
                 </div>
             </div>
             <hr>
@@ -27,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Update Imagem de Perfil</label>
-                        <input type="file" name="avatar">
+                        <input type="file" name="avatar" accept="image/*">
                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                     </div>
                 </div>

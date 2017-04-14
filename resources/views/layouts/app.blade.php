@@ -109,6 +109,7 @@
         </nav>
 
         @yield('content')
+
     </div>
 
     <!-- Scripts -->
@@ -118,6 +119,7 @@
 <footer class="footer navbar-fixed-bottom">
     <div class="container">
         <span class="text-muted">PrintIT! © 2017</span>
+        <span style="padding-left:5em;"></span>
         <a href="{{route('about')}}"> About</a>
     </div>
 </footer>
