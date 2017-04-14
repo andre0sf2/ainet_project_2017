@@ -14,9 +14,10 @@ class UserController extends Controller
     public function showUser($id)
     {
         $user = User::where('id', $id)->first();
-        $department = Department::where('id', $user->department_id)->first();
+        $userDepartment = Department::where('id', $user->department_id)->first();
+        $departments = Department::all();
 
-        return view('users.profile', array('user'=>$user, 'department'=> $department));
+        return view('users.profile', array('user'=>$user, 'userDepartment'=> $userDepartment, 'departments' => $departments));
     }
 
     public function updateUser(Request $request)
@@ -43,8 +44,9 @@ class UserController extends Controller
     public function listUsers()
     {
         $users = User::where('blocked', 0)->get();
+        $departments = Department::all();
 
-        return view('users.list', compact('users'));
+        return view('users.list', compact('users', 'departments'));
     }
 
     public function blockUser(Request $request)
@@ -73,10 +75,11 @@ class UserController extends Controller
 
     public function editUser($id)
     {
+        $departments = Department::all();
         $user = User::where('id', $id)->first();
         if (Auth::user()->id == $user->id) {
 
-            return view('users.edit', compact('user'));
+            return view('users.edit', compact('user', 'departments'));
         }
         return redirect()->route('home');
     }
