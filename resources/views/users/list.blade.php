@@ -62,7 +62,9 @@
             </table>
         </div>
         @else
-            <h2>No Users Found</h2>
+            <div class="container">
+                <h2>No Users Found</h2>
+            </div>
         @endif
 
 

@@ -57,11 +57,17 @@
                                aria-expanded="false"><span class="glyphicon glyphicon-list-alt"></span> Departments <span
                                         class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                @foreach($departments as $department)
+                                @if(count($departments))
+                                    @foreach($departments as $department)
+                                        <li>
+                                            <a href="#">{{ $department->name }}</a>
+                                        </li>
+                                    @endforeach
+                                @else
                                     <li>
-                                        <a href="#">{{ $department->name }}</a>
+                                        <a href="#">No Departments Found</a>
                                     </li>
-                                @endforeach
+                                @endif
                             </ul>
                         </li>
 
