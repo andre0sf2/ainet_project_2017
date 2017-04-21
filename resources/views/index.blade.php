@@ -7,7 +7,9 @@
 <div class="container">
 
     @if(!is_null($message))
-        <p>{{ $message }}</p>
+        <div class="alert alert-danger">
+            {{ $message }}.
+        </div>
     @endif
 
     <h1>Cenas para meter aqui</h1>

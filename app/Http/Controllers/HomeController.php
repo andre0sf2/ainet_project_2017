@@ -54,7 +54,7 @@ class HomeController extends Controller
     public function unauthorized()
     {
         $departments = Department::all();
-        $message = 'You have been Blocked by Admin';
+        $message = 'You have been Blocked!';
 
         return view('index', compact('departments', 'message'));
     }
