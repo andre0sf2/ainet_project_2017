@@ -28,6 +28,8 @@ Route::get('/user/{id}', [
 ]);
 Route::get('/users', 'UserController@listUsers')->name('users.list');
 
+Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
+
 
 //AUTH
 Route::get('/login', 'HomeController@login')->name('auth.login');

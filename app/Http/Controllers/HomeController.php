@@ -25,8 +25,9 @@ class HomeController extends Controller
     public function index()
     {
         $departments = Department::all();
+        $message = null;
 
-        return view('welcome', compact('departments'));
+        return view('index', compact('departments', 'message'));
     }
 
     public function login()
@@ -48,5 +49,13 @@ class HomeController extends Controller
         $departments = Department::all();
 
         return view('about', compact('departments'));
+    }
+
+    public function unauthorized()
+    {
+        $departments = Department::all();
+        $message = 'You have been Blocked by Admin';
+
+        return view('index', compact('departments', 'message'));
     }
 }
