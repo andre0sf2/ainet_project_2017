@@ -44,6 +44,22 @@ class HomeController extends Controller
         return view('auth.register', compact('departments'));
     }
 
+    public function passwordReset()
+    {
+        $departments = Department::all();
+        $token = "";
+
+        return view('auth.passwords.reset', compact('departments', 'token'));
+    }
+
+    public function emailPassword()
+    {
+        $departments = Department::all();
+        $token = "";
+
+        return view('auth.passwords.email', compact('departments', 'token'));
+    }
+
     public function about()
     {
         $departments = Department::all();
@@ -54,7 +70,7 @@ class HomeController extends Controller
     public function unauthorized()
     {
         $departments = Department::all();
-        $message = 'You have been Blocked!';
+        $message = 'You have been Blocked! Please contact the Administration';
 
         return view('index', compact('departments', 'message'));
     }

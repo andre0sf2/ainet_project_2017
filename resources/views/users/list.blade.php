@@ -27,7 +27,7 @@
                     @if (Auth::user() && (Auth::user()->isAdmin() || Auth::user()->id == $user->id))
                         <div class="col-md-2">
 
-                            <a class="btn btn-xs btn-success" href="{{route('user.edit', $user->id)}}">Edit</a>
+                            <a class="btn btn-xs btn-success" href="{{ route('user.edit', $user->id) }}">Edit</a>
                         </div>
                     @endif
                     @if (Auth::user() && Auth::user()->isAdmin())

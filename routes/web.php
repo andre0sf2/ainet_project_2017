@@ -16,10 +16,9 @@ Route::get('/', 'HomeController@index')->name('index');
 
 Route::get('/about', 'HomeController@about')->name('about');
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
+Auth::routes();
 
 //UTILIZADOR
 Route::get('/user/{id}', [
@@ -32,6 +31,8 @@ Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized')
 
 
 //AUTH
+Route::get('/password/reset', 'HomeController@emailPassword')->name('password.request');
+//Route::get('/email/reset', 'HomeController@passwordReset')->name('password.email');
 Route::get('/login', 'HomeController@login')->name('auth.login');
 Route::get('/register', 'HomeController@register')->name('auth.register');
 

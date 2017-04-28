@@ -10,7 +10,11 @@ use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
-    //
+    function __construct()
+    {
+
+    }
+
     public function showUser($id)
     {
         $user = User::where('id', $id)->first();

@@ -9,7 +9,10 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //
+    function __construct()
+    {
+        $this->middleware('admin');
+    }
 
     public function showDashboard($blockedUsers = null, $comments = null)
     {

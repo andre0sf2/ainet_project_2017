@@ -24,7 +24,7 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if(Auth::user()['attributes']['blocked']){
+        if(Auth::user()->isBlocked()){
             Auth::logout();
             return route('unauthorized');
         }
