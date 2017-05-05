@@ -27,9 +27,25 @@
                 <div class="col-md-6">
                     <label for="sel1">Phone Number:</label><br>
                     <input name="phone" type="number" class="form-control file" placeholder="Phone Number"
-                           value="{{$user->phone}}"><br>
+                           value="{{$user->phone}}" required><br>
                 </div>
             </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <label for="inputType">Department</label>
+                    <select name="department" id="department" class="form-control col-md-6">
+                        <option selected value="{{ $user->department->id }}"> {{$user->department->name}}</option>
+                        @foreach($departments as $department)
+                            @if($department->id != $user->department_id)
+                                <option value="{{ $department->id }}">{{ $department->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+
             <hr>
             <div class="row">
                 <div class="col-md-6">

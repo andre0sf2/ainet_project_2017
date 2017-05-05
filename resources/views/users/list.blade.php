@@ -11,7 +11,7 @@
                 <tr>
                     <th>Email</th>
                     <th>Fullname</th>
-                    <th>Registered At</th>
+                    <th>Member Since</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                     <div class="col-md-2">
                         <a class="btn btn-xs btn-primary" href="{{route('user.show', $user->id)}}">View</a>
                     </div>
-                    @if (Auth::user() && (Auth::user()->isAdmin() || Auth::user()->id == $user->id))
+                    @if (Auth::user() && (Auth::user()->id == $user->id))
                         <div class="col-md-2">
 
                             <a class="btn btn-xs btn-success" href="{{ route('user.edit', $user->id) }}">Edit</a>

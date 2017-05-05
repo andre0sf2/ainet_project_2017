@@ -32,10 +32,82 @@ $factory->define(App\Department::class, function (Faker\Generator $faker) {
 });
 
 
+$factory->define(\App\Printer::class, function (Faker\Generator $faker){
+    return [
+        'name' => $faker->unique()->word
+    ];
+});
+
+$factory->define(App\Comment::class, function (Faker\Generator $faker) {
+    $users = App\User::all();
+    $requests = App\Request::all();
+
+    return [
+        'user_id' => $users->random()->id,
+        'request_id' => $requests->random()->id,
+        'comment' => $faker->realText(255),
+        'blocked' => 0
+    ];
+});
+
+
+$factory->defineAs(App\Comment::class, 'sub-comments', function (Faker\Generator $faker) {
+    $users = App\User::all();
+    $requests = App\Request::all();
+    $comments = App\Comment::all();
+    return [
+        'user_id' => $users->random()->id,
+        'request_id' => $requests->random()->id,
+        'comment' => $faker->realText(255),
+        'parent_id' => $comments->random()->id,
+        'blocked' => 0
+    ];
+});
+
+$factory->defineAs(App\Comment::class, 'blocked', function (Faker\Generator $faker) {
+    $users = App\User::all();
+    $requests = App\Request::all();
+
+    return [
+        'user_id' => $users->random()->id,
+        'request_id' => $requests->random()->id,
+        'comment' => $faker->realText(255),
+        'blocked' => 1
+    ];
+});
+
+$factory->defineAs(App\Comment::class, 'subBlocked', function (Faker\Generator $faker) {
+    $users = App\User::all();
+    $requests = App\Request::all();
+    $comments = App\Comment::all();
+
+    return [
+        'user_id' => $users->random()->id,
+        'request_id' => $requests->random()->id,
+        'comment' => $faker->realText(255),
+        'parent_id' => $comments->random()->id,
+        'blocked' => 1
+    ];
+});
+
 
 $factory->define(App\Request::class, function (Faker\Generator $faker) {
-    $departments = \App\Department::all();
+    $printers = \App\Printer::all();
     $users = \App\User::all();
 
-
+    return [
+        'owner_id' => $users->random()->id,
+        'printer_id' => $printers->random()->id,
+        'status' => $faker->randomDigit,
+        'open_date' => $faker->dateTime,
+        'due_date' => $faker->dateTime,
+        'description' => $faker->realText(255),
+        'quantity' => $faker->randomDigit,
+        'colored' => $faker->boolean(),
+        'file' => $faker->realText(255),
+        'stapled' => $faker->boolean(),
+        'paper_size' => $faker->randomDigit,
+        'paper_type' => $faker->randomDigit,
+        'front_back' => $faker->boolean(),
+    ];
 });

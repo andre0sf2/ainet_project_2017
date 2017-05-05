@@ -31,6 +31,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
+        $user->department_id = $request->input('department');
 
         if($request->hasFile('avatar')){
             if($user->profile_photo != 'default.png'){

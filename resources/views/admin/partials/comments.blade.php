@@ -7,7 +7,7 @@
                 <thead>
                 <tr>
                     <th>Owner</th>
-                    <th>Advertisement</th>
+                    <th>Printer of Request</th>
                     <th>Comment</th>
                     <th>Actions</th>
                 </tr>
@@ -24,8 +24,8 @@
                         </td>
                         <td>
                             @foreach ($requests as $request)
-                                @if ($comment->request_id === $request->id)
-                                    {{$request->name}}
+                                @if ($comment->request_id == $request->id)
+                                    {{ $request->printer->name }}
                                 @endif
                             @endforeach
                         </td>

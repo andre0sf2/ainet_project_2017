@@ -26,7 +26,7 @@ class InitialMigration extends Migration
             $table->string('presentation')->nullable();
             $table->integer('print_evals')->default(0);
             $table->integer('print_counts')->default(0);
-            $table->integer('department_id')->unsigned()->nullable();
+            $table->integer('department_id')->unsigned();
             $table->timestamps();
         });
         Schema::create('password_resets', function (Blueprint $table) {

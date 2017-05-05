@@ -56,6 +56,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::post('/users/block', 'UserController@blockUser')->name('user.block');
     Route::post('/users/unblock', 'UserController@unblockUser')->name('user.unblock');
 
+    Route::post('/comment/block', 'CommentController@blockComment')->name('comment.block');
+    Route::post('/comment/unblock', 'CommentController@unblockComment')->name('comment.unblock');
+
+
     Route::post('/users/grant', 'AdminController@grantAdmin')->name('admin.grant');
     Route::post('/users/revoke', 'AdminController@revokeAdmin')->name('admin.revoke');
 });

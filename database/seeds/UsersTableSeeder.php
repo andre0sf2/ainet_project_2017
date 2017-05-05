@@ -15,18 +15,21 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@mail.pt',
             'password' => bcrypt('admin123'),
             'admin' => true,
+            'phone' => '911111111'
         ]);
 
         factory(App\User::class)->create([
             'email' => 'user@mail.pt',
             'password' => bcrypt('user123'),
-            'admin' => false
+            'admin' => false,
+            'phone' => '911111111'
         ]);
 
         factory(App\User::class)->create([
             'email' => 'blocked@mail.pt',
             'password' => bcrypt('user123'),
             'admin' => false,
+            'phone' => '911111111',
             'blocked' => 1,
         ]);
 

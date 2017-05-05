@@ -18,10 +18,11 @@ class AdminController extends Controller
     {
         $users = User::all();
         $blockedUsers = User::where('blocked', 1)->get();
-        $comments = Comment::all();
+        $comments = Comment::where('blocked', 1)->get();
         $departments = Department::all();
+        $requests = \App\Request::all();
 
-        return view('admin.dashboard',  compact('users', 'blockedUsers', 'comments', 'departments'));
+        return view('admin.dashboard',  compact('users', 'blockedUsers', 'comments', 'departments', 'requests'));
     }
 
     public function grantAdmin(Request $request)
