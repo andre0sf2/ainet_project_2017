@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Department;
+use App\User;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -27,7 +28,25 @@ class HomeController extends Controller
         $departments = Department::all();
         $message = null;
 
-        return view('index', compact('departments', 'message'));
+        $blackPrints = (count(\App\Request::where('colored', 0)->get())/count(\App\Request::all()))*100;
+        $coloredPrints = (count(\App\Request::where('colored', 1)->get())/count(\App\Request::all()))*100;
+
+        $allPrints = count(\App\Request::all());
+
+        $requests = \App\Request::all();
+
+        return view('index', compact('departments', 'message', 'blackPrints', 'coloredPrints', 'allPrints', 'requests'));
+    }
+
+    public function unauthorized()
+    {
+        $departments = Department::all();
+        $message = 'You have been Blocked! Please contact the Administration';
+
+        $blackPrints = (count(\App\Request::where('colored', 0)->get())/count(\App\Request::all()))*100;
+        $coloredPrints = (count(\App\Request::where('colored', 1)->get())/count(\App\Request::all()))*100;
+
+        return view('index', compact('departments', 'message', 'blackPrints', 'coloredPrints'));
     }
 
     public function login()
@@ -65,13 +84,5 @@ class HomeController extends Controller
         $departments = Department::all();
 
         return view('about', compact('departments'));
-    }
-
-    public function unauthorized()
-    {
-        $departments = Department::all();
-        $message = 'You have been Blocked! Please contact the Administration';
-
-        return view('index', compact('departments', 'message'));
     }
 }
