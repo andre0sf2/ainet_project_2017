@@ -39,6 +39,7 @@
 
                     <!-- Branding Image -->
                     <a class="navbar-brand" href="{{ route('index') }}">
+                        <span class="glyphicon glyphicon-print"></span>
                         <strong>PrintIT!</strong>
                     </a>
                 </div>
