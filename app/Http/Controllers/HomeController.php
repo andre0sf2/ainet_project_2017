@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Department;
 use App\User;
 use Illuminate\Http\Request;
+use Khill\Lavacharts\Lavacharts;
 
 class HomeController extends Controller
 {
@@ -28,14 +29,21 @@ class HomeController extends Controller
         $departments = Department::all();
         $message = null;
 
-        $blackPrints = (count(\App\Request::where('colored', 0)->get())/count(\App\Request::all()))*100;
-        $coloredPrints = (count(\App\Request::where('colored', 1)->get())/count(\App\Request::all()))*100;
+        $lava = new Lavacharts();
+        $reasons = $lava->DataTable();
 
-        $allPrints = count(\App\Request::all());
+        $reasons->addStringColumn('Reasons')
+            ->addNumberColumn('Percent')
+            ->addRow(['Black & White', count(\App\Request::where('colored', 0)->get())])
+            ->addRow(['Colored', count(\App\Request::where('colored', 1)->get())]);
 
-        $requests = \App\Request::all();
+        $lava->PieChart('Prints', $reasons, [
+            'title'  => 'Colored vs Black & White',
+            'is3D'   => true,
+        ]);
 
-        return view('index', compact('departments', 'message', 'blackPrints', 'coloredPrints', 'allPrints', 'requests'));
+
+        return view('index', compact('departments', 'message', 'lava'));
     }
 
     public function unauthorized()
@@ -43,10 +51,21 @@ class HomeController extends Controller
         $departments = Department::all();
         $message = 'You have been Blocked! Please contact the Administration';
 
-        $blackPrints = (count(\App\Request::where('colored', 0)->get())/count(\App\Request::all()))*100;
-        $coloredPrints = (count(\App\Request::where('colored', 1)->get())/count(\App\Request::all()))*100;
+        $lava = new Lavacharts();
+        $reasons = $lava->DataTable();
 
-        return view('index', compact('departments', 'message', 'blackPrints', 'coloredPrints'));
+        $reasons->addStringColumn('Reasons')
+            ->addNumberColumn('Percent')
+            ->addRow(['Black & White', count(\App\Request::where('colored', 0)->get())])
+            ->addRow(['Colored', count(\App\Request::where('colored', 1)->get())]);
+
+        $lava->PieChart('Prints', $reasons, [
+            'title'  => 'Colored vs Black & White',
+            'is3D'   => true,
+        ]);
+
+
+        return view('index', compact('departments', 'message', 'lava'));
     }
 
     public function login()

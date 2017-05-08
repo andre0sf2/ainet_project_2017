@@ -25,7 +25,7 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-inverse navbar-static-top">
+        <nav class="navbar static-top navbar-toggleable-md navbar-inverse bg-inverse">
             <div class="container">
                 <div class="navbar-header">
 
@@ -71,7 +71,11 @@
                                 @endif
                             </ul>
                         </li>
-
+                        @if( Auth::user())
+                            <li>
+                                <a href="#"><span class="glyphicon glyphicon-plus"></span> Print Request</a>
+                            </li>
+                        @endif
                         <li>
                         <li>
                             <a href="{{ route('about') }}"><span class="glyphicon glyphicon-book"></span> About</a>
