@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'PrintIT!')
+@section('title', 'PrintIT! - Admin Dashboard')
 
 @section('content')
 
@@ -14,12 +14,15 @@
                 </li>
                 <li><a href="#Comments" data-toggle="tab"><i class="glyphicon glyphicon-comment"></i> Comments</a>
                 </li>
+                <li><a href="#Requests" data-toggle="tab"><i class="glyphicon glyphicon-print"></i> Prints Requests</a>
+                </li>
             </ul>
 
             <!-- Tab panes -->
             <div class="tab-content">
                 <div class="tab-pane active" id="Users">@include('admin.partials.users')</div>
                 <div class="tab-pane" id="Comments">@include('admin.partials.comments')</div>
+                <div class="tab-pane" id="Requests">@include('admin.partials.requests')</div>
             </div>
         </div>
     </div>
