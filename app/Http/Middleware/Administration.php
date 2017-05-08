@@ -20,6 +20,6 @@ class Administration
             return $next($request);
         }
 
-        return response('Unauthorized.', 401);
+        return redirect()->route("index");
     }
 }
