@@ -8,7 +8,6 @@ use Illuminate\Notifications\Notifiable;
 class Department extends Model
 {
     use Notifiable;
-    public $table = "departaments";
     /**
      * The attributes that are mass assignable.
      *

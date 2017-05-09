@@ -32,7 +32,7 @@ class AdminController extends Controller
 
         $name = User::where('id', $request->input('user_id'))->value('name');
 
-        $message = ['message_success' => "User $name is now admin!"];
+        $message = ['success' => "User $name is now admin!"];
 
         return redirect()->route('users.list')->with($message);
     }
@@ -43,8 +43,8 @@ class AdminController extends Controller
 
         $name = User::where('id', $request->input('user_id'))->value('name');
 
-        $message = ['message_success' => "User $name is no longer admin!"];
+        $message = ['errors' => "User $name is no longer admin!"];
 
-        return redirect()->route('users.list')->with($message);
+        return redirect()->route('users.list')->with('errors', $message);
     }
 }

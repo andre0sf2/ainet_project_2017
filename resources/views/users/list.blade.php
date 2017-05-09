@@ -6,6 +6,17 @@
 
     @if(count($users))
         <div class="container">
+
+
+            @if(session('success'))
+                @include('partials.success')
+            @endif
+
+            @if(session('errors'))
+                @include('partials.errors')
+            @endif
+
+
             <form class="form-group" method="POST" action="#">
                 <div class="form-group" style="display: flex;">
                     <input name="search" type="text" class="form-control" placeholder="Search for..." style="width: 97%;"/>

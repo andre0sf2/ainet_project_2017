@@ -46,6 +46,10 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => 'user.update',
         'uses' => 'UserController@updateUser'
     ]);
+
+    Route::get('/print/request', 'RequestController@createRequest')->name('print.request');
+    Route::get('/list/request', 'RequestController@listRequest')->name('request.list');
+
 });
 
 

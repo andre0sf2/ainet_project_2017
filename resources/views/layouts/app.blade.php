@@ -72,9 +72,20 @@
                             </ul>
                         </li>
                         @if( Auth::user())
-                            <li>
-                                <a href="#"><span class="glyphicon glyphicon-plus"></span> Print Request</a>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false"><span class="glyphicon glyphicon-print"></span> Print Dashboard <span
+                                            class="caret"></span></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{route('print.request')}}"><span class="glyphicon glyphicon-plus"></span> Print Request</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('request.list')}}"><span class="glyphicon glyphicon-list-alt"></span> Requests List</a>
+                                    </li>
+                                </ul>
                             </li>
+
                         @endif
                         <li>
                         <li>

@@ -15,13 +15,6 @@
                            value="{{$user->name}}" required><br>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="sel1">Email:</label><br>
-                    <input name="email" type="email" class="form-control file" placeholder="User Email"
-                           value="{{$user->email}}" required><br>
-                </div>
-            </div>
 
             <div class="row">
                 <div class="col-md-6">

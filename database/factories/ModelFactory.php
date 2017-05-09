@@ -15,12 +15,23 @@
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     static $password;
 
+    static $password;
+    $createdAt = Carbon\Carbon::now()->subDays(30);
+    $updatedAt = $faker->dateTimeBetween($createdAt);
     return [
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('secret'),
         'remember_token' => str_random(10),
+        'phone' => $faker->randomElement([null, $faker->phoneNumber]),
+        'presentation' => $faker->randomElement([null, $faker->realText]),
+        'profile_url' => $faker->randomElement([null, $faker->url]),
         'department_id' => \App\Department::all()->random()->id,
+        'activated' => true,
+        'created_at' => $createdAt,
+        'updated_at' => $updatedAt,
+        'print_evals' => $faker->numberBetween(1, 3),
+        'print_counts' => $faker->numberBetween(1, 500)
     ];
 });
 

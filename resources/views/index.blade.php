@@ -24,7 +24,7 @@
 
         <div class="row" style="display: inline">
             @foreach($departments as $department)
-                <div class="col-md-3 thumbnail" style="background-color: white">
+                <div class="col-md-6 thumbnail" style="background-color: white">
                     <h4><strong>Department: </strong> {{ $department->name }}</h4>
                     <p><strong>Total Prints: </strong> {{ $department->countPrints() }}</p>
                 </div>

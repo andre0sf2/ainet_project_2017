@@ -11,20 +11,21 @@ class DepartmentTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Department::class)->create([
-            'name' => 'CleanPrint',
-        ]);
-
-        factory(\App\Department::class)->create([
-            'name' => 'IPrint',
-        ]);
-
-        factory(\App\Department::class)->create([
-            'name' => 'LowPrint',
-        ]);
-
-        factory(\App\Department::class)->create([
-            'name' => 'FastPrint',
-        ]);
+        $departments = [
+            'Ciências Jurídicas',
+            'Ciências da Linguagem',
+            'Engenharia do Ambiente',
+            'Engenharia Civil',
+            'Engenharia Eletrotécnica',
+            'Engenharia Informática',
+            'Engenharia Mecânica',
+            'Gestão e Economia',
+            'Matemática'
+        ];
+        foreach ($departments as $department){
+            factory(\App\Department::class)->create([
+                'name' => $department,
+            ]);
+        }
     }
 }

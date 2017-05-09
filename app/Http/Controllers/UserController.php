@@ -28,15 +28,12 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:8|confirmed',
             'phone' => 'required|min:9|max:9'
         ]);
 
         $user = User::where('id', $request->input('user_id'))->first();
 
         $user->name = $request->input('name');
-        $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->department_id = $request->input('department');
 
@@ -99,6 +96,6 @@ class UserController extends Controller
 
             return view('users.edit', compact('user', 'departments'));
         }
-        return redirect()->route('home');
+        return redirect()->route('index');
     }
 }

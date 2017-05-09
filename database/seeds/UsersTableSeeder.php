@@ -33,9 +33,8 @@ class UsersTableSeeder extends Seeder
             'blocked' => 1,
         ]);
 
-        factory(App\User::class, 3)->create([
+        factory(App\User::class, 6)->create([
             'password' => bcrypt('123'),
-            'blocked' => 1 ,
         ]);
     }
 }

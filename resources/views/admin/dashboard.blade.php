@@ -5,6 +5,15 @@
 @section('content')
 
 <div class="container">
+
+    @if(session('success'))
+        @include('partials.success')
+    @endif
+
+    @if(session('errors'))
+        @include('partials.errors')
+    @endif
+
     <div class="row">
         <div class="container">
 
