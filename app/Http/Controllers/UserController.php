@@ -26,12 +26,21 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:8|confirmed',
+            'phone' => 'required|min:9|max:9'
+        ]);
+
         $user = User::where('id', $request->input('user_id'))->first();
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->department_id = $request->input('department');
+
+
 
         if($request->hasFile('avatar')){
             if($user->profile_photo != 'default.png'){
@@ -65,7 +74,7 @@ class UserController extends Controller
             User::where('id', $request->input('user_id'))->update(['blocked' => 1]);
         }
 
-        $message = ['message_success' => 'User blocked with success.'];
+        $message = ['success' => 'User blocked with success.'];
 
         return redirect()->route('users.list')->with($message);
     }
@@ -77,7 +86,7 @@ class UserController extends Controller
             User::where('id', $request->input('user_id'))->update(['blocked' => 0]);
         }
 
-        $message = ['message_success' => 'User unblocked with success.'];
+        $message = ['success' => 'User unblocked with success.'];
 
         return redirect()->route('admin.dashboard')->with($message);
     }

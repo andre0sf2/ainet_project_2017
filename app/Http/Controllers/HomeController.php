@@ -27,7 +27,6 @@ class HomeController extends Controller
     public function index()
     {
         $departments = Department::all();
-        $message = null;
 
         $lava = new Lavacharts();
         $reasons = $lava->DataTable();
@@ -43,29 +42,12 @@ class HomeController extends Controller
         ]);
 
 
-        return view('index', compact('departments', 'message', 'lava'));
+        return view('index', compact('departments', 'lava'));
     }
 
     public function unauthorized()
     {
-        $departments = Department::all();
-        $message = 'You have been Blocked! Please contact the Administration';
-
-        $lava = new Lavacharts();
-        $reasons = $lava->DataTable();
-
-        $reasons->addStringColumn('Reasons')
-            ->addNumberColumn('Percent')
-            ->addRow(['Black & White', count(\App\Request::where('colored', 0)->get())])
-            ->addRow(['Colored', count(\App\Request::where('colored', 1)->get())]);
-
-        $lava->PieChart('Prints', $reasons, [
-            'title'  => 'Colored vs Black & White',
-            'is3D'   => true,
-        ]);
-
-
-        return view('index', compact('departments', 'message', 'lava'));
+        return redirect()->route('index')->with('errors', ['errors' => 'You are currently blocked. Try again later.']);
     }
 
     public function login()

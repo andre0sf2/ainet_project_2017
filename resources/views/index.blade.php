@@ -6,10 +6,13 @@
 
     <div class="container">
 
-        @if(!is_null($message))
-            <div class="alert alert-danger">
-                {{ $message }}.
-            </div>
+
+        @if(session('success'))
+            @include('partials.success')
+        @endif
+
+        @if(session('errors'))
+            @include('partials.errors')
         @endif
 
         <br>

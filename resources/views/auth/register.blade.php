@@ -58,7 +58,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group"{{ $errors->has('department') ? ' has-error' : '' }}>
                                 <label for="inputType" class="col-md-4 control-label">Department</label>
 
                                 <div class="col-md-6">
@@ -68,6 +68,11 @@
                                             <option value="{{ $department->id }}">{{ $department->name }}</option>
                                         @endforeach
                                     </select>
+                                    @if ($errors->has('department'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('department') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 
