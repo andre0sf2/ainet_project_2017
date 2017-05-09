@@ -18,17 +18,16 @@ class UserController extends Controller
     public function showUser($id)
     {
         $user = User::where('id', $id)->first();
-        $userDepartment = Department::where('id', $user->department_id)->first();
         $departments = Department::all();
 
-        return view('users.profile', array('user'=>$user, 'userDepartment'=> $userDepartment, 'departments' => $departments));
+        return view('users.profile', array('user'=>$user, 'departments' => $departments));
     }
 
     public function updateUser(Request $request)
     {
         $this->validate($request, [
             'name' => 'required|max:255',
-            'phone' => 'required|min:9|max:9'
+            'phone' => 'required|min:9|max:254',
         ]);
 
         $user = User::where('id', $request->input('user_id'))->first();

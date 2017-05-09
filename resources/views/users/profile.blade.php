@@ -20,13 +20,17 @@
             @if(!is_null($user->phone))
                 <p><strong>Phone number:</strong> {{ $user->phone }}</p>
             @endif
-            @if(!is_null($user->department_id))
-                <p><strong>Department:</strong> {{ $userDepartment->name }}</p>
-            @endif
+            <p><strong>Department:</strong> {{ $user->department->name }}</p>
             @if($user->admin)
                 <p><strong>Type:</strong> Administrator</p>
             @else
                 <p><strong>Type:</strong> Employee</p>
+            @endif
+            @if(!is_null($user->presentation))
+                <p><strong>Presentation: </strong>{{$user->presentation}}</p>
+            @endif
+            @if(!is_null($user->profile_url))
+                <p><strong>Profile Url: </strong><a href="{{ $user->profile_url }}">{{ $user->profile_url }}</a></p>
             @endif
         </div>
     </div>
