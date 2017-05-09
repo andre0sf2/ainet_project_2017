@@ -31,6 +31,9 @@ class HomeController extends Controller
         $lava = new Lavacharts();
         $reasons = $lava->DataTable();
 
+        $allRequests = count(\App\Request::all());
+
+
         $reasons->addStringColumn('Reasons')
             ->addNumberColumn('Percent')
             ->addRow(['Black & White', count(\App\Request::where('colored', 0)->get())])
@@ -42,7 +45,7 @@ class HomeController extends Controller
         ]);
 
 
-        return view('index', compact('departments', 'lava'));
+        return view('index', compact('departments', 'lava', 'allRequests'));
     }
 
     public function unauthorized()
