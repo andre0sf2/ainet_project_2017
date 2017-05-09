@@ -29,7 +29,9 @@
                 <tr>
                     <th>Email</th>
                     <th>Fullname</th>
+                    <th>Phone</th>
                     <th>Member Since</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,6 +39,11 @@
             <tr>
                 <td>{{$user->email}}</td>
                 <td>{{$user->name}}</td>
+                @if(!is_null($user->phone))
+                    <td>{{$user->phone}}</td>
+                @else
+                    <td>No Phone Number</td>
+                @endif
                 <td>{{$user->created_at}}</td>
                 <td class="col-md-3 inline">
                     <div class="col-md-2">
@@ -74,6 +81,7 @@
                         </div>
                             @endif
                     @endif
+                </td>
             </tr>
                 </tbody>
         @endforeach
