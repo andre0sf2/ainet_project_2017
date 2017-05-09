@@ -16,6 +16,7 @@
             <div id="chart-div"></div>
 
             {!! $lava->render('PieChart', 'Prints', 'chart-div') !!}
+            
         <br>
 
         <div class="row" style="display: inline">
@@ -25,6 +26,11 @@
                 <p><strong>Total Prints: </strong> {{ $department->countPrints() }}</p>
             </div>
         @endforeach
+        </div>
+        <div class="row" style="display: inline">
+         <div class="thumbnail" style="background-color: white">
+            <h4><strong>All Prints: </strong>{{$allRequests}}</h4>
+        </div>
         </div>
 
         <h3>Nº de impressões do dia de hoje</h3>
