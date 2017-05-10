@@ -86,6 +86,9 @@
                 </tbody>
         @endforeach
             </table>
+        </div >
+        <div style="text-align: center">
+            {{ $users->links() }}
         </div>
         @else
             <div class="container">

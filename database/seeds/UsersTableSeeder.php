@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-    private $photoPath = 'public/profiles';
+    private $photoPath = 'uploads/profiles';
     private $numberOfActivedUsers = 20;
     private $numberOfActivatedAdmins = 5;
     private $numberOfBlockedUsers = 5;
@@ -112,7 +112,7 @@ class UsersTableSeeder extends Seeder
             'phone' => $faker->randomElement([null, $faker->phoneNumber]),
             'presentation' => $faker->randomElement([null, $faker->realText]),
             'profile_url' => $faker->randomElement([null, $faker->url]),
-            'profile_photo' => $faker->randomElement([null, $faker->image(storage_path('app/'.$this->photoPath), 180, 180, 'people', false)]),
+            'profile_photo' =>  $faker->randomElement([$faker->image(storage_path('app/'.$this->photoPath), 180, 180, 'people', false)]),
             'department_id' => $departmentId,
             'activated' => true,
             'created_at' => $createdAt,
