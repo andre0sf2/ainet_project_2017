@@ -138,7 +138,7 @@
     <script src="{{ asset('js/app.js') }}"></script>
 </body>
 
-<footer class="footer navbar-inverse sm-inverse navbar-bottom">
+<footer class="footer navbar-inverse sm-inverse navbar-fixed-bottom">
     <div class="container">
         <span class="text-muted">PrintIT! © 2017</span>
         <span style="padding-left:5em;"></span>

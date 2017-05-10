@@ -13,21 +13,14 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 @foreach($comments as $comment)
                     <tr>
                         <td>
-                            @foreach ($users as $user)
-                                @if ($comment->user_id === $user->id)
-                                    {{$user->name}}
-                                @endif
-                            @endforeach
+                            {{ $comment->owner->name }}
                         </td>
                         <td>
-                            @foreach ($requests as $request)
-                                @if ($comment->request_id == $request->id)
-                                    {{ $request->printer->name }}
-                                @endif
-                            @endforeach
+                            {{ $comment->request_id }}
                         </td>
                         <td>{{$comment->comment}}</td>
                         <td class="col-md-2 inline">

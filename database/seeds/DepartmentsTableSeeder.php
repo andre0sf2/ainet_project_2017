@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class DepartmentTableSeeder extends Seeder
+class DepartmentsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -22,9 +22,12 @@ class DepartmentTableSeeder extends Seeder
             'Gestão e Economia',
             'Matemática'
         ];
-        foreach ($departments as $department){
-            factory(\App\Department::class)->create([
+        $createdAt = Carbon\Carbon::now()->subMonths(2);
+        foreach ($departments as $department) {
+            DB::table('departments')->insert([
                 'name' => $department,
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
             ]);
         }
     }

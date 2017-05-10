@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class RequestTableSeeder extends Seeder
+class RequestsTableSeeder extends Seeder
 {
     // Change these properties to reflect student's use of status fields
     const OPEN_STATE = 0;
@@ -20,7 +20,7 @@ class RequestTableSeeder extends Seeder
     private $types = [self::DRAFT, self::NORMAL, self::PHOTO];
 
 
-    private $filesPath = 'print-jobs';
+    private $filesPath = 'uploads/print-jobs';
     private $numberOfOpenedRequests = 10;
     private $numberOfRefusedRequests = 5;
     private $numberOfCompletedRequests = 15;
@@ -93,7 +93,8 @@ class RequestTableSeeder extends Seeder
             'stapled' => $faker->boolean,
             'front_back' => $faker->boolean,
             'created_at' => $createdAt,
-            'updated_at' => $updatedAt
+            'updated_at' => $updatedAt,
+            'printer_id' => \App\Printer::all()->random()->id,
         ];
     }
 }

@@ -38,6 +38,9 @@
 
         <h3>Nº de impressões do dia de hoje</h3>
         <h3>Média diária de impressões no mês atual</h3>
+            <div id="perf_div"></div>
+
+            {!! $lava->render('ColumnChart', 'Finances', 'perf_div') !!}
         <h3>Outros dados estatísticos considerados relevantes</h3>
 
     </div>

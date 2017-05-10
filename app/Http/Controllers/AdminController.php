@@ -19,6 +19,7 @@ class AdminController extends Controller
         $users = User::all();
         $blockedUsers = User::where('blocked', 1)->get();
         $comments = Comment::where('blocked', 1)->get();
+
         $departments = Department::all();
         $requests = \App\Request::all();
 

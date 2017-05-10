@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PrinterTableSeeder extends Seeder
+class PrintersTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -31,10 +31,12 @@ class PrinterTableSeeder extends Seeder
             'Pharos Controlled Queue',
             'RICOH Aficio MP C6501 PS',
         ];
-
-        foreach ($printers as $printer){
-            factory(\App\Printer::class)->create([
+        $createdAt = Carbon\Carbon::now()->subMonths(2);
+        foreach ($printers as $printer) {
+            DB::table('printers')->insert([
                 'name' => $printer,
+                'created_at' => $createdAt,
+                'updated_at' => $createdAt,
             ]);
         }
     }

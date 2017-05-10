@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Department;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Khill\Lavacharts\Lavacharts;
 
@@ -33,8 +34,7 @@ class HomeController extends Controller
 
         $allRequests = count(\App\Request::all());
 
-
-        $reasons->addStringColumn('Reasons')
+        $reasons->addStringColumn('Prints')
             ->addNumberColumn('Percent')
             ->addRow(['Black & White', count(\App\Request::where('colored', 0)->get())])
             ->addRow(['Colored', count(\App\Request::where('colored', 1)->get())]);
@@ -42,6 +42,34 @@ class HomeController extends Controller
         $lava->PieChart('Prints', $reasons, [
             'title'  => 'Colored vs Black & White',
             'is3D'   => true,
+        ]);
+
+        $finances = $lava->DataTable();
+
+        $finances->addDateColumn('Day of Month')
+            ->addNumberColumn('Black & White')
+            ->addNumberColumn('Colored');
+
+        $requests = \App\Request::whereMonth('closed_date', '=', date('m'))->get();
+
+        
+        foreach ($requests as $request){
+            $finances->addRow([
+               $request->closed_date,
+                count(\App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '=', Carbon::parse($request->closed_date)->day)->where('colored', 0)->get()),
+                count(\App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '=', Carbon::parse($request->closed_date)->day)->where('colored', 1)->get())
+            ]);
+        }
+
+
+
+
+        $lava->ColumnChart('Finances', $finances, [
+            'title' => 'Prints per Month',
+            'titleTextStyle' => [
+                'color'    => '#eb6b2c',
+                'fontSize' => 14
+            ]
         ]);
 
 

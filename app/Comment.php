@@ -10,11 +10,11 @@ class Comment extends Model
 
     public function owner()
     {
-        $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function requests()
     {
-        $this->belongsTo(Request::class, 'request_id');
+        return $this->belongsTo(Request::class, 'request_id');
     }
 }
