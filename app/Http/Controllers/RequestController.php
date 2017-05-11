@@ -20,4 +20,10 @@ class RequestController extends Controller
 
         return view('requests.list', compact('departments', 'requests'));
     }
+
+
+    public function acceptRequest()
+    {
+        return redirect()->route('admin.dashboard')->with('success', 'Entrei Aqui CRLH!');
+    }
 }

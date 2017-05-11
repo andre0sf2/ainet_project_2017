@@ -7,7 +7,6 @@
                 <thead>
                 <tr>
                     <th>Owner</th>
-                    <th>Printer Name</th>
                     <th>Color Type</th>
                     <th>Created at</th>
                     <th>Actions</th>
@@ -20,9 +19,7 @@
                         <td>
                             {{ $request->owner->name }}
                         </td>
-                        <td>
-                            {{ $request->printer->name}}
-                        </td>
+
                         @if($request->colored == 0)
                             <td>Black and White</td>
                         @else
@@ -33,7 +30,11 @@
                         </td>
                         <td class="col-md-2 inline">
                             @if (Auth::user() && Auth::user()->isAdmin())
-
+                                <form action="{{ route('request.accept') }}" method="post">
+                                    <input type="hidden" name="comment_id" value="{{$request->id}}">
+                                    <button type="submit" class="btn btn-xs btn-success">Accept</button>
+                                    {{csrf_field()}}
+                                </form>
                             @endif
                         </td>
                     </tr>

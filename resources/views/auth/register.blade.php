@@ -98,6 +98,15 @@
                                            name="password_confirmation" required>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="avatar">Profile Photo</label>
+                                <div class="col-md-6">
+                                    <input type="file" name="avatar" accept="image/*">
+                                    <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
                                     <button type="submit" class="btn btn-primary">

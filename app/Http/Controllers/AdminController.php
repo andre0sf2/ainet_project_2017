@@ -21,7 +21,7 @@ class AdminController extends Controller
         $comments = Comment::where('blocked', 1)->get();
 
         $departments = Department::all();
-        $requests = \App\Request::all();
+        $requests = \App\Request::where('status', 0)->get();
 
         return view('admin.dashboard',  compact('users', 'blockedUsers', 'comments', 'departments', 'requests'));
     }

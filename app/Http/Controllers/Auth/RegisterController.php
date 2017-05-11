@@ -6,6 +6,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Intervention\Image\Facades\Image;
 
 class RegisterController extends Controller
 {
@@ -52,7 +53,7 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
             'phone' => 'required|min:9|max:254',
-            'department_id' => 'required|not_in:0'
+            'department' => 'required|not_in:0'
         ]);
     }
 
@@ -65,12 +66,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $filename = null;
-        $image = $data['profile_photo'];
 
-        if($image) {
-            $profile_photo = $_FILES['profile_photo']['name'];
-            $path = storage_path('app/public/profiles/'.$profile_photo);
-            $image->move($path);
+        if(array_key_exists('avatar', $data)) {
+            $avatar = $data['avatar'];
+            $filename = str_replace(' ', '', $data['name']).time().'.'.$avatar->getClientOriginalExtension();
+            Image::make($avatar)->resize(300,300)->save(storage_path('app/public/profiles/'.$filename));
         }
 
         return User::create([

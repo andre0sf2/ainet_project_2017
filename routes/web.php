@@ -67,6 +67,8 @@ Route::group(['middleware' => 'admin'], function () {
 
     Route::post('/users/grant', 'AdminController@grantAdmin')->name('admin.grant');
     Route::post('/users/revoke', 'AdminController@revokeAdmin')->name('admin.revoke');
+
+    Route::post('/request/accept', 'RequestController@acceptRequest')->name('request.accept');
 });
 
 //IMPRESSAO
