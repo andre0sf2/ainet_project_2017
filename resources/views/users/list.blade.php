@@ -27,8 +27,8 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Email</th>
                     <th>Fullname</th>
+                    <th>Email</th>
                     <th>Phone</th>
                     <th>Member Since</th>
                     <th>Actions</th>
@@ -37,8 +37,8 @@
                 <tbody>
         @foreach($users as $user)
             <tr>
-                <td>{{$user->email}}</td>
                 <td>{{$user->name}}</td>
+                <td>{{$user->email}}</td>
                 @if(!is_null($user->phone))
                     <td>{{$user->phone}}</td>
                 @else
