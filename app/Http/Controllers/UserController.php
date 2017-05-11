@@ -6,6 +6,7 @@ use App\Department;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
@@ -20,7 +21,9 @@ class UserController extends Controller
         $user = User::where('id', $id)->first();
         $departments = Department::all();
 
-        return view('users.profile', array('user'=>$user, 'departments' => $departments));
+        $file = Storage::get('public/profiles/'.$user->profile_photo);
+
+        return view('users.profile', compact('user', 'departments', 'file'));
     }
 
     public function updateUser(Request $request)
@@ -39,13 +42,13 @@ class UserController extends Controller
 
 
         if($request->hasFile('avatar')){
-            if($user->profile_photo != 'default.png'){
-                unlink('uploads/avatars/' . $user->profile_photo);
+            if(!is_null($user->profile_photo)){
+                unlink('app/public/profiles/' . $user->profile_photo);
             }
 
             $avatar = $request->file('avatar');
             $filename = str_replace(' ', '', $user->name).time().'.'.$avatar->getClientOriginalExtension();
-            Image::make($avatar)->resize(300,300)->save(public_path('uploads/avatars/'.$filename));
+            Image::make($avatar)->resize(300,300)->save(storage_path('app/public/profiles/'.$filename));
 
             $user->profile_photo = $filename;
         }

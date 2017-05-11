@@ -25,6 +25,7 @@ Route::get('/user/{id}', [
     'as' => 'user.show',
     'uses' => 'UserController@showUser'
 ]);
+
 Route::get('/users', 'UserController@listUsers')->name('users.list');
 
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');

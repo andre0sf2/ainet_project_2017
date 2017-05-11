@@ -93,6 +93,7 @@
                         </li>
                     </ul>
 
+
                     <!-- Right Side Of Navbar -->
                     <ul class="nav navbar-nav navbar-right">
                         <!-- Authentication Links -->
@@ -102,10 +103,10 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position: relative; padding-left: 50px;">
-                                    @if(is_null())
+                                    @if(is_null(Auth::user()->profile_photo))
                                         <img src="/uploads/avatars/default.png" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
                                     @else
-                                        <img src="{{ Auth::user()->profile_photo }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
+                                        <img src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.Auth::user()->profile_photo)) }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
                                     @endif
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
