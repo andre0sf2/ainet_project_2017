@@ -102,7 +102,11 @@
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position: relative; padding-left: 50px;">
-                                    <img src="/uploads/avatars/{{ Auth::user()->profile_photo }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
+                                    @if(is_null())
+                                        <img src="/uploads/avatars/default.png" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
+                                    @else
+                                        <img src="{{ Auth::user()->profile_photo }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
+                                    @endif
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
 

@@ -20,7 +20,7 @@ class RequestsTableSeeder extends Seeder
     private $types = [self::DRAFT, self::NORMAL, self::PHOTO];
 
 
-    private $filesPath = 'uploads/print-jobs';
+    private $filesPath = 'print-jobs';
     private $numberOfOpenedRequests = 10;
     private $numberOfRefusedRequests = 5;
     private $numberOfCompletedRequests = 15;
@@ -93,8 +93,7 @@ class RequestsTableSeeder extends Seeder
             'stapled' => $faker->boolean,
             'front_back' => $faker->boolean,
             'created_at' => $createdAt,
-            'updated_at' => $updatedAt,
-            'printer_id' => \App\Printer::all()->random()->id,
+            'updated_at' => $updatedAt
         ];
     }
 }

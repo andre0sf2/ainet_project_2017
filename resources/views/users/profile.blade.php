@@ -5,7 +5,11 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <img src="/uploads/avatars/{{$user->profile_photo}}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+            @if(is_null($user->profile_photo))
+                <img src="/uploads/avatars/default.png" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+            @else
+                <img src="" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+            @endif
             <h2><strong>{{$user->name}}'s Profile</strong></h2>
             @if (Auth::user() && (Auth::user()->id == $user->id))
 

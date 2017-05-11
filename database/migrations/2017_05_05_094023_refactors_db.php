@@ -37,7 +37,7 @@ class RefactorsDb extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->string('phone')->nullable();
-            $table->string('profile_photo')->nullable()->default('default.png');
+            $table->string('profile_photo')->nullable();
             $table->string('profile_url')->nullable();
             $table->string('presentation')->nullable();
 

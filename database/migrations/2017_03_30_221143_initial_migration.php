@@ -21,7 +21,7 @@ class InitialMigration extends Migration
             $table->boolean('admin');
             $table->boolean('blocked');
             $table->string('phone')->nullable();
-            $table->string('profile_photo')->default('default.png');
+            $table->string('profile_photo')->nullable();
             $table->string('profile_url')->nullable();
             $table->string('presentation')->nullable();
             $table->integer('print_evals');

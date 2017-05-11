@@ -37,6 +37,11 @@ class User extends Authenticatable
         return $this->blocked == 1 ? true : false;
     }
 
+    public function isActivated()
+    {
+        return $this->activated == 1 ? true : false;
+    }
+
     public function comments()
     {
         return $this->hasMany(Comment::class, 'user_id');

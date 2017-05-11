@@ -4,7 +4,7 @@ use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
-    private $photoPath = 'uploads/profiles';
+    private $photoPath = 'public/profiles';
     private $numberOfActivedUsers = 20;
     private $numberOfActivatedAdmins = 5;
     private $numberOfBlockedUsers = 5;
@@ -21,22 +21,23 @@ class UsersTableSeeder extends Seeder
             'email' => 'admin@mail.pt',
             'password' => bcrypt('admin123'),
             'admin' => true,
-            'phone' => '911111111'
         ]);
 
         factory(App\User::class)->create([
             'email' => 'user@mail.pt',
             'password' => bcrypt('user123'),
-            'admin' => false,
-            'phone' => '911111111'
         ]);
 
         factory(App\User::class)->create([
             'email' => 'blocked@mail.pt',
             'password' => bcrypt('user123'),
-            'admin' => false,
-            'phone' => '911111111',
             'blocked' => 1,
+        ]);
+
+        $this->command->table(['Users table seeder notice'], [
+            ['Profile photos will be stored on path '.storage_path('app/'.$this->photoPath)],
+            ['A progress bar is displayed because photos will be downloaded from lorempixel'],
+            ['Edit this file to change the storage path or the number of users']
         ]);
 
         $this->command->table(['Users table seeder notice'], [
@@ -112,7 +113,7 @@ class UsersTableSeeder extends Seeder
             'phone' => $faker->randomElement([null, $faker->phoneNumber]),
             'presentation' => $faker->randomElement([null, $faker->realText]),
             'profile_url' => $faker->randomElement([null, $faker->url]),
-            'profile_photo' =>  $faker->randomElement([$faker->image(storage_path('app/'.$this->photoPath), 180, 180, 'people', false)]),
+            'profile_photo' => $faker->randomElement([null, $faker->image(storage_path('app/'.$this->photoPath), 180, 180, 'people', false)]),
             'department_id' => $departmentId,
             'activated' => true,
             'created_at' => $createdAt,
