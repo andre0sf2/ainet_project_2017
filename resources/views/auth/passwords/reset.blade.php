@@ -1,3 +1,8 @@
+@extends('layouts.app')
+
+@section('title', 'Password Reset')
+
+@section('content')
 
 <div class="container">
     <div class="row">
@@ -12,7 +17,7 @@
                         </div>
                     @endif
 
-                    <form class="form-horizontal" role="form" method="POST" action="{{ route('password.request') }}">
+                    <form class="form-horizontal" role="form" method="POST" action="{{ url('password/reset') }}">
                         {{ csrf_field() }}
 
                         <input type="hidden" name="token" value="{{ $token }}">
@@ -72,3 +77,4 @@
     </div>
 </div>
 
+@endsection

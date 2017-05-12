@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Department;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -21,7 +22,7 @@ class AdminController extends Controller
         $comments = Comment::where('blocked', 1)->get();
 
         $departments = Department::all();
-        $requests = \App\Request::where('status', 0)->get();
+        $requests = \App\Request::where('status', 0)->where('due_date', '>=', Carbon::now())->get();
 
         return view('admin.dashboard',  compact('users', 'blockedUsers', 'comments', 'departments', 'requests'));
     }

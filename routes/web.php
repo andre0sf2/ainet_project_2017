@@ -31,9 +31,13 @@ Route::get('/users', 'UserController@listUsers')->name('users.list');
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
 
 
+//PASSWORD RESET
+Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@passwordReset')->name('password.reset');
+Route::get('/password/reset', 'Auth\ResetPasswordController@passwordReset')->name('password.reset');
+Route::get('/password/email', 'Auth\ForgotPasswordController@emailPassword')->name('password.email');
+
+
 //AUTH
-Route::get('/password/reset', 'HomeController@emailPassword')->name('password.request');
-//Route::get('/email/reset', 'HomeController@passwordReset')->name('password.email');
 Route::get('/login', 'HomeController@login')->name('auth.login');
 Route::get('/register', 'HomeController@register')->name('auth.register');
 

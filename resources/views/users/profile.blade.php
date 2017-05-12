@@ -23,6 +23,8 @@
             <p><strong>User since:</strong> {{ $user->created_at }}</p>
             @if(!is_null($user->phone))
                 <p><strong>Phone number:</strong> {{ $user->phone }}</p>
+            @else
+                <p><strong>Phone number:</strong> No Phone Found</p>
             @endif
             <p><strong>Department:</strong> {{ $user->department->name }}</p>
             @if($user->admin)

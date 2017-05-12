@@ -9,6 +9,7 @@
                     <th>Owner</th>
                     <th>Color Type</th>
                     <th>Created at</th>
+                    <th>Due Date</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -27,6 +28,9 @@
                         @endif
                         <td>
                             {{ $request->created_at }}
+                        </td>
+                        <td>
+                            {{ $request->due_date }}
                         </td>
                         <td class="col-md-2 inline">
                             @if (Auth::user() && Auth::user()->isAdmin())

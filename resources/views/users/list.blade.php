@@ -37,10 +37,10 @@
                 <tbody>
         @foreach($users as $user)
             <tr>
-                <td>{{$user->name}}</td>
-                <td>{{$user->email}}</td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
                 @if(!is_null($user->phone))
-                    <td>{{$user->phone}}</td>
+                    <td>{{ $user->phone }}</td>
                 @else
                     <td>No Phone Number</td>
                 @endif
