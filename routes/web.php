@@ -76,6 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/users/revoke', 'AdminController@revokeAdmin')->name('admin.revoke');
 
         Route::post('/request/accept', 'RequestController@acceptRequest')->name('request.accept');
+        Route::post('/request/refuse', 'RequestController@refuseRequest')->name('request.refuse');
     });
 });
 

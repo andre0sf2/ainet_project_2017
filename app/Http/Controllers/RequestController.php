@@ -34,7 +34,7 @@ class RequestController extends Controller
     {
         $request = \App\Request::where('id', $id)->first();
         $departments = Department::all();
-        $comments = Comment::where('request_id', $id)->orderBy('created_at', 'DESC')->get();
+        $comments = Comment::where('request_id', $id)->orderBy('created_at', 'DESC')->where('blocked', 0)->get();
 
         return view('requests.details', compact('request', 'departments', 'comments'));
     }

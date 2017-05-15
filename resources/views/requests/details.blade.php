@@ -122,6 +122,19 @@
                             </h4>
                             <hr>
                             <p>{{$comment->comment}}</p>
+
+                            @if(Auth::user()->isAdmin())
+                                <hr>
+                                <div style="margin-left: 93%">
+                                    <form method="POST" action="{{route('comment.block')}}">
+                                        <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                        <input type="hidden" name="request_id" value="{{$request->id}}">
+                                        <button type="submit" class="btn btn-danger" action="">Block
+                                        </button>
+                                        {{csrf_field()}}
+                                    </form>
+                                </div>
+                            @endif
                         </div>
 
 
@@ -161,6 +174,20 @@
                                             </h4>
                                             <hr>
                                             <p>{{$c->comment}}</p>
+
+                                            @if(Auth::user()->isAdmin())
+                                                <hr>
+                                                <div style="margin-left: 93%">
+                                                    <form method="POST" action="{{route('comment.block')}}">
+                                                        <input type="hidden" name="comment_id" value="{{$c->id}}">
+                                                        <input type="hidden" name="request_id" value="{{$request->id}}">
+                                                        <button type="submit" class="btn btn-danger" action="">Block
+                                                        </button>
+                                                        {{csrf_field()}}
+                                                    </form>
+                                                </div>
+                                            @endif
+
                                         </div>
 
                                         @if(Auth::user())

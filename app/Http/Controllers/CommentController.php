@@ -12,7 +12,7 @@ class CommentController extends Controller
 
         Comment::where('id', $request->input('comment_id'))->update(['blocked' => 1]);
 
-        return redirect()->route('product.show' . $request->input('advertisement_id'))->with('success', 'Comment blocked with success!');
+        return redirect()->route('request.view', $request->input('request_id'))->with('success', 'Comment blocked with success!');
     }
 
     public function unblockComment(Request $request)
