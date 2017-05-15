@@ -116,15 +116,15 @@
                             </div>
 
                             <hr>
-                            <div class="form-group{{ $errors->has('profile_url') ? ' has-error' : '' }}">
-                                <label for="profile_url" class="col-md-4 control-label">Presentation</label>
+                            <div class="form-group{{ $errors->has('presentation') ? ' has-error' : '' }}">
+                                <label for="presentation" class="col-md-4 control-label">Presentation</label>
 
                                 <div class="col-md-6">
                                     <textarea style="resize:none; width:100%;" id="presentation" name="presentation" type="text" rows="5" placeholder="Describe yourself here..."></textarea>
 
-                                    @if ($errors->has('profile_url'))
+                                    @if ($errors->has('presentation'))
                                         <span class="help-block">
-                                        <strong>{{ $errors->first('profile_url') }}</strong>
+                                        <strong>{{ $errors->first('presentation') }}</strong>
                                     </span>
                                     @endif
                                 </div>

@@ -84,7 +84,7 @@
 
                                 <div class="col-md-6">
                                     <input id="profile_url" type="text" class="form-control" name="profile_url"
-                                           value="{{ old( 'profile_url', $user->profile_url) }}" autofocus>
+                                           value="{{ old( 'profile_url', $user->profile_url) }}" autofocus placeholder="Profile URL">
 
                                     @if ($errors->has('profile_url'))
                                         <span class="help-block">
@@ -119,8 +119,8 @@
                             </div>
 
                             <hr>
-                            <div class="form-group{{ $errors->has('profile_url') ? ' has-error' : '' }}">
-                                <label for="profile_url" class="col-md-4 control-label">Presentation</label>
+                            <div class="form-group{{ $errors->has('presentation') ? ' has-error' : '' }}">
+                                <label for="presentation" class="col-md-4 control-label">Presentation</label>
 
                                 <div class="col-md-6">
                                     @if(is_null($user->presentation))
@@ -129,9 +129,9 @@
                                         <textarea style="resize:none; width:100%;" id="presentation" name="presentation" type="text" rows="5">{{ old('presentation', $user->presentation) }}</textarea>
                                     @endif
 
-                                    @if ($errors->has('profile_url'))
+                                    @if ($errors->has('presentation'))
                                         <span class="help-block">
-                                        <strong>{{ $errors->first('profile_url') }}</strong>
+                                        <strong>{{ $errors->first('presentation') }}</strong>
                                     </span>
                                     @endif
                                 </div>

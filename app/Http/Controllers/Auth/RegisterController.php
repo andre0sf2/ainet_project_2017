@@ -53,7 +53,7 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
             'phone' => 'required|min:9|max:254',
-            'department' => 'required|not_in:0'
+            'department' => 'required|not_in:0',
         ]);
     }
 
@@ -75,16 +75,18 @@ class RegisterController extends Controller
             Image::make($avatar)->resize(300,300)->save(storage_path('app/public/profiles/'.$filename));
         }
 
-        if(array_key_exists('presentation')){
+        if(array_key_exists('presentation', $data)){
             Validator::validate($data, [
-
+                'presentation' => 'max:255'
             ]);
+            $presentation = $data['presentation'];
         }
 
-        if(array_key_exists('profile_url')){
+        if(array_key_exists('profile_url', $data)){
             Validator::validate($data, [
-
+                'profile_url' => 'max:255',
             ]);
+            $profileUrl = $data['profile_url'];
         }
 
         return User::create([
@@ -93,7 +95,9 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
             'phone' => $data['phone'],
             'profile_photo' => $filename,
-            'department_id' => $data['department']
+            'department_id' => $data['department'],
+            'presentation' => $presentation,
+            'profile_url' => $profileUrl,
         ]);
     }
 }

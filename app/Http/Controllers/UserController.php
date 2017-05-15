@@ -34,12 +34,16 @@ class UserController extends Controller
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,id,'.$user->id,
             'phone' => 'required|min:9|max:255',
+            'presentation' => 'max:255',
+            'profile_url' => 'max:255',
         ]);
 
         $user->name = $request->input('name');
         $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->department_id = $request->input('department');
+        $user->presentation = $request->input('presentation');
+        $user->profile_url = $request->input('profile_url');
 
         if ($request->has('password')){
             $this->validate($request, [
@@ -49,16 +53,9 @@ class UserController extends Controller
             $user->password = bcrypt($request->input('password'));
         }
 
-        if($request->has('presentation')){
-            $this->validate($request, [
-                'presentation' => 'max:255',
-            ]);
-            $user->presentation = $request->input('presentation');
-        }
-
         if($request->hasFile('avatar')){
             if(!is_null($user->profile_photo)){
-                unlink('app/public/profiles/' . $user->profile_photo);
+                unlink(storage_path('app/public/profiles/' . $user->profile_photo));
             }
 
             $avatar = $request->file('avatar');
