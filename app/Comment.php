@@ -17,4 +17,9 @@ class Comment extends Model
     {
         return $this->belongsTo(Request::class, 'request_id');
     }
+
+    public function parent()
+    {
+        return $this->belongsTo(Comment::class, 'parent_id');
+    }
 }

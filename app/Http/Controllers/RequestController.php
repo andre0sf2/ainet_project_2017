@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use App\Department;
 use App\Resquest;
 use Illuminate\Http\Request;
@@ -33,8 +34,9 @@ class RequestController extends Controller
     {
         $request = \App\Request::where('id', $id)->first();
         $departments = Department::all();
+        $comments = Comment::where('request_id', $id)->get();
 
-        return view('requests.details', compact('request', 'departments'));
+        return view('requests.details', compact('request', 'departments', 'comments'));
     }
 
     public function refuseRequest()
