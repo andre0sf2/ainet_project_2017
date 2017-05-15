@@ -26,4 +26,9 @@ class RequestController extends Controller
     {
         return redirect()->route('admin.dashboard')->with('success', 'Entrei Aqui CRLH!');
     }
+
+    public function refuseRequest()
+    {
+        return redirect()->route('admin.dashboard')->with('errors', ['Tambem entrei aqui']);
+    }
 }

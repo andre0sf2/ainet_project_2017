@@ -32,13 +32,22 @@
                         <td>
                             {{ $request->due_date }}
                         </td>
-                        <td class="col-md-2 inline">
+                        <td class="col-md-3 inline">
                             @if (Auth::user() && Auth::user()->isAdmin())
-                                <form action="{{ route('request.accept') }}" method="post">
-                                    <input type="hidden" name="comment_id" value="{{$request->id}}">
-                                    <button type="submit" class="btn btn-xs btn-success">Accept</button>
-                                    {{csrf_field()}}
-                                </form>
+                                <div class="col-md-3">
+                                    <form action="{{ route('request.accept') }}" method="post">
+                                        <input type="hidden" name="comment_id" value="{{$request->id}}">
+                                        <button type="submit" class="btn btn-xs btn-success">Accept</button>
+                                        {{csrf_field()}}
+                                    </form>
+                                </div>
+                                <div class="col-md-3">
+                                    <form action="{{ route('request.refuse') }}" method="post">
+                                        <input type="hidden" name="comment_id" value="{{$request->id}}">
+                                        <button type="submit" class="btn btn-xs btn-danger">Refuse</button>
+                                        {{csrf_field()}}
+                                    </form>
+                                </div>
                             @endif
                         </td>
                     </tr>

@@ -28,18 +28,33 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
+        $user = User::where('id', $request->input('user_id'))->first();
+
         $this->validate($request, [
             'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users,id,'.$user->id,
             'phone' => 'required|min:9|max:255',
         ]);
 
-        $user = User::where('id', $request->input('user_id'))->first();
-
         $user->name = $request->input('name');
+        $user->email = $request->input('email');
         $user->phone = $request->input('phone');
         $user->department_id = $request->input('department');
 
+        if ($request->has('password')){
+            $this->validate($request, [
+                'password' => 'min:8|confirmed',
+            ]);
 
+            $user->password = bcrypt($request->input('password'));
+        }
+
+        if($request->has('presentation')){
+            $this->validate($request, [
+                'presentation' => 'max:255',
+            ]);
+            $user->presentation = $request->input('presentation');
+        }
 
         if($request->hasFile('avatar')){
             if(!is_null($user->profile_photo)){

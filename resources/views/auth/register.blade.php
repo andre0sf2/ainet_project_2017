@@ -47,7 +47,7 @@
                                 <label for="phone" class="col-md-4 control-label">Phone Number</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="number" class="form-control" name="phone"
+                                    <input id="phone" type="text" class="form-control" name="phone"
                                            value="{{ old('phone') }}" required min="9">
 
                                     @if ($errors->has('phone'))
@@ -76,6 +76,22 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('profile_url') ? ' has-error' : '' }}">
+                                <label for="profile_url" class="col-md-4 control-label">Profile URL</label>
+
+                                <div class="col-md-6">
+                                    <input id="profile_url" type="text" class="form-control" name="profile_url"
+                                           value="{{ old( 'profile_url') }}" autofocus>
+
+                                    @if ($errors->has('profile_url'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('profile_url') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+                            <hr>
+
                             <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                                 <label for="password" class="col-md-4 control-label">Password</label>
 
@@ -99,6 +115,23 @@
                                 </div>
                             </div>
 
+                            <hr>
+                            <div class="form-group{{ $errors->has('profile_url') ? ' has-error' : '' }}">
+                                <label for="profile_url" class="col-md-4 control-label">Presentation</label>
+
+                                <div class="col-md-6">
+                                    <textarea style="resize:none; width:100%;" id="presentation" name="presentation" type="text" rows="5" placeholder="Describe yourself here..."></textarea>
+
+                                    @if ($errors->has('profile_url'))
+                                        <span class="help-block">
+                                        <strong>{{ $errors->first('profile_url') }}</strong>
+                                    </span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <hr>
+
                             <div class="form-group">
                                 <label class="col-md-4 control-label" for="avatar">Profile Photo</label>
                                 <div class="col-md-6">
@@ -106,6 +139,7 @@
                                     <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 </div>
                             </div>
+                            <hr>
 
                             <div class="form-group">
                                 <div class="col-md-6 col-md-offset-4">
