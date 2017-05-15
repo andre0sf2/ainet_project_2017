@@ -54,6 +54,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/print/request', 'RequestController@createRequest')->name('print.request');
     Route::get('/list/request', 'RequestController@listRequest')->name('request.list');
+    //rota para detalhes dos pedidos
+    Route::get('/request/{id}', 'RequestController@viewRequest')->name('request.view');
 
 });
 

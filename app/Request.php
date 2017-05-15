@@ -13,7 +13,7 @@ class Request extends Model
      * @var array
      */
     protected $fillable = [
-        'owner_id', 'status', 'open_date', 'quantity', 'description','colored'
+        'owner_id', 'status', 'open_date', 'quantity', 'description','colored',
     ];
 
     public function printer()
@@ -35,4 +35,9 @@ class Request extends Model
     {
         return $this->hasOne(User::class, 'closed_user_id');
     }
+
+    /*public function department()
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }*/
 }
