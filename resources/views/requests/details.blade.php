@@ -4,6 +4,15 @@
 
 @section('content')
     <div class="container">
+
+        @if(session('success'))
+            @include('partials.success')
+        @endif
+
+        @if(session('errors'))
+            @include('partials.errors')
+        @endif
+
         <br>
         <div>
             <p><strong><h3>More details about Prints</h3></strong></p>
@@ -14,59 +23,61 @@
             <p><strong>Department:</strong> {{ $request->owner->department->name }}</p>
 
             <p><strong>Email:</strong> {{ $request->owner->email }}</p>
-            <p><strong>Phone Number:</strong></p> @if($request->owner->phone == null)
-                <p>No phone number available</p>
+            @if(is_null($request->owner->phone))
+                <p><strong>Phone Number:</strong>No phone number available</p>
             @else
-                <p>{{$request->owner->phone}}</p>
+                <p><strong>Phone Number:</strong>{{$request->owner->phone}}</p>
             @endif
             <p><strong>Date:</strong> {{ $request->due_date }}</p>
             <br>
-            <p><strong><h4>Details about the request:</h4></strong></p>
-            <p><strong>Color:</strong></p> @if($request->colored == 0)
-                <p>Black and White</p>
+            <h4><strong>Details about the request:</strong></h4>
+
+            @if($request->colored == 0)
+                <p><strong>Color:</strong> Black and White</p>
             @else
                 <p>Colored</p>
             @endif
-            <p><strong>Single Paged or Both Sides:</strong></p>@if($request->front_back == 0)
-                <p>Single paged</p>
+
+            @if($request->front_back == 0)
+                <p><strong>Single Paged or Both Sides:</strong> Single paged</p>
             @else
-                <p>Printed on both sides</p>
-            @endif
-            <p><strong>Description:</strong></p> @if($request->description == null)
-                <p>No description</p>
-            @else
-                <p>
-                    {{$request->description}}</p>
+                <p><strong>Single Paged or Both Sides:</strong> Printed on both sides</p>
             @endif
 
-            <p><strong>Stapled:</strong></p>@if($request->stapled == 0)
-                <p>No</p>
+            @if($request->description == null)
+                <p><strong>Description:</strong>No description</p>
             @else
-                <p>Yes</p>
+                <p><strong>Description:</strong>{{$request->description}}</p>
             @endif
 
-            <p><strong>Paper Size:</strong></p>@if($request->paper_size == 3)
-                <p>A3</p>
+            @if($request->stapled == 0)
+                <p><strong>Stapled:</strong> No</p>
             @else
-                <p>A4</p>
+                <p><strong>Stapled:</strong> Yes</p>
             @endif
 
-            <p><strong>Type of paper:</strong></p>@if($request->paper_type == 0)
-                <p>Draft Copy</p>
+            @if($request->paper_size == 3)
+                <p><strong>Paper Size:</strong> A3</p>
+            @else
+                <p><strong>Paper Size:</strong> A4</p>
+            @endif
+
+            @if($request->paper_type == 0)
+                <p><strong>Type of paper:</strong> Draft Copy</p>
             @elseif($request->paper_type == 1)
-                <p>Normal</p>
+                <p><strong>Type of paper:</strong> Normal</p>
             @else
-                <p>Photographic Paper</p>
+                <p><strong>Type of paper:</strong> Photographic Paper</p>
             @endif
 
-            <p><strong>File URL:</strong><a
-                        href="{{ $request->file }}">{{ $request->file }}</a></p>
-            <p><strong>Status of Print:</strong></p> @if($request->status == 2)
-                <p>Expired</p>
+            <p><strong>File URL:</strong><a href="{{ $request->file }}">{{ $request->file }}</a></p>
+
+            @if($request->status == 2)
+                <p><strong>Status of Print:</strong> Expired</p>
             @elseif($request->status == 1)
-                <p>Printed</p>
+                <p><strong>Status of Print:</strong> Printed</p>
             @else
-                <p>Waiting</p>
+                <p><strong>Status of Print:</strong> Waiting</p>
             @endif
 
         </div>
@@ -74,13 +85,112 @@
     <hr>
     <div class="container">
         <p><strong>Comments:</strong></p>
-        @foreach($comments as $comment)
-            <p><strong>{{$comment->owner->name}}: </strong>{{$comment->comment}}</p>
-            @if(!is_null($comment->parent))
-                <p style="margin-left: 10px"><strong>{{$comment->parent->owner->name}}: </strong>{{$comment->parent->comment}}</p>
-            @endif
-        @endforeach
+        @if(Auth::user())
+            <form class="form-group" method="POST"
+                  action="{{route('request.comment', $request->id)}}">
+                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                <input type="hidden" name="request_id" value="{{$request->id}}">
+                <div style="display: flex">
+                    <input type="textarea" class="form-control" rows="5" name="comment">
+                    <button type="submit" class="btn btn-primary pull-right"><i class="glyphicon glyphicon-send"></i> Leave
+                        a Comment
+                    </button>
+                </div>
+                {{csrf_field()}}
+            </form>
+            <hr>
+        @endif
+
+        <div class="media">
+
+            @foreach($comments as $comment)
+                @if (is_null($comment->parent_id))
+                    <a class="pull-left" href="{{ route('user.show', $comment->user_id) }}">
+                        @if(is_null($comment->owner->profile_photo))
+                            <img class="media-object" src="/uploads/avatars/default.png" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                        @else
+                            <img class="media-object" src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$comment->owner->profile_photo)) }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                        @endif
+                    </a>
+
+                    <div class="media-body">
+
+                        <div class="thumbnail" style="background-color: white">
+                            <p class="pull-right">({{ $comment->created_at }})</p>
+                            <h4 class="media-heading"><a
+                                        href="{{ route('user.show', $comment->user_id) }}">{{ $comment->owner->name }}</a>
+                            </h4>
+                            <hr>
+                            <p>{{$comment->comment}}</p>
+                        </div>
+
+
+                        @if(Auth::user())
+                            <form class="form-group" method="POST"
+                                  action="{{route('request.subComment', $request->id)}}">
+                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                <input type="hidden" name="request_id"
+                                       value="{{$request->id}}">
+                                <input type="hidden" name="parent_id" value="{{$comment->id}}">
+                                <div style="display: flex">
+                                    <input type="textarea" class="form-control" rows="5" name="comment">
+                                    <button type="submit" class="btn btn-primary"><i
+                                                class="glyphicon glyphicon-send"></i> Reply
+                                    </button>
+                                </div>
+                                {{csrf_field()}}
+                            </form>
+                            <hr>
+                        @endif
+                        <div class="media">
+                            @foreach ($comments as $c)
+                                @if($c->parent_id == $comment->id)
+                                    <a class="pull-left" href="{{ route('user.show', $c->user_id) }}">
+                                        @if(is_null($c->owner->profile_photo))
+                                            <img class="media-object" src="/uploads/avatars/default.png" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                                        @else
+                                            <img class="media-object" src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$c->owner->profile_photo)) }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                                        @endif
+                                    </a>
+                                    <div class="media-body">
+
+                                        <div class="thumbnail" style="background-color: white">
+                                            <p class="pull-right">({{ $c->created_at }})</p>
+                                            <h4 class="media-heading"><a
+                                                        href="{{ route('user.show', $c->user_id) }}">{{ $c->owner->name }}</a>
+                                            </h4>
+                                            <hr>
+                                            <p>{{$c->comment}}</p>
+                                        </div>
+
+                                        @if(Auth::user())
+                                            <form class="form-group" method="POST"
+                                                  action="{{route('request.subComment', $request->id)}}">
+                                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+                                                <input type="hidden" name="advertisement_id"
+                                                       value="{{$request->id}}">
+                                                <input type="hidden" name="parent_id" value="{{$comment->id}}">
+                                                <div style="display: flex">
+                                                    <input type="textarea" class="form-control" rows="5" name="comment">
+                                                    <button type="submit" class="btn btn-primary"><i
+                                                                class="glyphicon glyphicon-send"></i> Reply
+                                                    </button>
+                                                </div>
+                                                {{csrf_field()}}
+                                            </form>
+                                            <hr>
+                                        @endif
+                                    </div>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                    <hr>
+                @endif
+            @endforeach
+        </div>
     </div>
+
 
 
 

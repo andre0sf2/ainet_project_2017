@@ -22,4 +22,40 @@ class CommentController extends Controller
 
         return redirect()->route('admin.dashboard')->with('success', 'Comment unblocked with success!');
     }
+
+    public function insertComment(Request $request)
+    {
+        $requestId = $request->input('request_id');
+
+        if (strlen($request->input('comment')) > 1) {
+            $comment = Comment::create($request->all());
+
+
+            if (!$comment->save()) {
+                return redirect()->route('request.view', $requestId)->with('errors', ['message_error' => 'Error inserting your comment. Please, try again!']);
+            } else {
+                return redirect()->route('request.view', $requestId)->with('success', 'Comment inserted with success!');
+            }
+        }
+
+        return redirect()->route('request.view', $requestId)->with('errors', ['message_error' => 'You cannot insert an empty comment.']);
+    }
+
+    public function insertSubComment(Request $request)
+    {
+        $requestId = $request->input('request_id');
+
+        if (strlen($request->input('comment')) > 1) {
+            $newSubComment = Comment::create($request->all());
+            $newSubComment->save();
+
+            if (!$newSubComment->save()) {
+                return redirect()->route('request.view', $requestId)->with('errors', ['message_error' => 'Error inserting your comment. Please, try again!']);
+            } else {
+                return redirect()->route('request.view', $requestId)->with('success', 'Comment inserted with success!');
+            }
+        }
+
+        return redirect()->route('request.view', $requestId)->with('errors', ['message_error' => 'You cannot insert an empty comment.']);
+    }
 }
