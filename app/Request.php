@@ -35,9 +35,4 @@ class Request extends Model
     {
         return $this->hasOne(User::class, 'closed_user_id');
     }
-
-    /*public function department()
-    {
-        return $this->belongsTo(Department::class, 'department_id');
-    }*/
 }

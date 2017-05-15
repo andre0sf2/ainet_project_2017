@@ -148,7 +148,7 @@
                             </div>
                             <hr>
 
-                            <div class="form-group pull-right">
+                            <div class="form-group ">
                                 <div class="col-md-6 col-md-offset-4" style="display: flex">
                                     <button type="submit" class="btn btn-success">
                                         Save
