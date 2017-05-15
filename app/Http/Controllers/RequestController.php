@@ -28,11 +28,18 @@ class RequestController extends Controller
         return redirect()->route('admin.dashboard')->with('success', 'Entrei Aqui CRLH!');
     }
 
+
     public function viewRequest($id)
     {
         $request = \App\Request::where('id', $id)->first();
         $departments = Department::all();
 
         return view('requests.details', compact('request', 'departments'));
+    }
+
+    public function refuseRequest()
+    {
+        return redirect()->route('admin.dashboard')->with('errors', ['Tambem entrei aqui']);
+
     }
 }
