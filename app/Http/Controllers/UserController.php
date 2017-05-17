@@ -72,7 +72,7 @@ class UserController extends Controller
 
     public function listUsers()
     {
-        $users = User::where('blocked', 0)->orderBy('name')->paginate(12);
+        $users = User::where('blocked', 0)->orderBy('name')->paginate(6);
         $departments = Department::all();
 
         return view('users.list', compact('users', 'departments'));

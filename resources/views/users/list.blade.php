@@ -19,82 +19,112 @@
 
             <form class="form-group" method="POST" action="#">
                 <div class="form-group" style="display: flex;">
-                    <input name="search" type="text" class="form-control" placeholder="Search for..." style="width: 97%;"/>
-                    <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button></span>
+                    <input name="search" type="text" class="form-control" placeholder="Search for..."
+                           style="width: 97%;"/>
+                    <span class="input-group-btn"><button class="btn btn-default" type="button"><i
+                                    class="glyphicon glyphicon-search"></i></button></span>
                 </div>
                 {{csrf_field()}}
             </form>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>Fullname</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Member Since</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-        @foreach($users as $user)
-            <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                @if(!is_null($user->phone))
-                    <td>{{ $user->phone }}</td>
-                @else
-                    <td>No Phone Number</td>
-                @endif
-                <td>{{$user->created_at}}</td>
-                <td class="col-md-3 inline">
-                    <div class="col-md-2">
-                        <a class="btn btn-xs btn-primary" href="{{route('user.show', $user->id)}}">View</a>
+
+            <div class="row media">
+                @foreach($users as $user)
+                    <div class="col-sm-6">
+                        <div class="panel">
+                            <div class="panel-body p-t-10">
+                                <div class="media-main">
+                                    <a class="pull-left" href="{{route('user.show', $user->id)}}"
+                                       style="margin-right: 15%">
+                                        @if(is_null($user->profile_photo))
+                                            <img class="media-object" src="/uploads/avatars/default.png" alt=""
+                                                 style="width:144px; height:144px; top: 10px; left: 10px; border-radius: 50%;">
+                                        @else
+                                            <img class="media-object"
+                                                 src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$user->profile_photo)) }}"
+                                                 alt=""
+                                                 style="width:144px; height:144px; top: 10px; left: 10px; border-radius: 50%;">
+                                        @endif
+                                    </a>
+                                    <div class="media-body">
+                                        <div class="info">
+                                            <h4><a href="{{route('user.show', $user->id)}}">{{ $user->name }}</a></h4>
+                                            <p class="text-muted"><strong>Email: </strong>{{$user->email}}</p>
+                                            @if(!is_null($user->phone))
+                                                <p class="text-muted"><strong>Phone: </strong>{{ $user->phone }}</p>
+                                            @else
+                                                <p class="text-muted"><strong>Phone: </strong>No Phone Number</p>
+                                            @endif
+                                            <p class="text-muted">
+                                                <strong>Department: </strong>{{$user->department->name}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <hr>
+                                <ul class="social-links list-inline p-b-10" style="display: flex;">
+                                    <li>
+                                        <a class="btn btn-xs btn-primary"
+                                           href="{{route('user.show', $user->id)}}">View</a>
+                                    </li>
+
+                                    @if (Auth::user() && (Auth::user()->id == $user->id))
+                                        <li>
+                                            <a class="btn btn-xs btn-success"
+                                               href="{{ route('user.edit', $user->id) }}">Edit</a>
+                                        </li>
+                                    @endif
+                                    @if (Auth::user() && Auth::user()->isAdmin())
+                                        <li>
+                                            <form action="{{ route('user.block') }}" method="post">
+                                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                <button type="submit" class="btn btn-xs btn-danger">Block
+                                                </button>
+                                                {{csrf_field()}}
+                                            </form>
+                                        </li>
+
+                                        @if($user->admin != 1)
+                                            <li>
+                                                <form action="{{ route('admin.grant') }}" method="post">
+                                                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                    <button type="submit" class="btn btn-xs btn-alert">Grant Admin
+                                                    </button>
+                                                    {{csrf_field()}}
+                                                </form>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <form action="{{ route('admin.revoke') }}" method="post">
+                                                    <input type="hidden" name="user_id" value="{{$user->id}}">
+                                                    <button type="submit" class="btn btn-xs btn-danger">Revoke
+                                                        Admin
+                                                    </button>
+                                                    {{csrf_field()}}
+                                                </form>
+                                            </li>
+                                        @endif
+                                    @endif
+                                </ul>
+
+                            </div>
+                        </div>
                     </div>
-                    @if (Auth::user() && (Auth::user()->id == $user->id))
-                        <div class="col-md-2">
+                @endforeach
+            </div>
 
-                            <a class="btn btn-xs btn-success" href="{{ route('user.edit', $user->id) }}">Edit</a>
-                        </div>
-                    @endif
-                    @if (Auth::user() && Auth::user()->isAdmin())
-                        <div class="col-md-2">
-
-                            <form action="{{ route('user.block') }}" method="post">
-                                <input type="hidden" name="user_id" value="{{$user->id}}">
-                                <button type="submit" class="btn btn-xs btn-danger">Block</button>
-                                {{csrf_field()}}
-                            </form>
-                        </div>
-                        <div class="col-md-3">
-
-                            @if($user->admin != 1)
-                                <form action="{{ route('admin.grant') }}" method="post">
-                                    <input type="hidden" name="user_id" value="{{$user->id}}">
-                                    <button type="submit" class="btn btn-xs btn-alert">Grant Admin</button>
-                                    {{csrf_field()}}
-                                </form>
-                            @else
-                                <form action="{{ route('admin.revoke') }}" method="post">
-                                    <input type="hidden" name="user_id" value="{{$user->id}}">
-                                    <button type="submit" class="btn btn-xs btn-danger">Revoke Admin</button>
-                                    {{csrf_field()}}
-                                </form>
-                        </div>
-                            @endif
-                    @endif
-                </td>
-            </tr>
-                </tbody>
-        @endforeach
-            </table>
-        </div >
+        </div>
         <div style="text-align: center">
             {{ $users->links() }}
         </div>
-        @else
-            <div class="container">
-                <h2>No Users Found</h2>
-            </div>
-        @endif
+    @else
+        <div class="container">
+            <h2>No Users Found</h2>
+        </div>
+    @endif
+
+
 
 
 @endsection
+
