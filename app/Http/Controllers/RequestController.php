@@ -17,7 +17,7 @@ class RequestController extends Controller
 
     public function listRequest(){
 
-        $requests = \App\Request::query()->paginate(8);
+        $requests = \App\Request::orderBy('created_at', 'ASC')->paginate(10);
         $departments = Department::all();
 
         return view('requests.list', compact('departments', 'requests'));

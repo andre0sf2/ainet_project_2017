@@ -27,22 +27,22 @@
                 {{csrf_field()}}
             </form>
 
-            <div class="row media">
+            <div class="media row">
                 @foreach($users as $user)
                     <div class="col-sm-6">
                         <div class="panel">
-                            <div class="panel-body p-t-10">
+                            <div class="panel-body">
                                 <div class="media-main">
                                     <a class="pull-left" href="{{route('user.show', $user->id)}}"
-                                       style="margin-right: 15%">
+                                       style="margin-right: 13%">
                                         @if(is_null($user->profile_photo))
                                             <img class="media-object" src="/uploads/avatars/default.png" alt=""
-                                                 style="width:144px; height:144px; top: 10px; left: 10px; border-radius: 50%;">
+                                                 style="width:140px; height:140px; top: 10px; left: 10px; border-radius: 50%;">
                                         @else
                                             <img class="media-object"
                                                  src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$user->profile_photo)) }}"
                                                  alt=""
-                                                 style="width:144px; height:144px; top: 10px; left: 10px; border-radius: 50%;">
+                                                 style="width:140px; height:140px; top: 10px; left: 10px; border-radius: 50%;">
                                         @endif
                                     </a>
                                     <div class="media-body">
@@ -54,31 +54,29 @@
                                             @else
                                                 <p class="text-muted"><strong>Phone: </strong>No Phone Number</p>
                                             @endif
-                                            <p class="text-muted">
-                                                <strong>Department: </strong>{{$user->department->name}}</p>
+                                            <p class="text-muted"><strong>Department: </strong>{{$user->department->name}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-
                                 <hr>
-                                <ul class="social-links list-inline p-b-10" style="display: flex;">
-                                    <li>
-                                        <a class="btn btn-xs btn-primary"
-                                           href="{{route('user.show', $user->id)}}">View</a>
-                                    </li>
-
+                                <ul class="list-inline" style="display: flex;">
                                     @if (Auth::user() && (Auth::user()->id == $user->id))
                                         <li>
-                                            <a class="btn btn-xs btn-success"
+                                            <a class="btn btn-sm btn-success"
                                                href="{{ route('user.edit', $user->id) }}">Edit</a>
                                         </li>
                                     @endif
+                                    <li>
+                                        <a class="btn btn-sm btn-primary"
+                                           href="{{route('user.show', $user->id)}}">View</a>
+                                    </li>
+
                                     @if (Auth::user() && Auth::user()->isAdmin())
                                         <li>
                                             <form action="{{ route('user.block') }}" method="post">
                                                 <input type="hidden" name="user_id" value="{{$user->id}}">
-                                                <button type="submit" class="btn btn-xs btn-danger">Block
+                                                <button type="submit" class="btn btn-sm btn-danger">Block
                                                 </button>
                                                 {{csrf_field()}}
                                             </form>
@@ -88,7 +86,7 @@
                                             <li>
                                                 <form action="{{ route('admin.grant') }}" method="post">
                                                     <input type="hidden" name="user_id" value="{{$user->id}}">
-                                                    <button type="submit" class="btn btn-xs btn-alert">Grant Admin
+                                                    <button type="submit" class="btn btn-sm btn-alert">Grant Admin
                                                     </button>
                                                     {{csrf_field()}}
                                                 </form>
@@ -97,7 +95,7 @@
                                             <li>
                                                 <form action="{{ route('admin.revoke') }}" method="post">
                                                     <input type="hidden" name="user_id" value="{{$user->id}}">
-                                                    <button type="submit" class="btn btn-xs btn-danger">Revoke
+                                                    <button type="submit" class="btn btn-sm btn-danger">Revoke
                                                         Admin
                                                     </button>
                                                     {{csrf_field()}}

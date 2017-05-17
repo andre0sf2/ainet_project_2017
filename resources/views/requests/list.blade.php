@@ -35,7 +35,7 @@
                             <td>{{ $request->due_date }}</td>
                             <td class="col-md-3 inline">
                                 <div class="col-md-2">
-                                    <a class="btn btn-xs btn-primary" href="{{route('request.view', $request->id)}}">View</a>
+                                    <a class="btn btn-xs btn-primary" href="{{route('request.view', $request->id)}}">View Request</a>
                                 </div>
                             </td>
                         </tr>
