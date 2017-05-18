@@ -6,8 +6,8 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th>Name</th>
                     <th>Email</th>
-                    <th>Fullname</th>
                     <th>Registered At</th>
                     <th>Actions</th>
                 </tr>
@@ -15,8 +15,8 @@
                 <tbody>
                 @foreach($blockedUsers as $user)
                     <tr>
-                        <td>{{$user->email}}</td>
                         <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
                         <td>{{$user->created_at}}</td>
                         <td class="col-md-2 inline">
 

@@ -15,8 +15,9 @@
 
         <br>
         <div>
-            <p><strong><h3>More details about Prints</h3></strong></p>
+            <h2><strong>Details about the Request</strong></h2>
         </div>
+            <br>
 
         <div class="caption-full">
             <p><strong>Name:</strong> {{ $request->owner->name }}</p>
@@ -24,60 +25,54 @@
 
             <p><strong>Email:</strong> {{ $request->owner->email }}</p>
             @if(is_null($request->owner->phone))
-                <p><strong>Phone Number:</strong>No phone number available</p>
+                <p><strong>Phone Number:</strong> No phone number available</p>
             @else
-                <p><strong>Phone Number:</strong>{{$request->owner->phone}}</p>
+                <p><strong>Phone Number:</strong> {{$request->owner->phone}}</p>
             @endif
-            <p><strong>Date:</strong> {{ $request->due_date }}</p>
-            <br>
+            <br><hr>
+
+            <h5><strong>Date</strong></h5>
+            <div style="display: flex">
+                <p style="width: 100%"><strong>Create at:</strong> {{ $request->created_at }}</p>
+                <p style="width: 100%"><strong>Due Date:</strong> {{ $request->due_date }}</p>
+            </div>
+            <hr>
             <h4><strong>Details about the request:</strong></h4>
 
-            @if($request->colored == 0)
+            @if($request->colored)
+                <p><strong>Color:</strong> Colored</p>
+            @else
                 <p><strong>Color:</strong> Black and White</p>
-            @else
-                <p>Colored</p>
             @endif
 
-            @if($request->front_back == 0)
-                <p><strong>Single Paged or Both Sides:</strong> Single paged</p>
-            @else
+            @if($request->front_back)
                 <p><strong>Single Paged or Both Sides:</strong> Printed on both sides</p>
+            @else
+                <p><strong>Single Paged or Both Sides:</strong> Single paged</p>
             @endif
 
-            @if($request->description == null)
-                <p><strong>Description:</strong>No description</p>
+            @if(is_null($request->description))
+                <p><strong>Description: </strong>No description</p>
             @else
-                <p><strong>Description:</strong>{{$request->description}}</p>
+                <p><strong>Description: </strong>{{$request->description}}</p>
             @endif
 
-            @if($request->stapled == 0)
-                <p><strong>Stapled:</strong> No</p>
-            @else
+            @if($request->stapled)
                 <p><strong>Stapled:</strong> Yes</p>
+            @else
+                <p><strong>Stapled:</strong> No</p>
             @endif
 
-            @if($request->paper_size == 3)
-                <p><strong>Paper Size:</strong> A3</p>
-            @else
-                <p><strong>Paper Size:</strong> A4</p>
-            @endif
+            <p><strong>Paper Size:</strong> {{ $request->paperSizeToStr() }}</p>
 
-            @if($request->paper_type == 0)
-                <p><strong>Type of paper:</strong> Draft Copy</p>
-            @elseif($request->paper_type == 1)
-                <p><strong>Type of paper:</strong> Normal</p>
-            @else
-                <p><strong>Type of paper:</strong> Photographic Paper</p>
-            @endif
+            <p><strong>Type of paper:</strong> {{ $request->paperTypeToStr() }}</p>
 
-            <p><strong>File URL:</strong><a href="{{ $request->file }}">{{ $request->file }}</a></p>
+            <p><strong>File URL: </strong><a href="{{ $request->file }}">{{ $request->file }}</a></p>
 
-            @if($request->status == 2)
-                <p><strong>Status of Print:</strong> Expired</p>
-            @elseif($request->status == 1)
-                <p><strong>Status of Print:</strong> Printed</p>
-            @else
-                <p><strong>Status of Print:</strong> Waiting</p>
+            <p><strong>Status of Print:</strong> {{ $request->statusToStr() }}</p>
+
+            @if(!is_null($request->refused_reason))
+                <p><strong>Refuse reason: </strong>{{ $request->refused_reason }}</p>
             @endif
 
         </div>
@@ -107,9 +102,9 @@
                 @if (is_null($comment->parent_id))
                     <a class="pull-left" href="{{ route('user.show', $comment->user_id) }}">
                         @if(is_null($comment->owner->profile_photo))
-                            <img class="media-object" src="/uploads/avatars/default.png" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                            <img class="media-object" src="{{ asset('uploads/avatars/default.png') }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
                         @else
-                            <img class="media-object" src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$comment->owner->profile_photo)) }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                            <img class="media-object" src="{{ asset('storage/profiles/'.$comment->owner->profile_photo) }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
                         @endif
                     </a>
 
@@ -146,7 +141,7 @@
                                        value="{{$request->id}}">
                                 <input type="hidden" name="parent_id" value="{{$comment->id}}">
                                 <div style="display: flex">
-                                    <input type="textarea" class="form-control" rows="5" name="comment">
+                                    <input type="text" class="form-control" name="comment">
                                     <button type="submit" class="btn btn-primary"><i
                                                 class="glyphicon glyphicon-send"></i> Reply
                                     </button>
@@ -160,9 +155,9 @@
                                 @if($c->parent_id == $comment->id)
                                     <a class="pull-left" href="{{ route('user.show', $c->user_id) }}">
                                         @if(is_null($c->owner->profile_photo))
-                                            <img class="media-object" src="/uploads/avatars/default.png" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                                            <img class="media-object" src="{{ asset('uploads/avatars/default.png') }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
                                         @else
-                                            <img class="media-object" src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$c->owner->profile_photo)) }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
+                                            <img class="media-object" src="{{ asset('storage/profiles/'.$c->owner->profile_photo) }}" alt="" style="width:64px; height:64px; top: 10px; left: 10px; border-radius: 50%;">
                                         @endif
                                     </a>
                                     <div class="media-body">
@@ -198,7 +193,7 @@
                                                        value="{{$request->id}}">
                                                 <input type="hidden" name="parent_id" value="{{$comment->id}}">
                                                 <div style="display: flex">
-                                                    <input type="textarea" class="form-control" rows="5" name="comment">
+                                                    <input type="text" class="form-control" name="comment">
                                                     <button type="submit" class="btn btn-primary"><i
                                                                 class="glyphicon glyphicon-send"></i> Reply
                                                     </button>

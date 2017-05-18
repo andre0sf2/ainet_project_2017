@@ -40,7 +40,7 @@
                                                  style="width:140px; height:140px; top: 10px; left: 10px; border-radius: 50%;">
                                         @else
                                             <img class="media-object"
-                                                 src="data:image/jpeg;base64,{{ base64_encode(Storage::get('public/profiles/'.$user->profile_photo)) }}"
+                                                 src="{{ asset('storage/profiles/'.$user->profile_photo) }}"
                                                  alt=""
                                                  style="width:140px; height:140px; top: 10px; left: 10px; border-radius: 50%;">
                                         @endif

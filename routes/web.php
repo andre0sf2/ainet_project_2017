@@ -23,10 +23,10 @@ Auth::routes();
 //UTILIZADOR
 Route::get('/user/{id}', [
     'as' => 'user.show',
-    'uses' => 'UserController@showUser'
+    'uses' => 'HomeController@showUser'
 ]);
 
-Route::get('/users', 'UserController@listUsers')->name('users.list');
+Route::get('/users', 'HomeController@listUsers')->name('users.list');
 
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
 
@@ -67,8 +67,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['middleware' => 'admin'], function () {
         Route::get('/dashboard', 'AdminController@showDashboard')->name('admin.dashboard');
 
-        Route::post('/users/block', 'UserController@blockUser')->name('user.block');
-        Route::post('/users/unblock', 'UserController@unblockUser')->name('user.unblock');
+        Route::post('/users/block', 'AdminController@blockUser')->name('user.block');
+        Route::post('/users/unblock', 'AdminController@unblockUser')->name('user.unblock');
 
         Route::post('/comment/block', 'CommentController@blockComment')->name('comment.block');
         Route::post('/comment/unblock', 'CommentController@unblockComment')->name('comment.unblock');

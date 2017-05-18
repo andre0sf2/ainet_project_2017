@@ -6,9 +6,9 @@
     <div class="container">
         <div class="row">
             @if(is_null($user->profile_photo))
-                <img src="/uploads/avatars/default.png" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+                <img src="{{ asset('uploads/avatars/default.png') }}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
             @else
-                <img src="data:image/jpeg;base64,{{ base64_encode($file) }}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+                <img src="{{ asset('storage/profiles/'.$user->profile_photo) }}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
             @endif
             <h2><strong>{{$user->name}}'s Profile</strong></h2>
             @if (Auth::user() && (Auth::user()->id == $user->id))

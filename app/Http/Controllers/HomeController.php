@@ -81,6 +81,22 @@ class HomeController extends Controller
         return redirect()->route('index')->with('errors', ['errors' => 'You are currently blocked. Try again later.']);
     }
 
+    public function showUser($id)
+    {
+        $user = User::findOrFail($id);
+        $departments = Department::all();
+
+        return view('users.profile', compact('user', 'departments'));
+    }
+
+    public function listUsers()
+    {
+        $users = User::where('blocked', 0)->orderBy('name')->paginate(6);
+        $departments = Department::all();
+
+        return view('users.list', compact('users', 'departments'));
+    }
+
     public function login()
     {
         $departments = Department::all();
