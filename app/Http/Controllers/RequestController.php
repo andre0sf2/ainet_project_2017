@@ -49,7 +49,7 @@ class RequestController extends Controller
     public function listRequest()
     {
 
-        $requests = \App\Request::orderBy('created_at', 'ASC')->paginate(10);
+        $requests = \App\Request::query()->orderBy('created_at', 'ASC')->paginate(10);
         $departments = Department::all();
 
         return view('requests.list', compact('departments', 'requests'));
@@ -58,15 +58,15 @@ class RequestController extends Controller
 
     public function acceptRequest()
     {
-        return redirect()->route('admin.dashboard')->with('success', 'Entrei Aqui CRLH!');
+        return redirect()->route('admin.dashboard')->with('success', 'Entrei Aqui!');
     }
 
 
     public function viewRequest($id)
     {
-        $request = \App\Request::where('id', $id)->first();
+        $request = \App\Request::findOrFail($id);
         $departments = Department::all();
-        $comments = Comment::where('request_id', $id)->orderBy('created_at', 'DESC')->where('blocked', 0)->get();
+        $comments = $request->comment->where('blocked', 0);
 
         return view('requests.details', compact('request', 'departments', 'comments'));
     }

@@ -13,22 +13,12 @@ class UserController extends Controller
 {
     function __construct()
     {
-
-    }
-
-    public function showUser($id)
-    {
-        $user = User::where('id', $id)->first();
-        $departments = Department::all();
-
-        $file = Storage::get('public/profiles/'.$user->profile_photo);
-
-        return view('users.profile', compact('user', 'departments', 'file'));
+        $this->middleware('auth');
     }
 
     public function updateUser(Request $request)
     {
-        $user = User::where('id', $request->input('user_id'))->first();
+        $user = User::findOrFail($request->input('user_id'));
 
         $this->validate($request, [
             'name' => 'required|max:255',
@@ -70,42 +60,10 @@ class UserController extends Controller
         return redirect()->route('user.show', $user->id);
     }
 
-    public function listUsers()
-    {
-        $users = User::where('blocked', 0)->orderBy('name')->paginate(6);
-        $departments = Department::all();
-
-        return view('users.list', compact('users', 'departments'));
-    }
-
-    public function blockUser(Request $request)
-    {
-        $user = User::where('id', $request->input('user_id'))->first();
-        if (!$user->isAdmin()) {
-            User::where('id', $request->input('user_id'))->update(['blocked' => 1]);
-        }
-
-        $message = ['success' => 'User blocked with success.'];
-
-        return redirect()->route('users.list')->with($message);
-    }
-
-    public function unblockUser(Request $request)
-    {
-        $user = User::where('id', $request->input('user_id'))->first();
-        if (!$user->isAdmin()) {
-            User::where('id', $request->input('user_id'))->update(['blocked' => 0]);
-        }
-
-        $message = ['success' => 'User unblocked with success.'];
-
-        return redirect()->route('admin.dashboard')->with($message);
-    }
-
     public function editUser($id)
     {
         $departments = Department::all();
-        $user = User::where('id', $id)->first();
+        $user = User::findOrFail($id);
         if (Auth::user()->id == $user->id) {
 
             return view('users.edit', compact('user', 'departments'));

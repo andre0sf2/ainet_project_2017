@@ -7,7 +7,7 @@
                 <thead>
                 <tr>
                     <th>Owner</th>
-                    <th>Printer of Request</th>
+                    <th>Request Number</th>
                     <th>Comment</th>
                     <th>Actions</th>
                 </tr>

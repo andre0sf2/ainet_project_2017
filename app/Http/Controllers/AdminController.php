@@ -17,22 +17,21 @@ class AdminController extends Controller
 
     public function showDashboard($blockedUsers = null, $comments = null)
     {
-        $users = User::all();
         $blockedUsers = User::where('blocked', 1)->get();
         $comments = Comment::where('blocked', 1)->get();
 
         $departments = Department::all();
         $requests = \App\Request::where('status', 0)->where('due_date', '>=', Carbon::now())->get();
 
-        return view('admin.dashboard',  compact('users', 'blockedUsers', 'comments', 'departments', 'requests'));
+        return view('admin.dashboard',  compact( 'blockedUsers', 'comments', 'departments', 'requests'));
     }
 
     public function grantAdmin(Request $request)
     {
 
-        User::where('id', $request->input('user_id'))->update(['admin' => 1]);
+        User::findOrFail($request->input('user_id'))->update(['admin' => 1]);
 
-        $name = User::where('id', $request->input('user_id'))->value('name');
+        $name = User::findOrFail($request->input('user_id'))->value('name');
 
         $message = ['success' => "User $name is now admin!"];
 
@@ -41,12 +40,32 @@ class AdminController extends Controller
 
     public function revokeAdmin(Request $request)
     {
-        User::where('id', $request->input('user_id'))->update(['admin' => 0]);
+        User::findOrFail($request->input('user_id'))->update(['admin' => 0]);
 
-        $name = User::where('id', $request->input('user_id'))->value('name');
+        $name = User::findOrFail($request->input('user_id'))->value('name');
 
         $message = ['errors' => "User $name is no longer admin!"];
 
         return redirect()->route('users.list')->with('errors', $message);
+    }
+
+    public function blockUser(Request $request)
+    {
+        $user = User::findOrFail($request->input('user_id'));
+        if (!$user->isAdmin()) {
+            User::findOrFail($request->input('user_id'))->update(['blocked' => 1]);
+        }
+
+        return redirect()->route('users.list')->with('success', $user->name.' blocked with success.');
+    }
+
+    public function unblockUser(Request $request)
+    {
+        $user = User::findOrFail($request->input('user_id'));
+        if (!$user->isAdmin()) {
+            User::findOrFail($request->input('user_id'))->update(['blocked' => 0]);
+        }
+
+        return redirect()->route('admin.dashboard')->with('success', $user->name.' unblocked with success.');
     }
 }

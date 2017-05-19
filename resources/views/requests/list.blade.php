@@ -25,13 +25,7 @@
                     @foreach($requests as $request)
                         <tr>
                             <td>{{ $request->owner->name }}</td>
-                            @if($request->status == 2)
-                                <td>Expired</td>
-                            @elseif($request->status == 1)
-                                <td>Printed</td>
-                            @else
-                                <td>Waiting</td>
-                            @endif
+                            <td>{{ $request->statusToStr() }}</td>
                             <td>{{ $request->due_date }}</td>
                             <td class="col-md-3 inline">
                                 <div class="col-md-2">

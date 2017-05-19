@@ -13,8 +13,54 @@ class Request extends Model
      * @var array
      */
     protected $fillable = [
-        'owner_id', 'status', 'open_date', 'quantity', 'description','colored',
+        'owner_id', 'status', 'open_date', 'quantity', 'description','colored', 'paper_type', 'paper_size',
     ];
+
+    public function statusToStr()
+    {
+        switch ($this->status) {
+            case 0:
+                return 'Open';
+            case 1:
+                return 'Refuse';
+            case 2:
+                return 'Complete';
+            case 3:
+                return 'Expired';
+        }
+
+        return 'Unknown';
+    }
+
+    public function paperTypeToStr()
+    {
+        switch ($this->paper_type) {
+            case 0:
+                return 'Draft';
+            case 1:
+                return 'Normal';
+            case 2:
+                return 'Photo';
+        }
+
+        return 'Unknown';
+    }
+
+    public function paperSizeToStr()
+    {
+        switch ($this->paper_size) {
+            case 1:
+                return 'A1';
+            case 2:
+                return 'A2';
+            case 3:
+                return 'A3';
+            case 4:
+                return 'A4';
+        }
+
+        return 'Unknown';
+    }
 
     public function printer()
     {
