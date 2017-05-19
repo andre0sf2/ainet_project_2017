@@ -9,13 +9,45 @@ use Illuminate\Http\Request;
 
 class RequestController extends Controller
 {
-    public function createRequest(){
+    public function insertRequest(Request $request)
+    {
+        dd($request->input());
+
+        $request->validate($request, [
+            'date' => 'required',
+            'number' => 'required|min:1',
+            'colorPrint' => 'required',
+            'staples' => 'required',
+            'paperSize' => 'required',
+            'file' => 'required',
+        ]);
+
+        $filename = null;
+        $description = null;
+
+        if ($request->has('description')) {
+            Validator::validate($request, [
+                'description' => 'max:255'
+            ]);
+            $description = $request->input('description');
+        }
+
+        \App\Request::create([
+            'date' => $request->input('date'),
+            'number'
+        ]);
+
+    }
+
+    public function createRequest()
+    {
         $departments = Department::all();
 
         return view('requests.add', compact('departments'));
     }
 
-    public function listRequest(){
+    public function listRequest()
+    {
 
         $requests = \App\Request::orderBy('created_at', 'ASC')->paginate(10);
         $departments = Department::all();
@@ -44,4 +76,5 @@ class RequestController extends Controller
         return redirect()->route('admin.dashboard')->with('errors', ['Tambem entrei aqui']);
 
     }
+
 }
