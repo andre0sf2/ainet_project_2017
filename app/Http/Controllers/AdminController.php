@@ -29,7 +29,7 @@ class AdminController extends Controller
     public function grantAdmin(Request $request)
     {
 
-        User::findOrFail($request->input('user_id'))->update(['admin' => 1]);
+        User::where('id', $request->input('user_id'))->update(['admin' => 1]);
 
         $name = User::findOrFail($request->input('user_id'))->value('name');
 
@@ -40,7 +40,7 @@ class AdminController extends Controller
 
     public function revokeAdmin(Request $request)
     {
-        User::findOrFail($request->input('user_id'))->update(['admin' => 0]);
+        User::where('id', $request->input('user_id'))->update(['admin' => 0]);
 
         $name = User::findOrFail($request->input('user_id'))->value('name');
 
@@ -53,7 +53,7 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($request->input('user_id'));
         if (!$user->isAdmin()) {
-            User::findOrFail($request->input('user_id'))->update(['blocked' => 1]);
+            User::where('id', $request->input('user_id'))->update(['blocked' => 1]);
         }
 
         return redirect()->route('users.list')->with('success', $user->name.' blocked with success.');
@@ -63,7 +63,7 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($request->input('user_id'));
         if (!$user->isAdmin()) {
-            User::findOrFail($request->input('user_id'))->update(['blocked' => 0]);
+            User::where('id', $request->input('user_id'))->update(['blocked' => 0]);
         }
 
         return redirect()->route('admin.dashboard')->with('success', $user->name.' unblocked with success.');
