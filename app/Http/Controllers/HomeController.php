@@ -76,11 +76,6 @@ class HomeController extends Controller
         return view('index', compact('departments', 'lava', 'allRequests'));
     }
 
-    public function unauthorized()
-    {
-        return redirect()->route('index')->with('errors', ['errors' => 'You are currently blocked. Try again later.']);
-    }
-
     public function showUser($id)
     {
         $user = User::findOrFail($id);
@@ -116,5 +111,15 @@ class HomeController extends Controller
         $departments = Department::all();
 
         return view('about', compact('departments'));
+    }
+
+    public function unauthorized()
+    {
+        return redirect()->route('index')->with('errors', ['errors' => 'You are currently blocked. Try again later.']);
+    }
+
+    public function ativated()
+    {
+        return redirect()->route('index')->with('errors', ['errors' => 'Please check your email to verify the account!']);
     }
 }

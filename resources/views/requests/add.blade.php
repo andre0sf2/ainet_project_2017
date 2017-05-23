@@ -61,7 +61,6 @@
                             <label for="colorPrint" class="col-md-4 control-label">Color</label>
 
                             <div class="col-md-6">
-                                <input hidden id="colors" name="colors" value="0">
                                 <input id="colors" type="checkbox" class="radio-inline" name="colors" value="1" autofocus> Colored<br>
                             </div>
                         </div>
@@ -70,7 +69,6 @@
                             <label for="staples" class="col-md-4 control-label">Stapled</label>
 
                             <div class="col-md-6">
-                                <input hidden id="stapled" name="stapled" value="0">
                                 <input id="stapled" type="checkbox" class="radio-inline" name="stapled" value="1" autofocus> Stapled<br>
                             </div>
                         </div>
@@ -79,8 +77,8 @@
                             <label for="paperSize" class="col-md-4 control-label">Paper Size</label>
 
                             <div class="col-md-6">
-                                <input id="paper" type="radio" class="radio-inline" name="paperSize" value="a3" autofocus> A3<br>
-                                <input id="paper" type="radio" class="radio-inline" name="paperSize" value="a4" autofocus> A4<br>
+                                <input id="paper" type="radio" class="radio-inline" name="paperSize" value="3" autofocus> A3<br>
+                                <input id="paper" type="radio" class="radio-inline" name="paperSize" value="4" autofocus> A4<br>
                             </div>
                         </div>
 

@@ -28,6 +28,9 @@ class LoginController extends Controller
         if(Auth::user()->isBlocked()){
             Auth::logout();
             return route('unauthorized');
+        }elseif (!Auth::user()->isActivated()){
+            Auth::logout();
+            return route('ativated');
         }
 
         return '/';

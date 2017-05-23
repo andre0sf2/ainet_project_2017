@@ -48,16 +48,8 @@ class Request extends Model
 
     public function paperSizeToStr()
     {
-        switch ($this->paper_size) {
-            case 1:
-                return 'A1';
-            case 2:
-                return 'A2';
-            case 3:
-                return 'A3';
-            case 4:
-                return 'A4';
-        }
+        if($this->paper_size)
+            return 'A'.$this->paper_size;
 
         return 'Unknown';
     }
@@ -72,7 +64,7 @@ class Request extends Model
         return $this->belongsTo(User::class, 'owner_id');
     }
 
-    public function comment()
+    public function comments()
     {
         return $this->hasMany(Comment::class, 'request_id');
     }

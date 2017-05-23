@@ -30,6 +30,8 @@ Route::get('/users', 'HomeController@listUsers')->name('users.list');
 
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
 
+Route::get('/ativated', 'HomeController@ativated')->name('ativated');
+
 
 //PASSWORD RESET
 Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@passwordReset')->name('password.reset');

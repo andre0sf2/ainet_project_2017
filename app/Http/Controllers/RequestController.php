@@ -20,22 +20,14 @@ class RequestController extends Controller
             'staples' => 'required',
             'paperSize' => 'required',
             'file' => 'required',
+            'description' => 'max:255',
         ]);
 
-        $filename = null;
-        $description = null;
 
-        if ($request->has('description')) {
-            Validator::validate($request, [
-                'description' => 'max:255'
-            ]);
-            $description = $request->input('description');
-        }
 
-        \App\Request::create([
-            'date' => $request->input('date'),
-            'number'
-        ]);
+        $newRequest = new \App\Request($request->all());
+
+        dd($newRequest);
 
     }
 
@@ -49,7 +41,7 @@ class RequestController extends Controller
     public function listRequest()
     {
 
-        $requests = \App\Request::query()->orderBy('created_at', 'ASC')->paginate(10);
+        $requests = \App\Request::orderBy('created_at', 'ASC')->paginate(10);
         $departments = Department::all();
 
         return view('requests.list', compact('departments', 'requests'));
@@ -66,7 +58,7 @@ class RequestController extends Controller
     {
         $request = \App\Request::findOrFail($id);
         $departments = Department::all();
-        $comments = $request->comment->where('blocked', 0);
+        $comments = $request->comments->where('blocked', 0);
 
         return view('requests.details', compact('request', 'departments', 'comments'));
     }
