@@ -6,14 +6,29 @@ use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
-    protected $table = 'requests';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'owner_id', 'status', 'open_date', 'quantity', 'description','colored', 'paper_type', 'paper_size',
+        'owner_id',
+        'status',
+        'open_date',
+        'due_date',
+        'quantity',
+        'description',
+        'colored',
+        'paper_type',
+        'paper_size',
+        'file',
+        'closed_date',
+        'refused_reason',
+        'satisfaction_grade',
+        'stapled',
+        'front_back',
+        'printer_id',
+        'closed_user_id'
     ];
 
     public function statusToStr()

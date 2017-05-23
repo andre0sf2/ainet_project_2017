@@ -27,10 +27,15 @@
                             <td>{{ $request->owner->name }}</td>
                             <td>{{ $request->statusToStr() }}</td>
                             <td>{{ $request->due_date }}</td>
-                            <td class="col-md-3 inline">
-                                <div class="col-md-2">
+                            <td class="col-md-6 inline" style="display: flex">
+                                <div>
                                     <a class="btn btn-xs btn-primary" href="{{route('request.view', $request->id)}}">View Request</a>
                                 </div>
+                                @if(Auth::user()->id == $request->owner_id)
+                                    <div>
+                                        <a class="btn btn-xs btn-success" href="#">Edit Request</a>
+                                    </div>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

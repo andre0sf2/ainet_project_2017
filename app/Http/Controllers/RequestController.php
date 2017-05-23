@@ -7,28 +7,36 @@ use App\Department;
 use App\Resquest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller
 {
     public function insertRequest(Request $request)
     {
+        $filesPath = 'print-jobs';
 
         $this->validate($request, [
             'description' => 'required',
             'quantity' => 'required|integer|min:1',
             'paper_type' => 'required|not_in:-1',
-            'color' => 'required',
-            'stapled' =>'required',
             'paper_size' => 'required',
             'file' => 'required'
         ]);
 
+        //Guardar ficheiro na Storage
+        $file = $request->file('file');
+        Storage::makeDirectory($filesPath.'/'.Auth::user()->id);
+        $request->file('file')->store($filesPath.'/'.Auth::user()->id);
+
+
+        //criar novo request
         $newRequest = new \App\Request($request->all());
         $newRequest->owner_id = Auth::user()->id;
+        $newRequest->file = $file->hashName();
         $newRequest->status = 0;
-        //$newRequest->save();
-        dd($newRequest);
-        //return redirect()->route('request.view', $newRequest->id);
+        $newRequest->save();
+
+        return redirect()->route('request.view', $newRequest->id);
     }
 
     public function createRequest()

@@ -27,19 +27,11 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="date" class="col-md-4 control-label">Date</label>
-                            <div class="col-md-6">
-                                <input id="date" type="date" class="form-control" name="date"
-                                       value="{{old('date')}}" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="date_limit" class="col-md-4 control-label">Date Limit</label>
+                            <label for="due_date" class="col-md-4 control-label">Date Limit</label>
 
                             <div class="col-md-6">
-                                <input id="date_limit" type="date" class="form-control" name="date_limit"
-                                       value="{{old('date_limit')}}">
+                                <input id="due_date" type="date" class="form-control" name="due_date"
+                                       value="{{old('due_date')}}">
 
                             </div>
                         </div>
@@ -59,10 +51,10 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="colorPrint" class="col-md-4 control-label">Color</label>
+                            <label for="colored" class="col-md-4 control-label">Color</label>
 
                             <div class="col-md-6">
-                                <input id="colors" type="checkbox" class="radio-inline" name="colors" value="1" autofocus> Colored<br>
+                                <input id="colored" type="checkbox" class="radio-inline" name="colored" value="1" @if(old('colored')) checked @endif autofocus> Colored<br>
                             </div>
                         </div>
 
@@ -70,7 +62,7 @@
                             <label for="staples" class="col-md-4 control-label">Stapled</label>
 
                             <div class="col-md-6">
-                                <input id="stapled" type="checkbox" class="radio-inline" name="stapled" value="1" autofocus> Stapled<br>
+                                <input id="stapled" type="checkbox" class="radio-inline" name="stapled" value="1" @if(old('stapled')) checked @endif autofocus> Stapled<br>
                             </div>
                         </div>
 
@@ -95,9 +87,9 @@
                             <div class="col-md-6">
                                 <select name="paper_type" id="paper_type" class="form-control col-md-6">
                                     <option value="-1" disabled selected> -- select an option --</option>
-                                        <option value="0" @if(old('paper_type')) selected @endif>Draft Copy</option>
-                                        <option value="1">Normal</option>
-                                        <option value="2">Photographic paper</option>
+                                    <option value="0">Draft Copy</option>
+                                    <option value="1">Normal</option>
+                                    <option value="2">Photographic paper</option>
                                 </select>
                                 @if ($errors->has('paper_type'))
                                     <span class="help-block">
@@ -111,7 +103,7 @@
                         <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label" for="file">File</label>
                             <div class="col-md-6">
-                                <input type="file" name="file" accept="file/*">
+                                <input type="file" name="file" id="file" accept="">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}" required>
                                 @if ($errors->has('file'))
                                     <span class="help-block">
