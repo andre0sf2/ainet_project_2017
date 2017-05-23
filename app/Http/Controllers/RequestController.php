@@ -6,29 +6,29 @@ use App\Comment;
 use App\Department;
 use App\Resquest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
     public function insertRequest(Request $request)
     {
-        dd($request->input());
 
-        $request->validate($request, [
-            'date' => 'required',
-            'number' => 'required|min:1',
-            'colorPrint' => 'required',
-            'staples' => 'required',
-            'paperSize' => 'required',
-            'file' => 'required',
-            'description' => 'max:255',
+        $this->validate($request, [
+            'description' => 'required',
+            'quantity' => 'required|integer|min:1',
+            'paper_type' => 'required|not_in:-1',
+            'color' => 'required',
+            'stapled' =>'required',
+            'paper_size' => 'required',
+            'file' => 'required'
         ]);
 
-
-
         $newRequest = new \App\Request($request->all());
-
+        $newRequest->owner_id = Auth::user()->id;
+        $newRequest->status = 0;
+        //$newRequest->save();
         dd($newRequest);
-
+        //return redirect()->route('request.view', $newRequest->id);
     }
 
     public function createRequest()
