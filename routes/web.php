@@ -64,6 +64,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/request/subcomment/{id}', 'CommentController@insertSubComment')->name('request.subComment');
     Route::post('/request/comment/{id}', 'CommentController@insertComment')->name('request.comment');
 
+    Route::get('/request/edit/{id}', 'RequestController@editRequest')->name('request.edit');
+    Route::post('/request/edit/{id}', 'RequestController@updateRequest')->name('request.update');
+    Route::delete('request/delete/{id}', 'RequestController@destroy')->name('request.delete');
 
     //ADMIN
     Route::group(['middleware' => 'admin'], function () {

@@ -31,9 +31,21 @@
                                 <div>
                                     <a class="btn btn-xs btn-primary" href="{{route('request.view', $request->id)}}">View Request</a>
                                 </div>
+
                                 @if(Auth::user()->id == $request->owner_id && $request->status == 0)
+
                                     <div>
-                                        <a class="btn btn-xs btn-success" href="#">Edit Request</a>
+                                        <a class="btn btn-xs btn-success" href="{{route('request.edit',$request->id) }}">Edit Request</a>
+                                    </div>
+                                @endif
+                                @if(Auth::user()->id == $request->owner_id && $request->state == 0)
+                                    <div>
+                                        <form action="{{ route('request.delete', $request->id) }}" method="post">
+                                            {{ method_field('delete') }}
+                                            <input type="hidden" name="request_id" value="{{$request->id}}">
+                                            <button type="submit" class="btn btn-xs btn-danger">Delete Request</button>
+                                            {{csrf_field()}}
+                                        </form>
                                     </div>
                                 @endif
                             </td>
