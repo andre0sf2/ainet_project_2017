@@ -32,12 +32,15 @@ class HomeController extends Controller
         $lava = new Lavacharts();
         $reasons = $lava->DataTable();
 
-        $allRequests = count(\App\Request::all());
+        $allRequests = count(\App\Request::where('status', 2)->get());
+
+        $numBlackWhite = count(\App\Request::where('colored', 0)->where('status', 2)->get());
+        $numColored = count(\App\Request::where('colored', 1)->where('status', 2)->get());
 
         $reasons->addStringColumn('Prints')
             ->addNumberColumn('Percent')
-            ->addRow(['Black & White', count(\App\Request::where('colored', 0)->get())])
-            ->addRow(['Colored', count(\App\Request::where('colored', 1)->get())]);
+            ->addRow(['Black & White', $numBlackWhite])
+            ->addRow(['Colored', $numColored]);
 
         $lava->PieChart('Prints', $reasons, [
             'title'  => 'Colored vs Black & White',
@@ -50,30 +53,41 @@ class HomeController extends Controller
             ->addNumberColumn('Black & White')
             ->addNumberColumn('Colored');
 
-        $requests = \App\Request::whereMonth('closed_date', '=', date('m'))->get();
+        $requests = \App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '<=', date('d'))->where('status', 2)->get()->groupBy(function($date) {
+            return Carbon::parse($date->closed_date)->format('m-d');
+        });
 
-        
         foreach ($requests as $request){
+            $contColor = 0;
+            $contBlack = 0;
+            $date = null;
+            foreach ($request as $item){
+                $date = Carbon::parse($item->closed_date)->toDateString();
+                if($item->colored){
+                    $contColor++;
+                }else{
+                    $contBlack++;
+                }
+            }
             $finances->addRow([
-               $request->closed_date,
-                count(\App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '=', Carbon::parse($request->closed_date)->day)->where('colored', 0)->get()),
-                count(\App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '=', Carbon::parse($request->closed_date)->day)->where('colored', 1)->get())
+                $date,
+                $contBlack,
+                $contColor
             ]);
         }
 
-
-
-
         $lava->ColumnChart('Finances', $finances, [
-            'title' => 'Prints per Month',
+            'title' => 'Prints per Day',
             'titleTextStyle' => [
                 'color'    => '#eb6b2c',
                 'fontSize' => 14
             ]
         ]);
 
+        $todayPrint = count(\App\Request::where('status', 2)->whereDate('closed_date', date('Y-m-d'))->get());
 
-        return view('index', compact('departments', 'lava', 'allRequests'));
+
+        return view('index', compact('departments', 'lava', 'allRequests', 'todayPrint'));
     }
 
     public function showUser($id)

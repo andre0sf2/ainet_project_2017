@@ -26,8 +26,14 @@ class Department extends Model
     {
         $cont = 0;
         foreach ($this->users as $user){
-            $cont += count($user->requests);
+            //$cont += count($user->requests);
+            foreach ($user->requests as $request){
+                if ($request->status == 2){
+                    $cont++;
+                }
+            }
         }
+
         return $cont;
     }
 

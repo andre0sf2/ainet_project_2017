@@ -31,7 +31,7 @@
                                 <div>
                                     <a class="btn btn-xs btn-primary" href="{{route('request.view', $request->id)}}">View Request</a>
                                 </div>
-                                @if(Auth::user()->id == $request->owner_id)
+                                @if(Auth::user()->id == $request->owner_id && $request->status == 0)
                                     <div>
                                         <a class="btn btn-xs btn-success" href="#">Edit Request</a>
                                     </div>

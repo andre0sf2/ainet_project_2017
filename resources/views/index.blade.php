@@ -30,9 +30,12 @@
                 </div>
             @endforeach
         </div>
-        <div class="row" style="display: inline">
-            <div class="thumbnail" style="background-color: white">
+        <div class="row" style="display: inline;">
+            <div class="thumbnail col-md-6" style="background-color: white">
                 <h4><strong>All Prints: </strong>{{$allRequests}}</h4>
+            </div>
+            <div class="thumbnail col-md-6" style="background-color: white">
+                <h4><strong>Today Prints: </strong>{{$todayPrint}}</h4>
             </div>
         </div>
 
