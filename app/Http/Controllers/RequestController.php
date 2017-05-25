@@ -12,6 +12,11 @@ use Illuminate\Support\Facades\Storage;
 
 class RequestController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function insertRequest(Request $request)
     {
         $filesPath = 'print-jobs';
@@ -123,4 +128,15 @@ class RequestController extends Controller
 
         return redirect()->route('index')->with('success', 'Request number '.$id.' deleted with success');
     }
+
+    public function searchRequest(Request $request)
+    {
+        $departments = Department::all();
+        $requests = \App\Request::where(function ($query) use ($request) {
+
+        })->paginate(10);
+
+        return view('requests.list', compact('departments', 'requests'));
+    }
+
 }

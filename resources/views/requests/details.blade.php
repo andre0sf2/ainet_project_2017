@@ -31,7 +31,7 @@
             @endif
             <br><hr>
 
-            <h5><strong>Date</strong></h5>
+            <h4><strong>Details of Date</strong></h4>
             <div style="display: flex">
                 <p style="width: 100%"><strong>Create at:</strong> {{ $request->created_at }}</p>
                 <p style="width: 100%"><strong>Due Date:</strong> {{ $request->due_date }}</p>

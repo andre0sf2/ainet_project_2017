@@ -13,25 +13,16 @@
 
 // INDEX
 Route::get('/', 'HomeController@index')->name('index');
-
 Route::get('/about', 'HomeController@about')->name('about');
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
 //UTILIZADOR
-Route::get('/user/{id}', [
-    'as' => 'user.show',
-    'uses' => 'HomeController@showUser'
-]);
-
+Route::get('/user/{id}', 'HomeController@showUser')->name('user.show');
 Route::get('/users', 'HomeController@listUsers')->name('users.list');
-
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
-
 Route::get('/ativated', 'HomeController@ativated')->name('ativated');
-
 
 //PASSWORD RESET
 Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@passwordReset')->name('password.reset');
@@ -45,19 +36,14 @@ Route::get('/register', 'HomeController@register')->name('auth.register');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/user/edit/{id}', [
-        'as' => 'user.edit',
-        'uses' => 'UserController@editUser'
-    ]);
-    Route::post('/user/{id}', [
-        'as' => 'user.update',
-        'uses' => 'UserController@updateUser'
-    ]);
+    Route::get('/user/edit/{id}', 'UserController@editUser')->name('user.edit');
+    Route::post('/user/{id}', 'UserController@updateUser')->name('user.update');
 
     Route::get('/print/request', 'RequestController@createRequest')->name('print.request');
     Route::post('/print/request', 'RequestController@insertRequest')->name('print.insert');
 
     Route::get('/list/request', 'RequestController@listRequest')->name('request.list');
+    Route::get('/list', 'RequestController@searchRequest')->name('request.search');
     //rota para detalhes dos pedidos
     Route::get('/request/{id}', 'RequestController@viewRequest')->name('request.view');
 
@@ -70,6 +56,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     //ADMIN
     Route::group(['middleware' => 'admin'], function () {
+
         Route::get('/dashboard', 'AdminController@showDashboard')->name('admin.dashboard');
 
         Route::post('/users/block', 'AdminController@blockUser')->name('user.block');
@@ -78,10 +65,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/comment/block', 'CommentController@blockComment')->name('comment.block');
         Route::post('/comment/unblock', 'CommentController@unblockComment')->name('comment.unblock');
 
-
         Route::post('/users/grant', 'AdminController@grantAdmin')->name('admin.grant');
         Route::post('/users/revoke', 'AdminController@revokeAdmin')->name('admin.revoke');
 
+        //Verificar melhor estas rotas
+        //se aceitar escolher a impressora
+        //recusar dizer porque
         Route::post('/request/accept', 'RequestController@acceptRequest')->name('request.accept');
         Route::post('/request/refuse', 'RequestController@refuseRequest')->name('request.refuse');
     });

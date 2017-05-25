@@ -103,7 +103,10 @@
                         <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label" for="file">File</label>
                             <div class="col-md-6">
-                                <input type="file" name="file" id="file" accept="">
+                                <input type="file" name="file" id="file" accept=".odt,application/msword,
+                                    application/vnd.ms-excel, application/vnd.ms-powerpoint,
+                                    text/plain, application/pdf, image/*"
+                                >
                                 <input type="hidden" name="_token" value="{{csrf_token()}}" required>
                                 @if ($errors->has('file'))
                                     <span class="help-block">
