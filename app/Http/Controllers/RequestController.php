@@ -132,7 +132,23 @@ class RequestController extends Controller
     public function searchRequest(Request $request)
     {
         $departments = Department::all();
+
         $requests = \App\Request::where(function ($query) use ($request) {
+            $query->get();
+            if ($request->has('status') && $request->input('status') != -1){
+                $query->where('status', $request->input('status'))->get();
+            }
+            if ($request->has('owner')){
+                $query->where('owner_id', Auth::user()->id)->get();
+            }
+            if ($request->has('search')){
+                $users = User::where('name', 'like', '%'.$request->input('search').'%')->get();
+                $array = array();
+                foreach ($users as $user){
+                    array_push($array, $user->id);
+                }
+                $query->whereIn('owner_id', $array)->get();
+            }
 
         })->paginate(10);
 

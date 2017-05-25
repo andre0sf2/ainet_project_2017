@@ -4,23 +4,35 @@
 
 @section('content')
     <div class="container">
-        <form class="form-group" method="GET" action="{{ route('request.search') }}">
-            <div class="form-group" style="display: flex;">
-                <input name="search" type="text" class="form-control" placeholder="Search for..." style="width: 97%;"/>
-                <span class="input-group-btn"><button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button></span>
-            </div>
-            <div>
-                <input type="checkbox" value="1" id="check" name="check"> My Requests
-                <select id="status" name="status">
-                    <option>------------</option>
-                    <option value="0">Open</option>
-                    <option value="1">Refuse</option>
-                    <option value="2">Completed</option>
-                    <option value="3">Expired</option>
-                </select>
-            </div>
-            {{csrf_field()}}
-        </form>
+        <div class="jumbotron">
+            <form class="form-horizontal" role="form" action="{{ route('request.search') }}" method="GET">
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="search">User Name</label>
+                        <input placeholder="Search for..." class="form-control" type="text" name="search" id="search">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="date">Date Created</label>
+                        <input class="form-control" type="date" name="date" id="date">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="status">Status</label>
+                        <select name="status" id="status" class="form-control">
+                            <option value="-1">All Status</option>
+                            <option value="0">Open</option>
+                            <option value="1">Refused</option>
+                            <option value="2">Completed</option>
+                            <option value="3">Expired</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="owner">My Requests</label>
+                        <input type="checkbox" id="owner" name="owner" value="0">
+                    </div>
+                </div>
+                <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+            </form>
+        </div>
     @if(count($requests))
             <table class="table table-striped">
                 <thead>
