@@ -76,7 +76,24 @@
             @endif
 
         </div>
+            <div class="">
+                <p><strong>Rate this print:</strong></p>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-info" value="1">
+                        1 <span class="glyphicon glyphicon-star"></span>
+                    </button>
+                    <button type="button" class="btn btn-info" value="2">
+                        2 <span class="glyphicon glyphicon-star"></span>
+                    </button>
+                    <button type="button" class="btn btn-info" value="3">
+                        3 <span class="glyphicon glyphicon-star"></span>
+                    </button>
+                </div>
+            </div>
+
     </div>
+
+
     <hr>
     <div class="container">
         <p><strong>Comments:</strong></p>
