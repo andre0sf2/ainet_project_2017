@@ -21,10 +21,10 @@
                             {{ $request->owner->name }}
                         </td>
 
-                        @if($request->colored == 0)
-                            <td>Black and White</td>
-                        @else
+                        @if($request->colored)
                             <td>Colored</td>
+                        @else
+                            <td>Black and White</td>
                         @endif
                         <td>
                             {{ $request->created_at }}

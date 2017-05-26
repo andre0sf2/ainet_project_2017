@@ -42,6 +42,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/print/request', 'RequestController@createRequest')->name('print.request');
     Route::post('/print/request', 'RequestController@insertRequest')->name('print.insert');
 
+    //Requests do utilizador
+    Route::get('/myRequests', 'RequestController@userRequests')->name('request.user');
+
     Route::get('/list/request', 'RequestController@listRequest')->name('request.list');
     
     //rota para detalhes dos pedidos

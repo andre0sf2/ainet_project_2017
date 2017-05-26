@@ -119,6 +119,9 @@
                                         <li><a href="{{ route('admin.dashboard') }}"><span class="glyphicon glyphicon-cog"></span> Admin Dashboard</a></li>
                                     @endif
                                     <li>
+                                        <a href="{{ route('request.user') }}"><span class="glyphicon glyphicon-paperclip"></span> My Requests</a>
+                                    </li>
+                                    <li>
                                         <a href="{{ route('logout') }}"
                                             onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();"><span class="glyphicon glyphicon-log-out"></span> Logout</a>

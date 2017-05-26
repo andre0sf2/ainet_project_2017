@@ -57,16 +57,12 @@ class RequestController extends Controller
     {
         $departments = Department::all();
         $search = $request->input('search');
-        $owner = $request->input('owner');
         $status = $request->input('status');
         $date = $request->input('date');
 
         $requests = \App\Request::where(function ($query) use ($request) {
             if ($request->has('status') && $request->input('status') != -1){
                 $query->where('status', $request->input('status'))->get();
-            }
-            if ($request->has('owner')){
-                $query->where('owner_id', Auth::user()->id)->get();
             }
             if ($request->has('date')){
                 $query->whereDate('created_at', '=', Carbon::parse($request->input('date')))->get();
@@ -82,7 +78,7 @@ class RequestController extends Controller
 
         })->paginate(10);
 
-        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'owner', 'date'));
+        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'date'));
     }
 
 
@@ -146,10 +142,34 @@ class RequestController extends Controller
     {
         $filesPath = 'print-jobs';
         $request = \App\Request::findOrFail($id);
+
         unlink(storage_path('app/'.$filesPath.'/'.$request->owner_id.'/'.$request->file));
 
-        $request->delete();
+        $request->forceDelete();
 
         return redirect()->route('index')->with('success', 'Request number '.$id.' deleted with success');
+    }
+
+    public function userRequests(Request $request)
+    {
+        $departments = Department::all();
+
+        $status = $request->input('status');
+        $createdDate = $request->input('created_date');
+        $dueDate = $request->input('due_date');
+
+        $requests = \App\Request::where('owner_id', Auth::user()->id)->where(function ($query) use ($request){
+            if ($request->has('status') && $request->input('status') != -1){
+                $query->where('status', $request->input('status'))->get();
+            }
+            if ($request->has('created_date')){
+                $query->whereDate('created_at', '=', Carbon::parse($request->input('created_date')))->get();
+            }
+            if ($request->has('due_date')){
+                $query->whereDate('due_date', '=', Carbon::parse($request->input('due_date')))->get();
+            }
+        })->paginate(10);
+
+        return view('requests.user', compact('departments', 'requests', 'status', 'dueDate', 'createdDate'));
     }
 }
