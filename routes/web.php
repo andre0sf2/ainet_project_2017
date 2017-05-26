@@ -43,7 +43,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/print/request', 'RequestController@insertRequest')->name('print.insert');
 
     Route::get('/list/request', 'RequestController@listRequest')->name('request.list');
-    Route::get('/list', 'RequestController@searchRequest')->name('request.search');
+    
     //rota para detalhes dos pedidos
     Route::get('/request/{id}', 'RequestController@viewRequest')->name('request.view');
 

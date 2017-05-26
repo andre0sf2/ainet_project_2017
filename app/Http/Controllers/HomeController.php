@@ -98,12 +98,24 @@ class HomeController extends Controller
         return view('users.profile', compact('user', 'departments'));
     }
 
-    public function listUsers()
+    public function listUsers(Request $request)
     {
-        $users = User::where('blocked', 0)->orderBy('name')->paginate(6);
+        $search = $request->input('search');
+        $deparInput = $request->input('department');
         $departments = Department::all();
+        $users = User::where('blocked', 0)->where(function ($query) use ($request){
+            if ($request->has('department') && $request->input('department') != -1){
+                $query->where('department_id', '=',$request->input('department'))->get();
+            }
+            if ($request->has('search')){
+                $query->where('name', 'like', '%'.$request->input('search').'%')
+                    ->orWhere('email', 'like', '%'.$request->input('search').'%')
+                    ->orWhere('phone', 'like', '%'.$request->input('search').'%')
+                    ->get();
+            }
+        })->orderBy('name')->paginate(6);
 
-        return view('users.list', compact('users', 'departments'));
+        return view('users.list', compact('users', 'departments', 'search', 'deparInput'));
     }
 
     public function login()

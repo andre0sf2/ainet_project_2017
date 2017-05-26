@@ -17,15 +17,26 @@
             @endif
 
 
-            <form class="form-group" method="POST" action="#">
-                <div class="form-group" style="display: flex;">
-                    <input name="search" type="text" class="form-control" placeholder="Search for..."
-                           style="width: 97%;"/>
-                    <span class="input-group-btn"><button class="btn btn-default" type="button"><i
-                                    class="glyphicon glyphicon-search"></i></button></span>
+                <div class="jumbotron">
+                    <form class="form-horizontal" role="form" action="{{ route('users.list') }}" method="GET">
+                        <div class="row">
+                            <div class="form-group col-md-8">
+                                <label for="search">User Name or Email or Phone</label>
+                                <input placeholder="Search for..." class="form-control" type="text" name="search" id="search" value="{{ isset($search)?$search:'' }}">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="department">Department</label>
+                                <select name="department" id="department" class="form-control">
+                                    <option value="-1">All Departments</option>
+                                    @foreach($departments as $department)
+                                        <option value="{{ $department->id }}" @if(isset($deparInput) && $deparInput == $department->id) selected @endif>{{ $department->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+                    </form>
                 </div>
-                {{csrf_field()}}
-            </form>
 
             <div class="media row">
                 @foreach($users as $user)
@@ -113,7 +124,7 @@
 
         </div>
         <div style="text-align: center">
-            {{ $users->links() }}
+            {{ $users->appends(['search' => $search, 'department' => $deparInput])->links() }}
         </div>
     @else
         <div class="container">

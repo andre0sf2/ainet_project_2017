@@ -6,6 +6,7 @@ use App\Comment;
 use App\Department;
 use App\Resquest;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -52,13 +53,36 @@ class RequestController extends Controller
         return view('requests.add', compact('departments'));
     }
 
-    public function listRequest()
+    public function listRequest(Request $request)
     {
-
-        $requests = \App\Request::orderBy('created_at', 'ASC')->paginate(10);
         $departments = Department::all();
+        $search = $request->input('search');
+        $owner = $request->input('owner');
+        $status = $request->input('status');
+        $date = $request->input('date');
 
-        return view('requests.list', compact('departments', 'requests'));
+        $requests = \App\Request::where(function ($query) use ($request) {
+            if ($request->has('status') && $request->input('status') != -1){
+                $query->where('status', $request->input('status'))->get();
+            }
+            if ($request->has('owner')){
+                $query->where('owner_id', Auth::user()->id)->get();
+            }
+            if ($request->has('date')){
+                $query->whereDate('created_at', '=', Carbon::parse($request->input('date')))->get();
+            }
+            if ($request->has('search')){
+                $users = User::where('name', 'like', '%'.$request->input('search').'%')->get();
+                $array = array();
+                foreach ($users as $user){
+                    array_push($array, $user->id);
+                }
+                $query->whereIn('owner_id', $array)->get();
+            }
+
+        })->paginate(10);
+
+        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'owner', 'date'));
     }
 
 
@@ -128,31 +152,4 @@ class RequestController extends Controller
 
         return redirect()->route('index')->with('success', 'Request number '.$id.' deleted with success');
     }
-
-    public function searchRequest(Request $request)
-    {
-        $departments = Department::all();
-
-        $requests = \App\Request::where(function ($query) use ($request) {
-            $query->get();
-            if ($request->has('status') && $request->input('status') != -1){
-                $query->where('status', $request->input('status'))->get();
-            }
-            if ($request->has('owner')){
-                $query->where('owner_id', Auth::user()->id)->get();
-            }
-            if ($request->has('search')){
-                $users = User::where('name', 'like', '%'.$request->input('search').'%')->get();
-                $array = array();
-                foreach ($users as $user){
-                    array_push($array, $user->id);
-                }
-                $query->whereIn('owner_id', $array)->get();
-            }
-
-        })->paginate(10);
-
-        return view('requests.list', compact('departments', 'requests'));
-    }
-
 }
