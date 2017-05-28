@@ -6,6 +6,7 @@ use App\Department;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -69,5 +70,12 @@ class UserController extends Controller
             return view('users.edit', compact('user', 'departments'));
         }
         return redirect()->route('index');
+    }
+
+    public function activeUser($token)
+    {
+        dd(Password::all());
+
+        return redirect()->route('index')->with('success', 'Your account is now active, You can login.');
     }
 }

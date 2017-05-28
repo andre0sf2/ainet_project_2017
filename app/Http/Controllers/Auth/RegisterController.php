@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\PasswordReset;
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Intervention\Image\Facades\Image;
@@ -23,12 +28,22 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
+    private $user;
+
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+        if (!$this->user->isActivated()){
+            Auth::logout();
+            return route('ativated');
+        }
+
+        return '/';
+    }
 
     /**
      * Create a new controller instance.
@@ -69,6 +84,8 @@ class RegisterController extends Controller
         $profileUrl = null;
         $presentation = null;
 
+        $token = str_random(30);
+
         if(array_key_exists('avatar', $data)) {
             $avatar = $data['avatar'];
             $filename = str_replace(' ', '', $data['name']).time().'.'.$avatar->getClientOriginalExtension();
@@ -89,7 +106,7 @@ class RegisterController extends Controller
             $profileUrl = $data['profile_url'];
         }
 
-        return User::create([
+        $this->user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
@@ -99,5 +116,7 @@ class RegisterController extends Controller
             'presentation' => $presentation,
             'profile_url' => $profileUrl,
         ]);
+
+        return $this->user;
     }
 }

@@ -105,7 +105,7 @@ class HomeController extends Controller
         $departments = Department::all();
         $users = User::where('blocked', 0)->where(function ($query) use ($request){
             if ($request->has('department') && $request->input('department') != -1){
-                $query->where('department_id', '=',$request->input('department'))->get();
+                $query->where('department_id', '=', $request->input('department'))->get();
             }
             if ($request->has('search')){
                 $query->where('name', 'like', '%'.$request->input('search').'%')
@@ -146,6 +146,6 @@ class HomeController extends Controller
 
     public function ativated()
     {
-        return redirect()->route('index')->with('errors', ['errors' => 'Please check your email to verify the account!']);
+        return redirect()->route('index')->with('warning', 'Thanks for signing up! Please check your email.!');
     }
 }

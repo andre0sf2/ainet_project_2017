@@ -16,8 +16,13 @@
                 @include('partials.errors')
             @endif
 
+            @if(session('warning'))
+                @include('partials.warning')
+            @endif
+
 
                 <div class="jumbotron">
+                    {{--Search Filter--}}
                     <form class="form-horizontal" role="form" action="{{ route('users.list') }}" method="GET">
                         <div class="row">
                             <div class="form-group col-md-8">
@@ -34,7 +39,16 @@
                                 </select>
                             </div>
                         </div>
-                        <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+
+                        <div class="row">
+                            <div class="col-md-9">
+                                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet "></span><input value="0" name="sort" type="hidden"></button></input>
+                                <a href="#"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></button></a>
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
 

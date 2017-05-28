@@ -14,6 +14,9 @@
         @if(session('errors'))
             @include('partials.errors')
         @endif
+            @if(session('warning'))
+                @include('partials.warning')
+            @endif
 
         <br>
         <div id="chart-div"></div>

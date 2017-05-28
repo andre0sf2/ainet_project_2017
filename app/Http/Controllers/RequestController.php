@@ -68,9 +68,8 @@ class RequestController extends Controller
                 $query->whereDate('created_at', '=', Carbon::parse($request->input('date')))->get();
             }
             if ($request->has('search')){
-                $users = User::where('name', 'like', '%'.$request->input('search').'%')->get();
                 $array = array();
-                foreach ($users as $user){
+                foreach (User::where('name', 'like', '%'.$request->input('search').'%')->get() as $user){
                     array_push($array, $user->id);
                 }
                 $query->whereIn('owner_id', $array)->get();
@@ -147,7 +146,7 @@ class RequestController extends Controller
 
         $request->forceDelete();
 
-        return redirect()->route('index')->with('success', 'Request number '.$id.' deleted with success');
+        return redirect()->route('request.user')->with('success', 'Request number '.$id.' deleted with success');
     }
 
     public function userRequests(Request $request)

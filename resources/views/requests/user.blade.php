@@ -4,6 +4,21 @@
 
 @section('content')
     <div class="container">
+
+
+        @if(session('success'))
+            @include('partials.success')
+        @endif
+
+        @if(session('errors'))
+            @include('partials.errors')
+        @endif
+
+        @if(session('warning'))
+            @include('partials.warning')
+        @endif
+
+
         <div class="jumbotron">
             <form class="form-horizontal" role="form" action="{{ route('request.user') }}" method="GET">
                 <div class="row">

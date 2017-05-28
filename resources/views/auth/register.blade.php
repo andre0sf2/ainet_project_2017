@@ -59,13 +59,13 @@
                             </div>
 
                             <div class="form-group"{{ $errors->has('department') ? ' has-error' : '' }}>
-                                <label for="inputType" class="col-md-4 control-label">Department</label>
+                                <label for="department" class="col-md-4 control-label">Department</label>
 
                                 <div class="col-md-6">
                                     <select name="department" id="department" class="form-control col-md-6">
                                         <option disabled selected> -- select an option --</option>
                                         @foreach($departments as $department)
-                                            <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                            <option value="{{ $department->id }}" @if($department->id == old('department')) selected @endif>{{ $department->name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('department'))

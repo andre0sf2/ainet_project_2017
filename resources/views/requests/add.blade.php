@@ -87,9 +87,9 @@
                             <div class="col-md-6">
                                 <select name="paper_type" id="paper_type" class="form-control col-md-6">
                                     <option value="-1" disabled selected> -- select an option --</option>
-                                    <option value="0">Draft Copy</option>
-                                    <option value="1">Normal</option>
-                                    <option value="2">Photographic paper</option>
+                                    <option value="0" @if(old('paper_type') == 0) selected @endif>Draft Copy</option>
+                                    <option value="1" @if(old('paper_type') == 1) selected @endif>Normal</option>
+                                    <option value="2" @if(old('paper_type') == 2) selected @endif>Photographic Paper</option>
                                 </select>
                                 @if ($errors->has('paper_type'))
                                     <span class="help-block">

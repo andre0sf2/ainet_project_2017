@@ -33,6 +33,8 @@ Route::get('/password/email', 'Auth\ForgotPasswordController@emailPassword')->na
 //AUTH
 Route::get('/login', 'HomeController@login')->name('auth.login');
 Route::get('/register', 'HomeController@register')->name('auth.register');
+Route::get('/register/verify/{token}', 'UserController@activeUser')->name('activated.user');
+
 
 Route::group(['middleware' => 'auth'], function () {
 
