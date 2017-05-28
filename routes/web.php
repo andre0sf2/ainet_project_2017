@@ -18,6 +18,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Auth::routes();
 
+
 //UTILIZADOR
 Route::get('/user/{id}', 'HomeController@showUser')->name('user.show');
 Route::get('/users', 'HomeController@listUsers')->name('users.list');
@@ -37,7 +38,8 @@ Route::get('/password/email', 'Auth\ForgotPasswordController@emailPassword')->na
 //AUTH
 Route::get('/login', 'HomeController@login')->name('auth.login');
 Route::get('/register', 'HomeController@register')->name('auth.register');
-Route::get('/register/verify/{token}', 'UserController@activeUser')->name('activated.user');
+
+Route::get('/register/verify/{token}', 'HomeController@activeUser')->name('activated.user');
 
 
 Route::group(['middleware' => 'auth'], function () {

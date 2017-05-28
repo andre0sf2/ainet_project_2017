@@ -71,11 +71,4 @@ class UserController extends Controller
         }
         return redirect()->route('index');
     }
-
-    public function activeUser($token)
-    {
-        dd(Password::all());
-
-        return redirect()->route('index')->with('success', 'Your account is now active, You can login.');
-    }
 }

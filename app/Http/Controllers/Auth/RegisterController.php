@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\PasswordReset;
+use App\PasswordResets;
 use App\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -116,6 +117,17 @@ class RegisterController extends Controller
             'presentation' => $presentation,
             'profile_url' => $profileUrl,
         ]);
+
+        PasswordResets::insert([
+            'email' => $this->user->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::send('auth.email.verify', ['token' => $token, 'email' => $this->user->email], function($message) {
+            $message->to($this->user->email, $this->user->name)
+                ->subject('Verify your email address');
+        });
 
         return $this->user;
     }

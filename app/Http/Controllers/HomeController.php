@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Department;
+use App\PasswordResets;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -188,5 +189,16 @@ class HomeController extends Controller
 
 
         return view('departments.information', compact('departments', 'currentDepar', 'todayPrint', 'lava'));
+    }
+
+    public function activeUser($token)
+    {
+        $pass = PasswordResets::where('token', $token)->first();
+
+        User::where('email', $pass->email)->update(['activated' => 1]);
+
+        PasswordResets::where('token', $token)->delete();
+
+        return redirect()->route('index')->with('success', 'Your account is now active, You can login.');
     }
 }
