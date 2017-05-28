@@ -81,12 +81,6 @@ class RequestController extends Controller
     }
 
 
-    public function acceptRequest()
-    {
-        return redirect()->route('admin.dashboard')->with('success', 'Entrei Aqui!');
-    }
-
-
     public function viewRequest($id)
     {
         $request = \App\Request::findOrFail($id);
@@ -96,11 +90,6 @@ class RequestController extends Controller
         return view('requests.details', compact('request', 'departments', 'comments'));
     }
 
-    public function refuseRequest()
-    {
-        return redirect()->route('admin.dashboard')->with('errors', ['Tambem entrei aqui']);
-
-    }
 
     public function editRequest($id)
     {
@@ -146,7 +135,7 @@ class RequestController extends Controller
 
         $request->forceDelete();
 
-        return redirect()->route('request.user')->with('success', 'Request number '.$id.' deleted with success');
+        return redirect()->route('index')->with('success', 'Request number '.$id.' deleted with success');
     }
 
     public function userRequests(Request $request)
@@ -170,5 +159,12 @@ class RequestController extends Controller
         })->paginate(10);
 
         return view('requests.user', compact('departments', 'requests', 'status', 'dueDate', 'createdDate'));
+    }
+
+    public function rating(Request $request)
+    {
+        \App\Request::where('id', $request->input('request_id'))->update(['satisfaction_grade' => $request->input('satisfaction_grade')]);
+
+        return redirect()->route('request.view', $request->input('request_id'));
     }
 }

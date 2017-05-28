@@ -30,26 +30,26 @@ class HomeController extends Controller
         $departments = Department::all();
 
         $lava = new Lavacharts();
-        $reasons = $lava->DataTable();
+        $color = $lava->DataTable();
 
         $allRequests = count(\App\Request::where('status', 2)->get());
 
         $numBlackWhite = count(\App\Request::where('colored', 0)->where('status', 2)->get());
         $numColored = count(\App\Request::where('colored', 1)->where('status', 2)->get());
 
-        $reasons->addStringColumn('Prints')
+        $color->addStringColumn('Prints')
             ->addNumberColumn('Percent')
             ->addRow(['Black & White', $numBlackWhite])
             ->addRow(['Colored', $numColored]);
 
-        $lava->PieChart('Prints', $reasons, [
+        $lava->PieChart('Prints', $color, [
             'title'  => 'Colored vs Black & White',
             'is3D'   => true,
         ]);
 
-        $finances = $lava->DataTable();
+        $perDay = $lava->DataTable();
 
-        $finances->addDateColumn('Day of Month')
+        $perDay->addDateColumn('Day of Month')
             ->addNumberColumn('Black & White')
             ->addNumberColumn('Colored');
 
@@ -69,14 +69,14 @@ class HomeController extends Controller
                     $contBlack++;
                 }
             }
-            $finances->addRow([
+            $perDay->addRow([
                 $date,
                 $contBlack,
                 $contColor
             ]);
         }
 
-        $lava->ColumnChart('Finances', $finances, [
+        $lava->ColumnChart('PerDay', $perDay, [
             'title' => 'Prints per Day',
             'titleTextStyle' => [
                 'color'    => '#eb6b2c',
@@ -147,5 +147,46 @@ class HomeController extends Controller
     public function ativated()
     {
         return redirect()->route('index')->with('warning', 'Thanks for signing up! Please check your email.!');
+    }
+
+    public function departementInfo($id)
+    {
+        $departments = Department::all();
+
+        $currentDepar = Department::findOrFail($id);
+
+        $lava = new Lavacharts();
+        $color = $lava->DataTable();
+
+        $contColor = 0;
+        $contBlack = 0;
+        $todayPrint = 0;
+
+        foreach ($currentDepar->users as $user){
+            foreach ($user->requests->where('status', 2) as $request){
+                if ($request->colored){
+                    $contColor++;
+                }else{
+                    $contBlack++;
+                }
+
+                if(Carbon::parse($request->closed_date)->toDateString() == date('Y-m-d')){
+                    $todayPrint++;
+                }
+            }
+        }
+
+        $color->addStringColumn('Prints')
+            ->addNumberColumn('Percent')
+            ->addRow(['Black & White', $contBlack])
+            ->addRow(['Colored', $contColor]);
+
+        $lava->PieChart('Prints', $color, [
+            'title'  => 'Colored vs Black & White',
+            'is3D'   => true,
+        ]);
+
+
+        return view('departments.information', compact('departments', 'currentDepar', 'todayPrint', 'lava'));
     }
 }

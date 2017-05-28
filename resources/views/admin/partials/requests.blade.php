@@ -35,18 +35,12 @@
                         <td class="col-md-3 inline">
                             @if (Auth::user() && Auth::user()->isAdmin())
                                 <div class="col-md-3">
-                                    <form action="{{ route('request.accept') }}" method="post">
-                                        <input type="hidden" name="comment_id" value="{{$request->id}}">
-                                        <button type="submit" class="btn btn-xs btn-success">Accept</button>
-                                        {{csrf_field()}}
-                                    </form>
+                                    <a href="{{ route('request.accept', $request->id) }}" class="btn btn-success">Accept</a>
                                 </div>
                                 <div class="col-md-3">
-                                    <form action="{{ route('request.refuse') }}" method="post">
-                                        <input type="hidden" name="comment_id" value="{{$request->id}}">
-                                        <button type="submit" class="btn btn-xs btn-danger">Refuse</button>
-                                        {{csrf_field()}}
-                                    </form>
+                                    <div class="col-md-3">
+                                        <a href="{{ route('request.refuse', $request->id) }}" class="btn btn-danger">Refuse</a>
+                                    </div>
                                 </div>
                             @endif
                         </td>

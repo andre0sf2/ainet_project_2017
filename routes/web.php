@@ -21,6 +21,10 @@ Auth::routes();
 //UTILIZADOR
 Route::get('/user/{id}', 'HomeController@showUser')->name('user.show');
 Route::get('/users', 'HomeController@listUsers')->name('users.list');
+
+//Departamentos
+Route::get('department/{id}', 'HomeController@departementInfo')->name('department.info');
+
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
 Route::get('/ativated', 'HomeController@ativated')->name('ativated');
 
@@ -40,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/user/edit/{id}', 'UserController@editUser')->name('user.edit');
     Route::post('/user/{id}', 'UserController@updateUser')->name('user.update');
+
+    Route::post('/rating', 'RequestController@rating')->name('rating');
 
     Route::get('/print/request', 'RequestController@createRequest')->name('print.request');
     Route::post('/print/request', 'RequestController@insertRequest')->name('print.insert');
@@ -76,8 +82,10 @@ Route::group(['middleware' => 'auth'], function () {
         //Verificar melhor estas rotas
         //se aceitar escolher a impressora
         //recusar dizer porque
-        Route::post('/request/accept', 'RequestController@acceptRequest')->name('request.accept');
-        Route::post('/request/refuse', 'RequestController@refuseRequest')->name('request.refuse');
+        Route::get('/request/accept/{id}', 'AdminController@acceptView')->name('request.accept');
+        Route::post('/accept', 'AdminController@acceptRequest')->name('accept');
+        Route::get('/request/refuse/{id}', 'AdminController@refuseView')->name('request.refuse');
+        Route::post('/refuse', 'AdminController@refuseRequest')->name('refuse');
     });
 });
 

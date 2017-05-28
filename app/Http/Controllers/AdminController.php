@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Department;
+use App\Printer;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,13 +16,14 @@ class AdminController extends Controller
         $this->middleware('admin');
     }
 
-    public function showDashboard($blockedUsers = null, $comments = null)
+    public function showDashboard()
     {
         $blockedUsers = User::where('blocked', 1)->get();
         $comments = Comment::where('blocked', 1)->get();
+        $requests = \App\Request::where('status', 0)->where('due_date', '>=', Carbon::now())->get();
 
         $departments = Department::all();
-        $requests = \App\Request::where('status', 0)->where('due_date', '>=', Carbon::now())->get();
+
 
         return view('admin.dashboard',  compact( 'blockedUsers', 'comments', 'departments', 'requests'));
     }
@@ -67,5 +69,47 @@ class AdminController extends Controller
         }
 
         return redirect()->route('admin.dashboard')->with('success', $user->name.' unblocked with success.');
+    }
+
+    public function acceptView($id)
+    {
+        $departments = Department::all();
+        $printers = Printer::all();
+
+        $request = \App\Request::findOrFail($id);
+
+        return view('admin.acceptRequest', compact('departments', 'request', 'printers'));
+    }
+
+    public function refuseView($id)
+    {
+        $departments = Department::all();
+
+        $request = \App\Request::findOrFail($id);
+
+        return view('admin.refusedRequest', compact('departments', 'request'));
+
+    }
+
+    public function acceptRequest(Request $request)
+    {
+        \App\Request::where('id', $request->input('request_id'))->update([
+            'printer_id'=> $request->input('printer'),
+            'status'=> 2,
+            'closed_date' => Carbon::now()
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('success', 'Request Nº '.$request->input('request_id').' accepted with success');
+    }
+
+    public function refuseRequest(Request $request)
+    {
+        \App\Request::where('id', $request->input('request_id'))->update([
+            'refused_reason' => $request->input('refused_reason'),
+            'status' => 1,
+            'closed_date' => Carbon::now()
+        ]);
+
+        return redirect()->route('admin.dashboard')->with('errors', ['Request Nº '.$request->input('request_id').' refused with success']);
     }
 }

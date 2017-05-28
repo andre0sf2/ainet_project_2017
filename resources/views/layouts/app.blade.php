@@ -61,7 +61,7 @@
                                 @if(count($departments))
                                     @foreach($departments as $department)
                                         <li>
-                                            <a href="#">{{ $department->name }}</a>
+                                            <a href="{{ route('department.info', $department->id) }}">{{ $department->name }}</a>
                                         </li>
                                     @endforeach
                                 @else

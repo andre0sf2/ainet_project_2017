@@ -76,20 +76,27 @@
             @endif
 
         </div>
-            <div class="">
-                <p><strong>Rate this print:</strong></p>
-                <div class="btn-group">
-                    <button type="button" class="btn btn-info" value="1">
-                        1 <span class="glyphicon glyphicon-star"></span>
-                    </button>
-                    <button type="button" class="btn btn-info" value="2">
-                        2 <span class="glyphicon glyphicon-star"></span>
-                    </button>
-                    <button type="button" class="btn btn-info" value="3">
-                        3 <span class="glyphicon glyphicon-star"></span>
-                    </button>
-                </div>
-            </div>
+            @if(is_null($request->satisfaction_grade))
+                @if(Auth::user()->id == $request->owner_id && $request->status == 2)
+                    <p><strong>Rate this print:</strong></p>
+                    <form class="form-horizontal" role="form" action="{{ route('rating') }}" method="POST">
+                        <button name="satisfaction_grade" id="satisfaction_grade" type="submit" class="btn btn-info" value="1">
+                            1 <span class="glyphicon glyphicon-star"></span>
+                        </button>
+                        <button name="satisfaction_grade" id="satisfaction_grade" type="submit" class="btn btn-info" value="2">
+                            2 <span class="glyphicon glyphicon-star"></span>
+                        </button>
+                        <button name="satisfaction_grade" id="satisfaction_grade" type="submit" class="btn btn-info" value="3">
+                            3 <span class="glyphicon glyphicon-star"></span>
+                        </button>
+                        <input hidden id="request_id" name="request_id" value="{{$request->id}}">
+
+                        {{ csrf_field() }}
+                    </form>
+                @endif
+            @else
+                <p><strong>Rating: </strong>{{$request->satisfaction_grade}} / 3</p>
+            @endif
 
     </div>
 
