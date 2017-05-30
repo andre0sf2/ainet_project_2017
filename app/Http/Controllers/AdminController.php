@@ -94,9 +94,10 @@ class AdminController extends Controller
     public function acceptRequest(Request $request)
     {
         \App\Request::where('id', $request->input('request_id'))->update([
-            'printer_id'=> $request->input('printer'),
-            'status'=> 2,
-            'closed_date' => Carbon::now()
+            'printer_id' => $request->input('printer'),
+            'status' => 2,
+            'closed_date' => Carbon::now(),
+            'closed_user' => Auth::user()->id
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'Request Nº '.$request->input('request_id').' accepted with success');
@@ -107,7 +108,8 @@ class AdminController extends Controller
         \App\Request::where('id', $request->input('request_id'))->update([
             'refused_reason' => $request->input('refused_reason'),
             'status' => 1,
-            'closed_date' => Carbon::now()
+            'closed_date' => Carbon::now(),
+            'closed_user' => Auth::user()->id
         ]);
 
         return redirect()->route('admin.dashboard')->with('errors', ['Request Nº '.$request->input('request_id').' refused with success']);

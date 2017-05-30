@@ -11,6 +11,8 @@ class Request extends Model
      *
      * @var array
      */
+
+
     protected $fillable = [
         'owner_id',
         'status',

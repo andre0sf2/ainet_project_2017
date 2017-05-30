@@ -7,9 +7,7 @@ use App\User;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Intervention\Image\Facades\Image;
@@ -69,7 +67,7 @@ class RegisterController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|min:8|confirmed',
             'phone' => 'required|min:9|max:254',
-            'department' => 'required|not_in:0',
+            'department' => 'required|not-in:0',
         ]);
     }
 

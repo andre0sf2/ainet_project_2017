@@ -6,8 +6,6 @@ use App\Department;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Password;
-use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
@@ -50,7 +48,7 @@ class UserController extends Controller
             }
 
             $avatar = $request->file('avatar');
-            $filename = str_replace(' ', '', $user->name).time().'.'.$avatar->getClientOriginalExtension();
+            $filename = str_random(10).time().'.'.$avatar->getClientOriginalExtension();
             Image::make($avatar)->resize(300,300)->save(storage_path('app/public/profiles/'.$filename));
 
             $user->profile_photo = $filename;

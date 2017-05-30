@@ -159,10 +159,9 @@
 
                         @if(Auth::user())
                             <form class="form-group" method="POST"
-                                  action="{{route('request.subComment', $request->id)}}">
+                                  action="{{route('request.comment', $request->id)}}">
                                 <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                <input type="hidden" name="request_id"
-                                       value="{{$request->id}}">
+                                <input type="hidden" name="request_id" value="{{$request->id}}">
                                 <input type="hidden" name="parent_id" value="{{$comment->id}}">
                                 <div style="display: flex">
                                     <input type="text" class="form-control" name="comment">
@@ -209,23 +208,6 @@
 
                                         </div>
 
-                                        @if(Auth::user())
-                                            <form class="form-group" method="POST"
-                                                  action="{{route('request.subComment', $request->id)}}">
-                                                <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                                                <input type="hidden" name="advertisement_id"
-                                                       value="{{$request->id}}">
-                                                <input type="hidden" name="parent_id" value="{{$comment->id}}">
-                                                <div style="display: flex">
-                                                    <input type="text" class="form-control" name="comment">
-                                                    <button type="submit" class="btn btn-primary"><i
-                                                                class="glyphicon glyphicon-send"></i> Reply
-                                                    </button>
-                                                </div>
-                                                {{csrf_field()}}
-                                            </form>
-                                            <hr>
-                                        @endif
                                     </div>
                                 @endif
                             @endforeach

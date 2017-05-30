@@ -5,7 +5,7 @@
 @section('content')
 
     @if(count($users))
-        <div class="container">
+        <div class="container" xmlns="http://www.w3.org/1999/html">
 
 
             @if(session('success'))
@@ -29,7 +29,7 @@
                                 <label for="search">User Name or Email or Phone</label>
                                 <input placeholder="Search for..." class="form-control" type="text" name="search" id="search" value="{{ isset($search)?$search:'' }}">
                             </div>
-                            <div class="form-group col-md-3">
+                            <div class="form-group col-md-4 ">
                                 <label for="department">Department</label>
                                 <select name="department" id="department" class="form-control">
                                     <option value="-1">All Departments</option>
@@ -42,8 +42,8 @@
 
                         <div class="row">
                             <div class="col-md-9">
-                                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet "></span><input value="0" name="sort" type="hidden"></button></input>
-                                <a href="#"><button type="button" class="btn btn-default"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></button></a>
+                                <button id="order" name="order" type="submit" class="btn btn-default" value="asc"><span class="glyphicon glyphicon-sort-by-alphabet "></span></button>
+                                <button id="order" name="order" type="submit" class="btn btn-default" value="desc"><span class="glyphicon glyphicon-sort-by-alphabet-alt"></span></button>
                             </div>
                             <div class="col-md-3">
                                 <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
@@ -61,7 +61,7 @@
                                     <a class="pull-left" href="{{route('user.show', $user->id)}}"
                                        style="margin-right: 13%">
                                         @if(is_null($user->profile_photo))
-                                            <img class="media-object" src="/uploads/avatars/default.png" alt=""
+                                            <img class="media-object" src="{{ asset('uploads/avatars/default.png') }}" alt=""
                                                  style="width:140px; height:140px; top: 10px; left: 10px; border-radius: 50%;">
                                         @else
                                             <img class="media-object"
@@ -72,7 +72,11 @@
                                     </a>
                                     <div class="media-body">
                                         <div class="info">
-                                            <h4><a href="{{route('user.show', $user->id)}}">{{ $user->name }}</a></h4>
+                                            @if(strlen($user->name) <   36 )
+                                                <h4><a href="{{route('user.show', $user->id)}}">{{ $user->name }}</a></h4>
+                                            @else
+                                                <h4><a href="{{route('user.show', $user->id)}}">{{substr_replace($user->name, '...', 33)}}</a></h4>
+                                            @endif
                                             <p class="text-muted"><strong>Email: </strong>{{$user->email}}</p>
                                             @if(!is_null($user->phone))
                                                 <p class="text-muted"><strong>Phone: </strong>{{ $user->phone }}</p>
@@ -97,7 +101,7 @@
                                            href="{{route('user.show', $user->id)}}">View</a>
                                     </li>
 
-                                    @if (Auth::user() && Auth::user()->isAdmin())
+                                    @if (Auth::user() && Auth::user()->isAdmin() && !(Auth::user()->id == $user->id))
                                         <li>
                                             <form action="{{ route('user.block') }}" method="post">
                                                 <input type="hidden" name="user_id" value="{{$user->id}}">
@@ -138,7 +142,7 @@
 
         </div>
         <div style="text-align: center">
-            {{ $users->appends(['search' => $search, 'department' => $deparInput])->links() }}
+            {{ $users->appends(['search' => $search, 'department' => $deparInput, 'order' => $order])->links() }}
         </div>
     @else
         <div class="container">

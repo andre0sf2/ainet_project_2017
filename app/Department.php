@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
@@ -22,6 +23,7 @@ class Department extends Model
         return $this->hasMany(User::class, 'department_id');
     }
 
+
     public function countPrints()
     {
         $cont = 0;
@@ -36,5 +38,4 @@ class Department extends Model
 
         return $cont;
     }
-
 }

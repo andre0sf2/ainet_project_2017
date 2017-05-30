@@ -21,10 +21,12 @@
             <div class="thumbnail col-md-6" style="background-color: white">
                 <h4><strong>Today Prints: </strong>{{$todayPrint}}</h4>
             </div>
+
         </div>
 
-        <h3>Média diária de impressões no mês atual</h3>
+        <h3>Prints of {{ date("F", mktime(0, 0, 0, \Carbon\Carbon::now()->month, 1)) }}</h3>
         <div id="perf_div"></div>
+        {!! $lava->render('ColumnChart', 'PerDay', 'perf_div') !!}
 
     </div>
 

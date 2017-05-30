@@ -58,14 +58,26 @@ class RequestController extends Controller
         $departments = Department::all();
         $search = $request->input('search');
         $status = $request->input('status');
-        $date = $request->input('date');
+        $create_date = $request->input('date');
+        $due_date = $request->input('due_date');
+        $dep = $request->input('department');
 
         $requests = \App\Request::where(function ($query) use ($request) {
             if ($request->has('status') && $request->input('status') != -1){
                 $query->where('status', $request->input('status'))->get();
             }
-            if ($request->has('date')){
-                $query->whereDate('created_at', '=', Carbon::parse($request->input('date')))->get();
+            if ($request->has('create_date')){
+                $query->whereDate('created_at', '=', Carbon::parse($request->input('create_date')))->get();
+            }
+            if ($request->has('due_date')){
+                $query->whereDate('due_date', '=', Carbon::parse($request->input('due_date')))->get();
+            }
+            if($request->has('department') && $request->input('department') != -1){
+                $array = array();
+                foreach (User::where('department_id', $request->input('department'))->get() as $user){
+                    array_push($array, $user->id);
+                }
+                $query->whereIn('owner_id', $array)->get();
             }
             if ($request->has('search')){
                 $array = array();
@@ -77,7 +89,7 @@ class RequestController extends Controller
 
         })->paginate(10);
 
-        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'date'));
+        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'create_date', 'dep', 'due_date'));
     }
 
 

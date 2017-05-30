@@ -23,7 +23,7 @@ class RequestsTableSeeder extends Seeder
     private $filesPath = 'print-jobs';
     private $numberOfOpenedRequests = 10;
     private $numberOfRefusedRequests = 5;
-    private $numberOfCompletedRequests = 15;
+    private $numberOfCompletedRequests = 200;
 
     /**
      * Run the database seeds.

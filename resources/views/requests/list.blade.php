@@ -8,13 +8,26 @@
             @if(Auth::user()->isAdmin())
                 <form class="form-horizontal" role="form" action="{{ route('request.list') }}" method="GET">
                     <div class="row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="search">User Name</label>
                             <input placeholder="Search for..." class="form-control" type="text" name="search" id="search" value="{{ isset($search)?$search:'' }}">
                         </div>
                         <div class="form-group col-md-3">
+                            <label for="department">Departments</label>
+                            <select name="department" id="department" class="form-control">
+                                <option value="-1">All Departments</option>
+                                @foreach($departments as $department)
+                                    <option value="{{ $department->id }}" @if(isset($dep) && $dep == $department->id) selected @endif>{{ $department->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-md-3">
                             <label for="date">Date Created</label>
-                            <input class="form-control" type="date" name="date" id="date" value="{{ isset($date)?$date:'' }}">
+                            <input class="form-control" type="date" name="create_date" id="create_date" value="{{ isset($create_date)?$create_date:'' }}">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="date">Due Date</label>
+                            <input class="form-control" type="date" name="due_date" id="due_date" value="{{ isset($due_date)?$due_date:'' }}">
                         </div>
                         <div class="form-group col-md-3">
                             <label for="status">Status</label>
@@ -38,6 +51,7 @@
                     <th>Name</th>
                     <th>Status</th>
                     <th>Created Date</th>
+                    <th>Due Date</th>
                     <th>Details</th>
                 </tr>
                 </thead>
@@ -47,6 +61,7 @@
                         <td>{{ $request->owner->name }}</td>
                         <td>{{ $request->statusToStr() }}</td>
                         <td>{{ $request->created_at }}</td>
+                        <td>{{ $request->due_date }}</td>
                         <td class="col-md-6 inline" style="display: flex">
                             <div>
                                 <a class="btn btn-xs btn-primary" href="{{route('request.view', $request->id)}}">View Request</a>
@@ -75,7 +90,7 @@
                 </tbody>
             </table>
             <div style="text-align: center">
-                {{ $requests->appends(['search' => $search, 'status' => $status, 'date' => $date])->links() }}
+                {{ $requests->appends(['search' => $search, 'status' => $status, 'create_date' => $create_date, 'department' => $dep, 'due_date' => $due_date])->links() }}
             </div>
 
     @else

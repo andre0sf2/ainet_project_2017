@@ -19,7 +19,7 @@
                         </li>
                     @endif
 
-                    @if (Auth::user() && Auth::user()->isAdmin())
+                    @if (Auth::user() && Auth::user()->isAdmin() && !(Auth::user()->id == $user->id))
                         <li>
                             <form action="{{ route('user.block') }}" method="post">
                                 <input type="hidden" name="user_id" value="{{$user->id}}">

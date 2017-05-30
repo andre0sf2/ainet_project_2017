@@ -18,7 +18,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-    
+        $this->expiredRequest();
     }
 
     /**
@@ -104,7 +104,13 @@ class HomeController extends Controller
         $search = $request->input('search');
         $deparInput = $request->input('department');
         $departments = Department::all();
-        $users = User::where('blocked', 0)->where(function ($query) use ($request){
+        $order = 'asc';
+
+        if($request->has('order')){
+            $order = $request->input('order');
+        }
+
+        $users = User::where('blocked', 0)->where('activated', 1)->where(function ($query) use ($request){
             if ($request->has('department') && $request->input('department') != -1){
                 $query->where('department_id', '=', $request->input('department'))->get();
             }
@@ -114,9 +120,10 @@ class HomeController extends Controller
                     ->orWhere('phone', 'like', '%'.$request->input('search').'%')
                     ->get();
             }
-        })->orderBy('name')->paginate(6);
 
-        return view('users.list', compact('users', 'departments', 'search', 'deparInput'));
+        })->orderBy('name', $order)->paginate(6);
+
+        return view('users.list', compact('users', 'departments', 'search', 'deparInput', 'order'));
     }
 
     public function login()
@@ -155,15 +162,23 @@ class HomeController extends Controller
         $departments = Department::all();
 
         $currentDepar = Department::findOrFail($id);
+        $users = $currentDepar->users;
 
         $lava = new Lavacharts();
         $color = $lava->DataTable();
+        $perDay = $lava->DataTable();
+
+
+        $perDay->addDateColumn('Day of Month')
+            ->addNumberColumn('Black & White')
+            ->addNumberColumn('Colored');
 
         $contColor = 0;
         $contBlack = 0;
         $todayPrint = 0;
+        $array = array();
 
-        foreach ($currentDepar->users as $user){
+        foreach ($users as $user){
             foreach ($user->requests->where('status', 2) as $request){
                 if ($request->colored){
                     $contColor++;
@@ -173,6 +188,10 @@ class HomeController extends Controller
 
                 if(Carbon::parse($request->closed_date)->toDateString() == date('Y-m-d')){
                     $todayPrint++;
+                }
+
+                if(Carbon::parse($request->closed_date)->month == date('m') && Carbon::parse($request->closed_date)->year == date('Y')){
+                    array_push($array, $request->id);
                 }
             }
         }
@@ -185,6 +204,38 @@ class HomeController extends Controller
         $lava->PieChart('Prints', $color, [
             'title'  => 'Colored vs Black & White',
             'is3D'   => true,
+        ]);
+
+        //dd($contColor, $contBlack);
+        $requestsAux = \App\Request::whereIn('id', $array)->get()->groupBy(function($date) {
+            return Carbon::parse($date->closed_date)->format('m-d');
+        });
+
+        foreach ($requestsAux as $request){
+            $color = 0;
+            $black = 0;
+            $date = null;
+            foreach ($request as $item){
+                $date = Carbon::parse($item->closed_date)->toDateString();
+                if($item->colored){
+                    $color++;
+                }else{
+                    $black++;
+                }
+            }
+            $perDay->addRow([
+                $date,
+                $black,
+                $color
+            ]);
+        }
+
+        $lava->ColumnChart('PerDay', $perDay, [
+            'title' => 'Prints per Day',
+            'titleTextStyle' => [
+                'color'    => '#eb6b2c',
+                'fontSize' => 14
+            ]
         ]);
 
 
@@ -200,5 +251,15 @@ class HomeController extends Controller
         PasswordResets::where('token', $token)->delete();
 
         return redirect()->route('index')->with('success', 'Your account is now active, You can login.');
+    }
+
+    public function expiredRequest()
+    {
+       foreach (\App\Request::all() as $item){
+            if(Carbon::parse($item->due_date)->toDateTimeString() <= Carbon::now()->toDateTimeString()){
+                $item->status = 3;
+                $item->save();
+            }
+       }
     }
 }
