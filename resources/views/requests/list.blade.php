@@ -4,6 +4,17 @@
 
 @section('content')
     <div class="container">
+        @if(session('success'))
+            @include('partials.success')
+        @endif
+
+        @if(session('errors'))
+            @include('partials.errors')
+        @endif
+
+        @if(session('warning'))
+            @include('partials.warning')
+        @endif
         <div class="jumbotron">
             @if(Auth::user()->isAdmin())
                 <form class="form-horizontal" role="form" action="{{ route('request.list') }}" method="GET">
@@ -72,8 +83,6 @@
                                 <div>
                                     <a class="btn btn-xs btn-success" href="{{route('request.edit',$request->id) }}">Edit Request</a>
                                 </div>
-                            @endif
-                            @if(Auth::user()->id == $request->owner_id && $request->status == 0)
                                 <div>
                                     <form action="{{ route('request.delete', $request->id) }}" method="post">
                                         {{ method_field('delete') }}

@@ -82,7 +82,7 @@ class RequestController extends Controller
                 $query->whereIn('owner_id', User::where('name', 'like', '%'.$request->input('search').'%')->pluck('id')->toArray())->get();
             }
 
-        })->paginate(10);
+        })->orderBy('created_at', 'desc')->paginate(10);
 
         return view('requests.list', compact('departments', 'requests', 'search', 'status', 'create_date', 'dep', 'due_date'));
     }
@@ -142,7 +142,7 @@ class RequestController extends Controller
 
         $request->forceDelete();
 
-        return redirect()->route('index')->with('success', 'Request number '.$id.' deleted with success');
+        return redirect()->route('request.list')->with('success', 'Request number '.$id.' deleted with success');
     }
 
     public function userRequests(Request $request)

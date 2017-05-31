@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
+                    {{--Left Side Of Navbar--}}
                     <ul class="nav navbar-nav">
                         &nbsp;<li>
                             <a href="{{ route('index') }}"><span class="glyphicon glyphicon-home"></span> Home</a>
@@ -104,9 +104,9 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" style="position: relative; padding-left: 50px;">
                                     @if(is_null(Auth::user()->profile_photo))
-                                        <img src="{{ asset('uploads/avatars/default.png') }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
+                                        <img src="{{ asset('uploads/avatars/default.png') }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;" alt="">
                                     @else
-                                        <img src="{{ asset('storage/profiles/'.Auth::user()->profile_photo) }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;">
+                                        <img src="{{ asset('storage/profiles/'.Auth::user()->profile_photo) }}" style="width: 32px; height: 32px; position: absolute; top: 10px; left: 10px; border-radius: 50%;" alt="">
                                     @endif
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>

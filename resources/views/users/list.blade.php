@@ -44,9 +44,9 @@
 
                     <div class="row">
                         <div class="col-md-9">
-                            <button id="order" name="order" type="submit" class="btn btn-default" value="asc"><span
+                            <button name="order" type="submit" class="btn btn-default" value="asc"><span
                                         class="glyphicon glyphicon-sort-by-alphabet "></span></button>
-                            <button id="order" name="order" type="submit" class="btn btn-default" value="desc"><span
+                            <button name="order" type="submit" class="btn btn-default" value="desc"><span
                                         class="glyphicon glyphicon-sort-by-alphabet-alt"></span></button>
                         </div>
                         <div class="col-md-3">

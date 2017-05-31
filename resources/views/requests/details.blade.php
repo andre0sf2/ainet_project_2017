@@ -16,6 +16,22 @@
         <br>
         <div>
             <h2><strong>Details about the Request</strong></h2>
+            <div style="display: flex" class="pull-right">
+                @if(Auth::user()->id == $request->owner_id && $request->status == 0)
+
+                    <div>
+                        <a class="btn btn-xs btn-success" href="{{route('request.edit',$request->id) }}">Edit Request</a>
+                    </div>
+                    <div>
+                        <form action="{{ route('request.delete', $request->id) }}" method="post">
+                            {{ method_field('delete') }}
+                            <input type="hidden" name="request_id" value="{{$request->id}}">
+                            <button type="submit" class="btn btn-xs btn-danger">Delete Request</button>
+                            {{csrf_field()}}
+                        </form>
+                    </div>
+                @endif
+            </div>
         </div>
             <br>
 

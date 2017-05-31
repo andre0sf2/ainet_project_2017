@@ -6,20 +6,23 @@
     <div class="container">
         <div class="row">
             @if(is_null($user->profile_photo))
-                <img src="{{ asset('uploads/avatars/default.png') }}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+                <img src="{{ asset('uploads/avatars/default.png') }}"
+                     style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" alt="">
             @else
-                <img src="{{ asset('storage/profiles/'.$user->profile_photo) }}" style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" >
+                <img src="{{ asset('storage/profiles/'.$user->profile_photo) }}"
+                     style="width: 150px; height:150px; border-radius: 50%; margin-right: 25px; float: left;" alt="">
             @endif
             <h2><strong>{{$user->name}}'s Profile</strong></h2>
-                <ul class="list-inline" style="display: flex;">
-                    @if (Auth::user() && (Auth::user()->id == $user->id))
-                        <li>
-                            <a class="btn btn-sm btn-success"
-                               href="{{ route('user.edit', $user->id) }}">Edit</a>
-                        </li>
-                    @endif
+            <ul class="list-inline" style="display: flex;">
+                @if (Auth::user() && (Auth::user()->id == $user->id))
+                    <li>
+                        <a class="btn btn-sm btn-success"
+                           href="{{ route('user.edit', $user->id) }}">Edit</a>
+                    </li>
+                @endif
 
-                    @if (Auth::user() && Auth::user()->isAdmin() && !(Auth::user()->id == $user->id))
+                @if (Auth::user() && Auth::user()->isAdmin() && !(Auth::user()->id == $user->id))
+                    @if(!$user->isAdmin())
                         <li>
                             <form action="{{ route('user.block') }}" method="post">
                                 <input type="hidden" name="user_id" value="{{$user->id}}">
@@ -29,28 +32,28 @@
                             </form>
                         </li>
 
-                        @if($user->admin != 1)
-                            <li>
-                                <form action="{{ route('admin.grant') }}" method="post">
-                                    <input type="hidden" name="user_id" value="{{$user->id}}">
-                                    <button type="submit" class="btn btn-sm btn-alert">Grant Admin
-                                    </button>
-                                    {{csrf_field()}}
-                                </form>
-                            </li>
-                        @else
-                            <li>
-                                <form action="{{ route('admin.revoke') }}" method="post">
-                                    <input type="hidden" name="user_id" value="{{$user->id}}">
-                                    <button type="submit" class="btn btn-sm btn-danger">Revoke
-                                        Admin
-                                    </button>
-                                    {{csrf_field()}}
-                                </form>
-                            </li>
-                        @endif
+
+                        <li>
+                            <form action="{{ route('admin.grant') }}" method="post">
+                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                <button type="submit" class="btn btn-sm btn-alert">Grant Admin
+                                </button>
+                                {{csrf_field()}}
+                            </form>
+                        </li>
+                    @else
+                        <li>
+                            <form action="{{ route('admin.revoke') }}" method="post">
+                                <input type="hidden" name="user_id" value="{{$user->id}}">
+                                <button type="submit" class="btn btn-sm btn-danger">Revoke
+                                    Admin
+                                </button>
+                                {{csrf_field()}}
+                            </form>
+                        </li>
                     @endif
-                </ul>
+                @endif
+            </ul>
         </div>
         <br>
         <div class="thumbnail caption-full" style="background-color: white">

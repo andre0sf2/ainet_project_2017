@@ -17,7 +17,7 @@
                             <label for="description" class="col-md-4 control-label">Description</label>
                             <div class="col-md-6">
                                 <input id="description" type="text" class="form-control" name="description"
-                                       value="{{old('description')}}" required autofocus>
+                                       value="{{old('description')}}" required>
                                 @if ($errors->has('description'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('description') }}</strong>
@@ -54,7 +54,7 @@
                             <label for="colored" class="col-md-4 control-label">Color</label>
 
                             <div class="col-md-6">
-                                <input id="colored" type="checkbox" class="radio-inline" name="colored" value="1" @if(old('colored')) checked @endif autofocus> Colored<br>
+                                <input id="colored" type="checkbox" class="radio-inline" name="colored" value="1" @if(old('colored')) checked @endif> Colored<br>
                             </div>
                         </div>
 
@@ -62,7 +62,7 @@
                             <label for="staples" class="col-md-4 control-label">Stapled</label>
 
                             <div class="col-md-6">
-                                <input id="stapled" type="checkbox" class="radio-inline" name="stapled" value="1" @if(old('stapled')) checked @endif autofocus> Stapled<br>
+                                <input id="stapled" type="checkbox" class="radio-inline" name="stapled" value="1" @if(old('stapled')) checked @endif> Stapled<br>
                             </div>
                         </div>
 
@@ -71,8 +71,8 @@
 
                             <div class="col-md-6">
 
-                                <input id="paper_size" type="radio" class="radio-inline" name="paper_size" value="3" @if(old('paper_size')) checked @endif autofocus> A3<br>
-                                <input id="paper_size" type="radio" class="radio-inline" name="paper_size" value="4" @if(old('paper_size')) checked @endif autofocus> A4<br>
+                                <input id="paper_size" type="radio" class="radio-inline" name="paper_size" value="3" @if(old('paper_size')) checked @endif> A3<br>
+                                <input id="paper_size" type="radio" class="radio-inline" name="paper_size" value="4" @if(old('paper_size')) checked @endif> A4<br>
                                 @if ($errors->has('paper_size'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('paper_size') }}</strong>
@@ -113,7 +113,7 @@
                                     application/vnd.ms-excel, application/vnd.ms-powerpoint,
                                     text/plain, application/pdf, image/*"
                                 >
-                                <input type="hidden" name="_token" value="{{csrf_token()}}" required>
+                                <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 @if ($errors->has('file'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('file') }}</strong>
