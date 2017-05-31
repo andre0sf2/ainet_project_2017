@@ -53,7 +53,7 @@
                 </ul>
         </div>
         <br>
-        <div class="caption-full">
+        <div class="thumbnail caption-full" style="background-color: white">
             <p><strong>Email:</strong> {{ $user->email }}</p>
             <p><strong>User since:</strong> {{ $user->created_at }}</p>
             @if(!is_null($user->phone))

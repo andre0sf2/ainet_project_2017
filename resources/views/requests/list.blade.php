@@ -58,7 +58,7 @@
                 <tbody>
                 @foreach($requests as $request)
                     <tr>
-                        <td>{{ $request->owner->name }}</td>
+                        <td><a href="{{route('user.show', $request->owner->id)}}">{{ $request->owner->name }}</a></td>
                         <td>{{ $request->statusToStr() }}</td>
                         <td>{{ $request->created_at }}</td>
                         <td>{{ $request->due_date }}</td>

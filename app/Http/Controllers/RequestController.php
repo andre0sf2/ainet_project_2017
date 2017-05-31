@@ -41,6 +41,9 @@ class RequestController extends Controller
         $newRequest->owner_id = Auth::user()->id;
         $newRequest->file = $file->hashName();
         $newRequest->status = 0;
+        if(!$request->has('due_date')){
+            $newRequest->due_date = Carbon::now()->addDay(30);
+        }
         $newRequest->save();
 
         return redirect()->route('request.view', $newRequest->id);
@@ -73,18 +76,10 @@ class RequestController extends Controller
                 $query->whereDate('due_date', '=', Carbon::parse($request->input('due_date')))->get();
             }
             if($request->has('department') && $request->input('department') != -1){
-                $array = array();
-                foreach (User::where('department_id', $request->input('department'))->get() as $user){
-                    array_push($array, $user->id);
-                }
-                $query->whereIn('owner_id', $array)->get();
+                $query->whereIn('owner_id', User::where('department_id', $request->input('department'))->pluck('id')->toArray())->get();
             }
             if ($request->has('search')){
-                $array = array();
-                foreach (User::where('name', 'like', '%'.$request->input('search').'%')->get() as $user){
-                    array_push($array, $user->id);
-                }
-                $query->whereIn('owner_id', $array)->get();
+                $query->whereIn('owner_id', User::where('name', 'like', '%'.$request->input('search').'%')->pluck('id')->toArray())->get();
             }
 
         })->paginate(10);

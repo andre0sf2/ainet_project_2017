@@ -54,7 +54,7 @@ class HomeController extends Controller
             ->addNumberColumn('Black & White')
             ->addNumberColumn('Colored');
 
-        $requests = \App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '<=', date('d'))->where('status', 2)->get()->groupBy(function($date) {
+        $requests = \App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '<=', date('d'))->where('status', 2)->orderBy('closed_date')->get()->groupBy(function($date) {
             return Carbon::parse($date->closed_date)->format('m-d');
         });
 
@@ -169,7 +169,7 @@ class HomeController extends Controller
         $perDay = $lava->DataTable();
 
 
-        $perDay->addDateColumn('Day of Month')
+        $perDay->addDateColumn('Date')
             ->addNumberColumn('Black & White')
             ->addNumberColumn('Colored');
 
@@ -207,26 +207,26 @@ class HomeController extends Controller
         ]);
 
         //dd($contColor, $contBlack);
-        $requestsAux = \App\Request::whereIn('id', $array)->get()->groupBy(function($date) {
+        $requestsAux = \App\Request::whereIn('id', $array)->orderBy('closed_date')->get()->groupBy(function($date) {
             return Carbon::parse($date->closed_date)->format('m-d');
         });
 
         foreach ($requestsAux as $request){
-            $color = 0;
-            $black = 0;
+            $contColor2 = 0;
+            $contBlack2 = 0;
             $date = null;
             foreach ($request as $item){
                 $date = Carbon::parse($item->closed_date)->toDateString();
                 if($item->colored){
-                    $color++;
+                    $contColor2++;
                 }else{
-                    $black++;
+                    $contBlack2++;
                 }
             }
             $perDay->addRow([
                 $date,
-                $black,
-                $color
+                $contBlack2,
+                $contColor2,
             ]);
         }
 
@@ -234,7 +234,7 @@ class HomeController extends Controller
             'title' => 'Prints per Day',
             'titleTextStyle' => [
                 'color'    => '#eb6b2c',
-                'fontSize' => 14
+                'fontSize' => 18
             ]
         ]);
 
@@ -256,7 +256,7 @@ class HomeController extends Controller
     public function expiredRequest()
     {
        foreach (\App\Request::all() as $item){
-            if(Carbon::parse($item->due_date)->toDateTimeString() <= Carbon::now()->toDateTimeString()){
+            if(Carbon::parse($item->due_date)->toDateTimeString() <= Carbon::now()->toDateTimeString() && $item->status == 0){
                 $item->status = 3;
                 $item->save();
             }
