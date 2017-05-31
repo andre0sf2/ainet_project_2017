@@ -16,35 +16,37 @@
                 <tbody>
 
                 @foreach($requests as $request)
-                    <tr>
-                        <td>
-                            {{ $request->owner->name }}
-                        </td>
+                    @if($request->owner_id != Auth::user()->id)
+                        <tr>
+                            <td>
+                                {{ $request->owner->name }}
+                            </td>
 
-                        @if($request->colored)
-                            <td>Colored</td>
-                        @else
-                            <td>Black and White</td>
-                        @endif
-                        <td>
-                            {{ $request->created_at }}
-                        </td>
-                        <td>
-                            {{ $request->due_date }}
-                        </td>
-                        <td class="col-md-3 inline">
-                            @if (Auth::user() && Auth::user()->isAdmin())
-                                <div class="col-md-3">
-                                    <a href="{{ route('request.accept', $request->id) }}" class="btn btn-success">Accept</a>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="col-md-3">
-                                        <a href="{{ route('request.refuse', $request->id) }}" class="btn btn-danger">Refuse</a>
-                                    </div>
-                                </div>
+                            @if($request->colored)
+                                <td>Colored</td>
+                            @else
+                                <td>Black and White</td>
                             @endif
-                        </td>
-                    </tr>
+                            <td>
+                                {{ $request->created_at }}
+                            </td>
+                            <td>
+                                {{ $request->due_date }}
+                            </td>
+                            <td class="col-md-3 inline">
+                                @if (Auth::user() && Auth::user()->isAdmin())
+                                    <div class="col-md-3">
+                                        <a href="{{ route('request.accept', $request->id) }}" class="btn btn-success">Accept</a>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="col-md-3">
+                                            <a href="{{ route('request.refuse', $request->id) }}" class="btn btn-danger">Refuse</a>
+                                        </div>
+                                    </div>
+                                @endif
+                            </td>
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>

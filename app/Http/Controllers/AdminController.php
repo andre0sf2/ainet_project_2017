@@ -8,6 +8,7 @@ use App\Printer;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -93,11 +94,15 @@ class AdminController extends Controller
 
     public function acceptRequest(Request $request)
     {
+        $this->validate($request, [
+            'printer' => 'required|not-in:0'
+        ]);
+
         \App\Request::where('id', $request->input('request_id'))->update([
             'printer_id' => $request->input('printer'),
             'status' => 2,
             'closed_date' => Carbon::now(),
-            'closed_user' => Auth::user()->id
+            'closed_user_id' => Auth::user()->id
         ]);
 
         return redirect()->route('admin.dashboard')->with('success', 'Request Nº '.$request->input('request_id').' accepted with success');
@@ -105,11 +110,15 @@ class AdminController extends Controller
 
     public function refuseRequest(Request $request)
     {
+        $this->validate($request, [
+            'refused_reason' => 'required|string|max:255'
+        ]);
+
         \App\Request::where('id', $request->input('request_id'))->update([
             'refused_reason' => $request->input('refused_reason'),
             'status' => 1,
             'closed_date' => Carbon::now(),
-            'closed_user' => Auth::user()->id
+            'closed_user_id' => Auth::user()->id
         ]);
 
         return redirect()->route('admin.dashboard')->with('errors', ['Request Nº '.$request->input('request_id').' refused with success']);

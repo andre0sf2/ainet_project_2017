@@ -86,11 +86,18 @@
 
                             <div class="col-md-6">
                                 <select name="paper_type" id="paper_type" class="form-control col-md-6">
-                                    <option value="-1" disabled selected> -- select an option --</option>
-                                    <option value="0" @if(old('paper_type') == 0) selected @endif>Draft Copy</option>
-                                    <option value="1" @if(old('paper_type') == 1) selected @endif>Normal</option>
-                                    <option value="2" @if(old('paper_type') == 2) selected @endif>Photographic Paper</option>
+                                    <option disabled selected> -- select an option --</option>
+                                    @if(old('paper_type'))
+                                        <option value="0" @if(old('paper_type') == 0) selected @endif>Draft Copy</option>
+                                        <option value="1" @if(old('paper_type') == 1) selected @endif>Normal</option>
+                                        <option value="2" @if(old('paper_type') == 2) selected @endif>Photographic Paper</option>
+                                    @else
+                                        <option value="0">Draft Copy</option>
+                                        <option value="1">Normal</option>
+                                        <option value="2">Photographic Paper</option>
+                                    @endif
                                 </select>
+
                                 @if ($errors->has('paper_type'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('paper_type') }}</strong>
@@ -98,7 +105,6 @@
                                 @endif
                             </div>
                         </div>
-
 
                         <div class="form-group{{ $errors->has('file') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label" for="file">File</label>

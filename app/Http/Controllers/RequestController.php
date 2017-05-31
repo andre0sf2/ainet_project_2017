@@ -25,7 +25,7 @@ class RequestController extends Controller
         $this->validate($request, [
             'description' => 'required',
             'quantity' => 'required|integer|min:1',
-            'paper_type' => 'required|not_in:-1',
+            'paper_type' => 'required|not-in:-1',
             'paper_size' => 'required',
             'file' => 'required'
         ]);
