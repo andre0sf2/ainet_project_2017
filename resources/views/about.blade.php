@@ -10,7 +10,7 @@
             <h4>Aplicações para a Internet</h4>
         </div>
         <div class="thumbnail">
-            <h3 class="text-center">Grupo:  - Turno: PL</h3>
+            <h3 class="text-center">Grupo: 25 - Turno: PL2/PL5</h3>
             <table class="table table-striped">
                 <thead>
                 <th>Nome</th>

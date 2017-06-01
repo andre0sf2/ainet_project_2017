@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <h3>Prints of the month</h3>
+        <h3>Prints of {{ date("F", mktime(0, 0, 0, \Carbon\Carbon::now()->month, 1)) }}</h3>
         <div id="perf_div"></div>
 
         {!! $lava->render('ColumnChart', 'PerDay', 'perf_div') !!}

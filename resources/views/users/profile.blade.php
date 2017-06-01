@@ -64,7 +64,7 @@
             @else
                 <p><strong>Phone number:</strong> No Phone Found</p>
             @endif
-            <p><strong>Department:</strong> {{ $user->department->name }}</p>
+            <p><strong>Department:</strong> <a href="{{ route('department.info', $user->department->id) }}">{{ $user->department->name }}</a></p>
             @if($user->admin)
                 <p><strong>Type:</strong> Administrator</p>
             @else

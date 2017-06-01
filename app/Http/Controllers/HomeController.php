@@ -58,6 +58,8 @@ class HomeController extends Controller
             return Carbon::parse($date->closed_date)->format('m-d');
         });
 
+
+
         foreach ($requests as $request){
             $contColor = 0;
             $contBlack = 0;
@@ -207,7 +209,7 @@ class HomeController extends Controller
         ]);
 
         //dd($contColor, $contBlack);
-        $requestsAux = \App\Request::whereIn('id', $array)->orderBy('closed_date')->get()->groupBy(function($date) {
+        $requestsAux = \App\Request::whereMonth('closed_date', '=', date('m'))->whereDay('closed_date', '<=', date('d'))->whereIn('id', $array)->orderBy('closed_date')->get()->groupBy(function($date) {
             return Carbon::parse($date->closed_date)->format('m-d');
         });
 
