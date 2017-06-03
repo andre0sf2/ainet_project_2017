@@ -61,13 +61,20 @@ class RequestController extends Controller
         $departments = Department::all();
         $search = $request->input('search');
         $status = $request->input('status');
+        $type = $request->input('type');
         $create_date = $request->input('date');
         $due_date = $request->input('due_date');
         $dep = $request->input('department');
 
         $requests = \App\Request::where(function ($query) use ($request) {
+            if ($request->has('search')){
+                $query->whereIn('owner_id', User::where('name', 'like', '%'.$request->input('search').'%')->pluck('id')->toArray())->get();
+            }
             if ($request->has('status') && $request->input('status') != -1){
                 $query->where('status', $request->input('status'))->get();
+            }
+            if ($request->has('type') && $request->input('type') != -1){
+                $query->where('paper_type', $request->input('type'))->get();
             }
             if ($request->has('create_date')){
                 $query->whereDate('created_at', '=', Carbon::parse($request->input('create_date')))->get();
@@ -78,13 +85,9 @@ class RequestController extends Controller
             if($request->has('department') && $request->input('department') != -1){
                 $query->whereIn('owner_id', User::where('department_id', $request->input('department'))->pluck('id')->toArray())->get();
             }
-            if ($request->has('search')){
-                $query->whereIn('owner_id', User::where('name', 'like', '%'.$request->input('search').'%')->pluck('id')->toArray())->get();
-            }
-
         })->orderBy('created_at', 'desc')->paginate(10);
 
-        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'create_date', 'dep', 'due_date'));
+        return view('requests.list', compact('departments', 'requests', 'search', 'status', 'create_date', 'dep', 'due_date', 'type'));
     }
 
 

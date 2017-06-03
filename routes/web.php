@@ -24,10 +24,10 @@ Route::get('/user/{id}', 'HomeController@showUser')->name('user.show');
 Route::get('/users', 'HomeController@listUsers')->name('users.list');
 
 //Departamentos
-Route::get('department/{id}', 'HomeController@departementInfo')->name('department.info');
+Route::get('department/{id}', 'HomeController@departmentInfo')->name('department.info');
 
 Route::get('/unauthorized', 'HomeController@unauthorized')->name('unauthorized');
-Route::get('/ativated', 'HomeController@ativated')->name('ativated');
+Route::get('/ativated', 'HomeController@activated')->name('activated');
 
 //PASSWORD RESET
 Route::get('/password/reset/{token}', 'Auth\ResetPasswordController@passwordReset')->name('password.reset');

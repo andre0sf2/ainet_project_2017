@@ -30,7 +30,7 @@ class LoginController extends Controller
             return route('unauthorized');
         }elseif (!Auth::user()->isActivated()){
             Auth::logout();
-            return route('ativated');
+            return route('activated');
         }
 
         return '/';

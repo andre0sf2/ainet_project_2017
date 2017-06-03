@@ -50,8 +50,19 @@
                                 <option value="3" @if(isset($status) && $status == 3) selected @endif>Expired</option>
                             </select>
                         </div>
+                        <div class="form-group col-md-3">
+                            <label for="type">Paper Type</label>
+                            <select name="type" id="type" class="form-control">
+                                <option value="-1">All Types</option>
+                                <option value="0" @if(isset($type) && $type == 0) selected @endif>Draft</option>
+                                <option value="1" @if(isset($type) && $type == 1) selected @endif>Normal</option>
+                                <option value="2" @if(isset($type) && $type == 2) selected @endif>Photo</option>
+                            </select>
+                        </div>
                     </div>
-                    <button class="btn btn-default pull-right"><span class="glyphicon glyphicon-search"></span> Search</button>
+                    <div class="pull-right">
+                        <button class="btn btn-default"><span class="glyphicon glyphicon-search"></span> Search</button>
+                    </div>
                 </form>
             @endif
         </div>
@@ -59,6 +70,7 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
+                    <th>Thumbnail</th>
                     <th>Name</th>
                     <th>Status</th>
                     <th>Created Date</th>
@@ -69,6 +81,12 @@
                 <tbody>
                 @foreach($requests as $request)
                     <tr>
+                        <td>
+                            @if($request->paper_type == 2)
+                                <img src="{{ asset('print-jobs/'.$request->owner->id.'/'.$request->file) }}"
+                                     style="width: 30px; height:30px; border-radius: 50%; margin-right: 25px; float: left;" alt="">
+                            @endif
+                        </td>
                         <td><a href="{{route('user.show', $request->owner->id)}}">{{ $request->owner->name }}</a></td>
                         <td>{{ $request->statusToStr() }}</td>
                         <td>{{ $request->created_at }}</td>
@@ -99,7 +117,14 @@
                 </tbody>
             </table>
             <div style="text-align: center">
-                {{ $requests->appends(['search' => $search, 'status' => $status, 'create_date' => $create_date, 'department' => $dep, 'due_date' => $due_date])->links() }}
+                {{ $requests->appends([
+                'search' => $search,
+                'status' => $status,
+                'create_date' => $create_date,
+                'department' => $dep,
+                'due_date' => $due_date,
+                'type' => $type
+                ])->links() }}
             </div>
 
     @else

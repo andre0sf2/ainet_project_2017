@@ -154,12 +154,12 @@ class HomeController extends Controller
         return redirect()->route('index')->with('errors', ['errors' => 'You are currently blocked. Try again later.']);
     }
 
-    public function ativated()
+    public function activated()
     {
         return redirect()->route('index')->with('warning', 'Thanks for signing up! Please check your email.!');
     }
 
-    public function departementInfo($id)
+    public function departmentInfo($id)
     {
         $departments = Department::all();
 
@@ -257,8 +257,8 @@ class HomeController extends Controller
 
     public function expiredRequest()
     {
-       foreach (\App\Request::all() as $item){
-            if(Carbon::parse($item->due_date)->toDateTimeString() <= Carbon::now()->toDateTimeString() && $item->status == 0){
+       foreach (\App\Request::where('status', 0)->get() as $item){
+            if(Carbon::parse($item->due_date)->toDateTimeString() <= Carbon::now()->toDateTimeString()){
                 $item->status = 3;
                 $item->save();
             }
