@@ -84,7 +84,7 @@
                         <td>
                             @if($request->paper_type == 2)
                                 <img src="{{ asset('print-jobs/'.$request->owner->id.'/'.$request->file) }}"
-                                     style="width: 30px; height:30px; border-radius: 50%; margin-right: 25px; float: left;" alt="">
+                                     style="width: 30px; height:30px; border-radius: 50%; margin-right: 25px; float: left;" alt="Image">
                             @endif
                         </td>
                         <td><a href="{{route('user.show', $request->owner->id)}}">{{ $request->owner->name }}</a></td>
